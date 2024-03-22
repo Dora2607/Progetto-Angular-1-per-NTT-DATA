@@ -1,1 +1,151 @@
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$cityGuard-primary: mat.define-palette((
+  50: #d9dfe8,
+  100: #b1b9c8,
+  200: #97afcc,
+  300: #92A0A5,
+  400: #375D7F,
+  500: #375D7F,
+  600: #375D7F,
+  700: #375D7F,
+  800: #375D7F,
+  900: #375D7F,
+  A100: #375D7F,
+  A200: #375D7F,
+  A400: #375D7F,
+  A700: #375D7F,
+  contrast: (
+    50: black,
+    100: black,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+));
+
+$cityGuard-accent: mat.define-palette((
+  50: #f0c808,
+  100: #f0c808,
+  200: #f0c808,
+  300: #f0c808,
+  400: #f0c808,
+  500: #f0c808,
+  600: #f0c808,
+  700: #f0c808,
+  800: #f0c808,
+  900: #f0c808,
+  A100: #f0c808,
+  A200: #f0c808,
+  A400: #f0c808,
+  A700: #f0c808,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: black,
+    600: black,
+    700: black,
+    800: black,
+    900: black,
+    A100: black,
+    A200: black,
+    A400: black,
+    A700: black,
+  )
+));
+
+$cityGuard-warn: mat.define-palette(mat.$red-palette);
+
+
+$typography-config: mat.define-typography-config(
+  $font-family: 'Ariel',
+  );
+
+/* Font Sizes */
+// :root {
+//   --font-size-xs: 12px;  /* for xs devices */
+//   --font-size-sm: 14px;  /* for sm devices */
+//   --font-size-md: 16px;  /* for md devices */
+//   --font-size-lg: 18px;  /* for lg devices */
+//   --font-size-xl: 20px;  /* for xl devices */
+//   --font-size-xxl: 22px; /* for larger text on xl devices */
+//   --font-size-xxxl: 24px; /* for even larger text on xl devices */
+//   --font-size-xxxxl: 28px; /* for the largest text on xl devices */
+// }
+
+// @media all and (max-width: 599px) {
+//   $typography-config: mat.define-typography-config(
+//     $font-family: 'Roboto, sans-serif',
+//     $headline-6: mat.define-typography-level(42px, 48px, 700),
+//     $subtitle-2: mat.define-typography-level(var(--font-size-sm), 28px, 500),
+//     $body-1: mat.define-typography-level(var(--font-size-xs), 20px, 400)
+//   );
+// }
+
+// @media all and (min-width: 600px) and (max-width: 959px) {
+//   $typography-config: mat.define-typography-config(
+//     $font-family: 'Roboto, sans-serif',
+//     $headline-6: mat.define-typography-level(50px, 56px, 700),
+//     $subtitle-2: mat.define-typography-level(var(--font-size-md), 28px, 500),
+//     $body-1: mat.define-typography-level(var(--font-size-sm), 20px, 400)
+//   );
+// }
+
+// @media all and (min-width: 960px) and (max-width: 1279px) {
+//   $typography-config: mat.define-typography-config(
+//     $font-family: 'Roboto, sans-serif',
+//     $headline-6: mat.define-typography-level(58px, 64px, 700),
+//     $subtitle-2: mat.define-typography-level(var(--font-size-lg), 28px, 500),
+//     $body-1: mat.define-typography-level(var(--font-size-md), 20px, 400)
+//   );
+// }
+
+// @media all and (min-width: 1280px) and (max-width: 1919px) {
+//   $typography-config: mat.define-typography-config(
+//     $font-family: 'Roboto, sans-serif',
+//     $headline-6: mat.define-typography-level(66px, 72px, 700),
+//     $subtitle-2: mat.define-typography-level(var(--font-size-xl), 28px, 500),
+//     $body-1: mat.define-typography-level(var(--font-size-lg), 20px, 400)
+//   );
+// }
+
+// @media all and (min-width: 1920px) {
+//   $typography-config: mat.define-typography-config(
+//     $font-family: 'Roboto, sans-serif',
+//     $headline-6: mat.define-typography-level(74px, 80px, 700),
+//     $subtitle-2: mat.define-typography-level(var(--font-size-xxxxl), 28px, 500),
+//     $body-1: mat.define-typography-level(var(--font-size-xl), 20px, 400)
+//   );
+// }
+
+$cityGuard-theme: mat.define-light-theme((
+  color: (
+    primary: $cityGuard-primary,
+    accent: $cityGuard-accent,
+    warn: $cityGuard-warn,
+  ),
+  typography: $typography-config,
+  density: 0
+));
+
+@include mat.all-component-themes($cityGuard-theme);
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
