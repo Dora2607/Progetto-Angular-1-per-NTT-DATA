@@ -1,7 +1,11 @@
 <mat-card class="loginPage">
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
-    <form class="loginForm dataForm" [formGroup]="formValidate" (ngSubmit)="login()" >
+    <form
+      class="loginForm dataForm"
+      [formGroup]="formValidate"
+      (ngSubmit)="login()"
+    >
       <mat-form-field>
         <input
           type="email"
@@ -9,7 +13,21 @@
           placeholder="Email"
           formControlName="email"
         />
+        <!-- <div
+          *ngIf="
+            formValidate.get('email')?.touched &&
+            !formValidate.get('email')?.valid
+          "
+        >
+          <span *ngIf="formValidate.get('email')?.errors.required">
+            Email is required.</span
+          >
+          <span *ngIf="formValidate.get('email')?.errors.pattern">
+            Please enter a valid email address.</span
+          >
+        </div> -->
       </mat-form-field>
+  
 
       <mat-form-field>
         <input
@@ -25,7 +43,7 @@
   </p> -->
 
       <div class="button">
-        <button mat-raised-button color="primary" type="submit" mat-button >
+        <button mat-raised-button color="primary" type="submit" mat-button [disabled]="!formValidate.valid">
           Login
         </button>
       </div>

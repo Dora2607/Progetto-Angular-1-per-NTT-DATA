@@ -10,9 +10,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { StoreModule } from '@ngrx/store';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
     MaterialModule,
     FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({}, {})
 
   ],
   providers: [
