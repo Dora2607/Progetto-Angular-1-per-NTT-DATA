@@ -1,0 +1,34 @@
+<mat-card class="loginPage">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form class="loginForm dataForm" [formGroup]="formValidate" (ngSubmit)="login()" >
+      <mat-form-field>
+        <input
+          type="email"
+          matInput
+          placeholder="Email"
+          formControlName="email"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+        />
+      </mat-form-field>
+
+      <!-- <p *ngIf="error" class="error">
+    {{ error }}
+  </p> -->
+
+      <div class="button">
+        <button mat-raised-button color="primary" type="submit" mat-button >
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
