@@ -14,7 +14,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
+
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './state/auth/auth.effects';
+import { authReducer } from './state/auth/auth.reducer';
+
 
 
 @NgModule({
@@ -32,12 +37,13 @@ import { StoreModule } from '@ngrx/store';
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({}, {})
+    StoreModule.forRoot({auth:authReducer}),
+    EffectsModule.forRoot([AuthEffects])
 
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

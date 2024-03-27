@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { selectToken } from '../state/auth/auth.reducer';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +11,17 @@ import { AuthService } from './auth.service';
 export class AuthGuard {
   canActivate: CanActivateFn;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private store: Store, private router: Router) {
     this.canActivate = () => {
-      if(this.authService.isLoggedIn()){
-        return true;
-      }
-      this.router.navigate(["login"]);
-      return false;
+      return this.store.select(selectToken).pipe(
+        map(token => {
+          const isAuthenticated = !!token;
+          if (!isAuthenticated) {
+            this.router.navigate(['login']);
+          }
+          return isAuthenticated;
+        })
+      );
     }
   }
 }
