@@ -1,28 +1,84 @@
-:host {
-  display: flex;
-  justify-content: center;
-  margin: 100px 0px;
-}
+//  :host {
+//    display: flex;
+//    justify-content: center;
+//    margin: 100px 0px;
+//    justify-content: flex-end;
+//    margin-right: 5rem;
+//  }
 
-.mat-form-field {
+.container{
   width: 100%;
-  min-width: 300px;
-}
-
-mat-card-title,
-mat-card-content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+  
+  .logoContainer{
+    height: 100%;
+    width:100%;
+    text-align:center;
+  }
+  .loginContainer{
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.error {
-  padding: 16px;
-  width: 300px;
-  color: white;
-  background-color: red;
-}
+ .loginCard {
+  max-width: 100%;
+  margin: 1rem 1rem ;
 
-.button {
-  display: flex;
-  justify-content: flex-end;
-}
+  .cardTitle{
+    background-color: #375D7F;
+    color: white;
+    max-width: 100%;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  
+
+  .loginForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 1px 1px 1px solid gray;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+
+
+ 
+  .inputField{
+    
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    
+  }
+ }
+
+// .mat-form-field {
+//   width: 100%;
+//   min-width: 300px;
+// }
+
+// mat-card-title,
+// mat-card-content {
+//   display: flex;
+//   justify-content: center;
+
+// }
+
+// .error {
+//   padding: 16px;
+//   width: 300px;
+//   color: white;
+//   background-color: red;
+// }
+
+// .button {
+//   display: flex;
+//   justify-content: flex-end;
+// }

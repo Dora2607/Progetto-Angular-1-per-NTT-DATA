@@ -1,19 +1,30 @@
-<mat-card class="loginPage">
-  <mat-card-title>Login</mat-card-title>
-  <mat-card-content>
-    <form
-      class="loginForm dataForm"
-      [formGroup]="loginForm"
-      (ngSubmit)="login()"
-    >
-      <mat-form-field>
-        <input
-          type="email"
-          matInput
-          placeholder="Email"
-          formControlName="email"
-        />
-        <!-- <div
+<app-logo></app-logo>
+<div class="container">
+  
+  <div class="loginContainer">
+    <mat-card class="loginCard">
+      <mat-card-title class="cardTitle">Sign in</mat-card-title>
+      <mat-card-content>
+        <form class="loginForm" [formGroup]="loginForm" (ngSubmit)="login()">
+          <mat-form-field>
+            <input
+              class="inputField"
+              type="email"
+              matInput
+              placeholder="Email"
+              formControlName="email"
+            />
+            <mat-error
+              *ngIf="
+                loginForm.get('email')?.touched &&
+                !loginForm.get('email')?.valid
+              "
+            >
+              <span *ngIf="loginForm.get('email')?.errors"
+                >Please enter a valid email address.</span
+              >
+            </mat-error>
+            <!-- <div
           *ngIf="
             formValidate.get('email')?.touched &&
             !formValidate.get('email')?.valid
@@ -26,28 +37,30 @@
             Please enter a valid email address.</span
           >
         </div> -->
-      </mat-form-field>
-  
+          </mat-form-field>
 
-      <mat-form-field>
-        <input
-          type="password"
-          matInput
-          placeholder="Password"
-          autocomplete="on"
-          formControlName="password"
-        />
-      </mat-form-field>
+          <mat-form-field>
+            <input
+              class="inputField"
+              type="password"
+              matInput
+              placeholder="Password"
+              autocomplete="on"
+              formControlName="password"
+            />
+          </mat-form-field>
 
-      <!-- <p *ngIf="error" class="error">
+          <!-- <p *ngIf="error" class="error">
     {{ error }}
   </p> -->
 
-      <div class="button">
-        <button mat-raised-button color="primary" type="submit" mat-button>
-          Login
-        </button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+          <div class="button">
+            <button mat-raised-button color="primary" type="submit" mat-button>
+              Login
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
