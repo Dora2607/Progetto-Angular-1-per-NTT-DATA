@@ -7,12 +7,10 @@ import { HomeRoutingModule } from './features/home-routing.module';
 
 import { MaterialModule } from './shared/material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 
+import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 import { StoreModule } from '@ngrx/store';
@@ -25,7 +23,6 @@ import { authReducer } from './state/auth/auth.reducer';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     NotFoundComponent,
     
   ],
@@ -35,8 +32,7 @@ import { authReducer } from './state/auth/auth.reducer';
     HomeRoutingModule,
     MaterialModule,
     FontAwesomeModule,
-    FormsModule,
-    ReactiveFormsModule,
+    AuthModule,
     StoreModule.forRoot({auth:authReducer}),
     EffectsModule.forRoot([AuthEffects])
 

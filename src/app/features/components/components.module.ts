@@ -17,6 +17,6 @@ import { LogoComponent } from './logo/logo.component';
     ComponentsRoutingModule,
     
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent, LogoComponent]
 })
 export class ComponentsModule { }
