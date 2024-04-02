@@ -12,6 +12,9 @@ import { LogoComponent } from '../../features/components/logo/logo.component';
 export class LoginComponent implements OnInit{
 
   public loginForm !: FormGroup;
+
+  emailTouched = false;
+  passwordTouched = false;
   
   
   constructor(
