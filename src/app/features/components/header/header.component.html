@@ -1,25 +1,28 @@
-<mat-toolbar>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
-  >
-    <mat-icon>menu</mat-icon>
+<mat-toolbar color="primary">
+  <span>Logo</span>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="toggleSearchBar()">
+    <mat-icon>search</mat-icon>
   </button>
-  <span>City Guard</span>
-  <span class="example-spacer"></span>
-  <button
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>share</mat-icon>
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon>account_circle</mat-icon>
   </button>
 </mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" [(opened)]="showSidebar">
+    <mat-nav-list>
+      <a mat-list-item>Link 1</a>
+      <a mat-list-item>Link 2</a>
+      <a mat-list-item>Link 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div *ngIf="showSearchBar">
+      <mat-form-field>
+        <input matInput placeholder="Search">
+      </mat-form-field>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

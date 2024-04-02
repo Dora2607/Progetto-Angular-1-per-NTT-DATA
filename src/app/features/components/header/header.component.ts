@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  showSearchBar = false;
+  showSidebar = false;
+
+  toggleSearchBar() {
+    this.showSearchBar = !this.showSearchBar;
+  }
+
+  toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
+  }
 }
