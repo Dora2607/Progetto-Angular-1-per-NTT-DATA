@@ -24,6 +24,7 @@
     min-height: 80vh;
     max-height: 420px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 8vh auto;
@@ -33,14 +34,19 @@
 .logoContainer,
 .loginContainer {
   height: 100%;
-  max-height: 420px;
+  max-height: 220px;
   width: 350px;
 }
 
+.loginContainer {
+  max-height: 420px;
+}
+
 .logoContainer {
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px 0 0 10px;
+  background-color: $primary-color;
+  border-radius: 10px 10px 0 0;
   transition: 0.4s;
+  padding: 0.5rem;
 
   & * {
     margin: 40px;
@@ -58,14 +64,15 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  border-radius: 0 0 10px 10px;
 
   .cardTitle {
     width: 100%;
-    background-color: $secondary-color;
-    color: black;
+    background-color: $accent-color;
+    color: $primary-color;
     font-weight: 550;
     padding: 0.75rem;
-    text-align: left;
+    text-align: center;
   }
   .loginForm {
     width: 70%;
@@ -85,11 +92,36 @@
   }
 }
 
-@media (max-width: $breakpoint-small) {
+@media (min-width: $breakpoint-small) {
+  .container {
+    .flexDiv {
+      flex-direction: row;
+    }
+  }
+
+  .logoContainer,
+  .loginContainer {
+    height: 100%;
+    max-height: 420px;
+    width: 350px;
+  }
+
   .logoContainer {
-    position: absolute;
-    transform: translatex(10%);
-    opacity: 0;
+    border-radius: 10px 0 0 10px;
+    box-shadow:  rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    transition: 0.4s;
+
+    & * {
+      margin: 40px;
+      color: #ccc;
+      cursor: default;
+    }
+  }
+  .loginCard {
+    border-radius: 0 10px 10px 0;
+    .cardTitle{
+      border-radius: 0 10px 0 0;
+    }
   }
 }
 

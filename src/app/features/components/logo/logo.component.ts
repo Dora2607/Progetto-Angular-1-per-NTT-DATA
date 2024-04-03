@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { trigger, style, animate, state, transition} from '@angular/animations';
+import { LogoService } from '../../../services/logo.service';
 
 @Component({
   selector: 'app-logo',
@@ -14,10 +15,17 @@ import { trigger, style, animate, state, transition} from '@angular/animations';
   ],
 })
 export class LogoComponent {
+  
+  constructor(private logoService: LogoService){
+  }
+
+  get isToolbar():boolean {
+    return this.logoService.isToolbar;
+  }
+
   logo = 'CityGuard'
   logoCity = ["City"]
   logoGuard =["Guard"]
-
-  constructor() {}
+  
  
 }

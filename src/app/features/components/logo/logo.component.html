@@ -1,4 +1,4 @@
-<div class="logo">
+<div [ngClass]="{'logo': !isToolbar, 'logoToolbar': isToolbar}">
   <h1 
     class="logoCity"
     [@fadeInOut]="'in'"
