@@ -10,3 +10,13 @@
   color: $secondary-color
 }
 
+.searchIcon {
+  color: $accent-color;
+}
+
+.userAccountButton:hover{
+  .icon {
+    color: $accent-color;
+  }
+}
+

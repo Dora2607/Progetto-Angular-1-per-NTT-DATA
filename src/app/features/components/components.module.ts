@@ -6,19 +6,21 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentsRoutingModule } from './components-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { LogoComponent } from './logo/logo.component';
-
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     LogoComponent,
+    SearchBarComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FontAwesomeModule, 
     ComponentsRoutingModule,
-    
+    FormsModule,
   ],
   exports: [HeaderComponent, LogoComponent]
 })
