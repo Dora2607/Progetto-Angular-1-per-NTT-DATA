@@ -14,12 +14,11 @@ export class SearchBarComponent {
     searchBarService.show$.subscribe(() => {
       this.showSearchBar = true;
     });
-    // searchBarService.hide$.subscribe(() => {
-    //   this.showSearchBar = false;
-    // });
   }
 
   submit(){}
 
-  endSearch(){}
+  endSearch(){
+    this.showSearchBar = false;
+  }
 }

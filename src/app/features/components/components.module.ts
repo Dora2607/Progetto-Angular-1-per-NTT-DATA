@@ -8,12 +8,14 @@ import { HeaderComponent } from './header/header.component';
 import { LogoComponent } from './logo/logo.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
+import { UsersViewComponent } from './users-view/users-view.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     LogoComponent,
     SearchBarComponent,
+    UsersViewComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,6 @@ import { FormsModule } from '@angular/forms';
     ComponentsRoutingModule,
     FormsModule,
   ],
-  exports: [HeaderComponent, LogoComponent]
+  exports: [HeaderComponent, LogoComponent, UsersViewComponent]
 })
 export class ComponentsModule { }
