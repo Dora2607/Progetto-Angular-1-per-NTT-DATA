@@ -7,24 +7,24 @@
                 <!-- <mat-icon>expand_more</mat-icon> -->
             </button>
             <mat-menu #sortByMenu="matMenu">
-                <button (click)="onSortUpdate('desc')" mat-menu-item>
+                <button (click)="onSortUpdate('All')" mat-menu-item>
                     <mat-icon class="status">circle</mat-icon><span>All</span></button>
-                <button (click)="onSortUpdate('asc')" mat-menu-item>
+                <button (click)="onSortUpdate('Online')" mat-menu-item>
                     <mat-icon class="status">circle</mat-icon><span>Online</span></button>
-                <button (click)="onSortUpdate('asc')" mat-menu-item>
+                <button (click)="onSortUpdate('Offline')" mat-menu-item>
                     <mat-icon class="status">circle</mat-icon><span>Offline</span></button>
             </mat-menu>
         </div>
-        <div class="flex items-center">
+        <div class="usersView">
             <div>
-                <!-- <button mat-button [matMenuTriggerFor]="menu">
-                    Show {{itemsShowCount}}
+                <button mat-button [matMenuTriggerFor]="menu">
+                    Show {{usersShowCount}}
                     <mat-icon>expand_more</mat-icon>
-                </button> -->
+                </button> 
                 <mat-menu #menu="matMenu">
-                    <button (click)="onItemsUpdated(12)" mat-menu-item>12</button>
-                    <button (click)="onItemsUpdated(24)" mat-menu-item>24</button>
-                    <button (click)="onItemsUpdated(36)" mat-menu-item>36</button>
+                    <button (click)="onUsersUpdated(6)" mat-menu-item>6</button>
+                    <button (click)="onUsersUpdated(12)" mat-menu-item>12</button>
+                    <button (click)="onUsersUpdated(24)" mat-menu-item>24</button>
                 </mat-menu>
             </div>
             <button (click)="onColumnsUpdated(1)">

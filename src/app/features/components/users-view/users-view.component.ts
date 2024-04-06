@@ -8,12 +8,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class UsersViewComponent  {
 
   @Output() columnsCountChange = new EventEmitter<number>();
-  @Output() itemsCountChange = new EventEmitter<number>();
+  @Output() usersCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();  
 
 
   sort= 'All';
-  itemsShowCount = 12;
+  usersShowCount = 6;
   
   
 
@@ -22,9 +22,9 @@ export class UsersViewComponent  {
     this.sortChange.emit(newSort);
   }
 
-  onItemsUpdated(count:number) :void{
-    this.itemsShowCount = count;
-    this.itemsCountChange.emit(count);
+  onUsersUpdated(count:number) :void{
+    this.usersShowCount = count;
+    this.usersCountChange.emit(count);
   }
 
   onColumnsUpdated(colsNum:number): void{
