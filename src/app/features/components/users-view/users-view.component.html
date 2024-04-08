@@ -2,17 +2,17 @@
     <div class="usersViewContainer">
         <div class="userStatus">
             <button mat-button [matMenuTriggerFor]="sortByMenu">
-                {{sort}}
+                {{status}}
                 <mat-icon color="primary">circle</mat-icon>
                 <!-- <mat-icon>expand_more</mat-icon> -->
             </button>
             <mat-menu #sortByMenu="matMenu">
-                <button (click)="onSortUpdate('All')" mat-menu-item>
-                    <mat-icon class="status">circle</mat-icon><span>All</span></button>
-                <button (click)="onSortUpdate('Online')" mat-menu-item>
-                    <mat-icon class="status">circle</mat-icon><span>Online</span></button>
-                <button (click)="onSortUpdate('Offline')" mat-menu-item>
-                    <mat-icon class="status">circle</mat-icon><span>Offline</span></button>
+                <button (click)="onStatusUpdate('all')" mat-menu-item>
+                    <mat-icon style="color: gray;" class="status">circle</mat-icon><span>All</span></button>
+                <button  (click)="onStatusUpdate('active')" mat-menu-item>
+                    <mat-icon style="color: green;" class="status">circle</mat-icon><span>Online</span></button>
+                <button (click)="onStatusUpdate('inactive')" mat-menu-item>
+                    <mat-icon style="color: red;" class="status">circle</mat-icon><span>Offline</span></button>
             </mat-menu>
         </div>
         <div class="usersView">
@@ -32,9 +32,6 @@
             </button>
             <button (click)="onColumnsUpdated(3)">
                 <mat-icon>view_module</mat-icon>
-            </button>
-            <button (click)="onColumnsUpdated(4)">
-                <mat-icon>view_comfy</mat-icon>
             </button>
         </div>
     </div>

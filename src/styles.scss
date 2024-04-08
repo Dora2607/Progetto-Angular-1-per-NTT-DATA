@@ -110,6 +110,7 @@ $warn-color: #f44336;
 $powder-blue: #97afcc;
 $cadet-gray: #92A0A5;
 
+
 // Breakpoint Variables
 $breakpoint-small: 600px;
 $breakpoint-medium: 960px;
@@ -218,7 +219,7 @@ html {
   h4 {
     font-size: $font-size-xxl;
   }
-  h5 {
+  h5{
     font-size: $font-size-xl;
   }
   h6,

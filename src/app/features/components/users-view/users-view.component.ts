@@ -9,17 +9,24 @@ export class UsersViewComponent  {
 
   @Output() columnsCountChange = new EventEmitter<number>();
   @Output() usersCountChange = new EventEmitter<number>();
-  @Output() sortChange = new EventEmitter<string>();  
+  @Output() statusChange = new EventEmitter<string>();  
 
 
-  sort= 'All';
+  status= 'All';
   usersShowCount = 6;
   
   
 
-  onSortUpdate(newSort:string): void{
-    this.sort = newSort;
-    this.sortChange.emit(newSort);
+  onStatusUpdate(newStatus:string): void{
+    this.status = newStatus;
+    this.statusChange.emit(newStatus);
+    if (this.status === "all"){
+      this.status='All';
+    }else if (this.status==="active"){
+      this.status='Online';
+    }else{
+      this.status="Offline";      
+    }
   }
 
   onUsersUpdated(count:number) :void{

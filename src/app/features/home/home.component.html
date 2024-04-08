@@ -1,3 +1,23 @@
 <app-header></app-header>
-<app-users-view (columnsCountChange)="($event)"></app-users-view>
-<p>home works!</p>
+<app-users-view (statusChange)="onStatusChange($event)"></app-users-view>
+
+<mat-list class="homeContainer">
+  <h3>User</h3>
+  <div
+    class="usersContainer"
+    *ngFor="let user of dispalyedUsers; let i = index"
+    [class.even]="i % 2 === 0"
+    [class.odd]="i % 2 === 1"
+  >
+    <mat-list-item id="{{user.id}}" class="userItem">
+      <mat-icon
+        class="status"
+        [ngStyle]="{ color: user.status === 'active' ? 'green' : 'red' }"
+        matListItemIcon
+        >circle</mat-icon
+      >
+      <div class="userTitle" matListItemTitle>{{ user.name }} - {{ user.gender }}</div>
+      <div class="userLine" matListItemLine>{{ user.email }}</div>
+    </mat-list-item>
+  </div>
+</mat-list>
