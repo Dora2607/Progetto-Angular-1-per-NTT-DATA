@@ -1,38 +1,45 @@
 <mat-card class="usersViewCard">
-    <div class="usersViewContainer">
-        <div class="userStatus">
-            <button mat-button [matMenuTriggerFor]="sortByMenu">
-                {{status}}
-                <mat-icon color="primary">circle</mat-icon>
-                <!-- <mat-icon>expand_more</mat-icon> -->
-            </button>
-            <mat-menu #sortByMenu="matMenu">
-                <button (click)="onStatusUpdate('all')" mat-menu-item>
-                    <mat-icon style="color: gray;" class="status">circle</mat-icon><span>All</span></button>
-                <button  (click)="onStatusUpdate('active')" mat-menu-item>
-                    <mat-icon style="color: green;" class="status">circle</mat-icon><span>Online</span></button>
-                <button (click)="onStatusUpdate('inactive')" mat-menu-item>
-                    <mat-icon style="color: red;" class="status">circle</mat-icon><span>Offline</span></button>
-            </mat-menu>
-        </div>
-        <div class="usersView">
-            <div>
-                <button mat-button [matMenuTriggerFor]="menu">
-                    Show {{usersShowCount}}
-                    <mat-icon>expand_more</mat-icon>
-                </button> 
-                <mat-menu #menu="matMenu">
-                    <button (click)="onUsersUpdated(6)" mat-menu-item>6</button>
-                    <button (click)="onUsersUpdated(12)" mat-menu-item>12</button>
-                    <button (click)="onUsersUpdated(24)" mat-menu-item>24</button>
-                </mat-menu>
-            </div>
-            <button (click)="onColumnsUpdated(1)">
-                <mat-icon>view_list</mat-icon>
-            </button>
-            <button (click)="onColumnsUpdated(3)">
-                <mat-icon>view_module</mat-icon>
-            </button>
-        </div>
+  <div class="usersViewContainer">
+    <div class="userStatus">
+      <button mat-button [matMenuTriggerFor]="sortByMenu">
+        {{ status }}
+        <mat-icon color="primary">circle</mat-icon>
+        <!-- <mat-icon>expand_more</mat-icon> -->
+      </button>
+      <mat-menu #sortByMenu="matMenu">
+        <button (click)="onStatusUpdate('all')" mat-menu-item>
+          <mat-icon style="color: gray" class="status">circle</mat-icon
+          ><span>All</span>
+        </button>
+        <button (click)="onStatusUpdate('active')" mat-menu-item>
+          <mat-icon style="color: green" class="status">circle</mat-icon
+          ><span>Online</span>
+        </button>
+        <button (click)="onStatusUpdate('inactive')" mat-menu-item>
+          <mat-icon style="color: red" class="status">circle</mat-icon
+          ><span>Offline</span>
+        </button>
+      </mat-menu>
     </div>
+
+    <div class="usersView">
+      <button mat-button [matMenuTriggerFor]="menu">
+        Show {{ usersShowCount }}
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="onUsersUpdated(5)" mat-menu-item>5</button>
+        <button (click)="onUsersUpdated(10)" mat-menu-item>10</button>
+        <button (click)="onUsersUpdated(12)" mat-menu-item>12</button>
+      </mat-menu>
+      <div class="manageUsers">
+        <button mat-icon-button color="primary">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="DeleteButton()">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 </mat-card>

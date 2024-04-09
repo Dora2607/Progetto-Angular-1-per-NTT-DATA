@@ -39,6 +39,8 @@ export class HomeComponent implements OnInit {
     },
   ];
 
+  deleteButton:boolean = false;
+
   dispalyedUsers:Users[]=[] ;
 
     ngOnInit(): void {
@@ -53,4 +55,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  onUsersCountChange(count:number) :void{
+    this.dispalyedUsers = this.users.slice(0, count);
+  }
+
+  onUserDeleted(): boolean {
+    return this.deleteButton = true;
+  }
+
+  goToPreviousPage():boolean{
+    return this.deleteButton=false;
+  }
+
 }
+
+
+

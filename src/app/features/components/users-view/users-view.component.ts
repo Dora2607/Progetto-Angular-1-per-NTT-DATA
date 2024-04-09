@@ -7,13 +7,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class UsersViewComponent  {
 
-  @Output() columnsCountChange = new EventEmitter<number>();
-  @Output() usersCountChange = new EventEmitter<number>();
+  
+  
   @Output() statusChange = new EventEmitter<string>();  
-
+  @Output() usersCountChange = new EventEmitter<number>();
+  @Output() DeleteButtonClicked = new EventEmitter<void>();
 
   status= 'All';
-  usersShowCount = 6;
+  usersShowCount = 5;
   
   
 
@@ -34,8 +35,10 @@ export class UsersViewComponent  {
     this.usersCountChange.emit(count);
   }
 
-  onColumnsUpdated(colsNum:number): void{
-    this.columnsCountChange.emit(colsNum);
+  DeleteButton(): void{
+     this.DeleteButtonClicked.emit();
   }
+
+
 
 }

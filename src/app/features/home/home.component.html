@@ -1,23 +1,46 @@
 <app-header></app-header>
-<app-users-view (statusChange)="onStatusChange($event)"></app-users-view>
+<app-users-view
+  (statusChange)="onStatusChange($event)"
+  (usersCountChange)="onUsersCountChange($event)"
+  (DeleteButtonClicked)="onUserDeleted()"
+>
+</app-users-view>
 
 <mat-list class="homeContainer">
-  <h3>User</h3>
+  <h3>Users</h3>
   <div
     class="usersContainer"
     *ngFor="let user of dispalyedUsers; let i = index"
     [class.even]="i % 2 === 0"
     [class.odd]="i % 2 === 1"
   >
-    <mat-list-item id="{{user.id}}" class="userItem">
+    <mat-list-item id="{{ user.id }}" class="userItem">
       <mat-icon
         class="status"
         [ngStyle]="{ color: user.status === 'active' ? 'green' : 'red' }"
         matListItemIcon
         >circle</mat-icon
       >
-      <div class="userTitle" matListItemTitle>{{ user.name }} - {{ user.gender }}</div>
+      <div class="userTitle" matListItemTitle>{{ user.name }}</div>
       <div class="userLine" matListItemLine>{{ user.email }}</div>
     </mat-list-item>
+    <div
+      class="deleteButton"
+      [ngStyle]="{ display: deleteButton ? 'block' : 'none' }"
+    >
+      <button mat-icon-button color="warn">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
   </div>
 </mat-list>
+<div class="goToBack">
+<button
+  [ngStyle]="{ display: deleteButton ? 'block' : 'none' }"
+  mat-raised-button 
+  color="accent"
+  
+  (click)="goToPreviousPage()">
+  Back 
+</button>
+</div>
