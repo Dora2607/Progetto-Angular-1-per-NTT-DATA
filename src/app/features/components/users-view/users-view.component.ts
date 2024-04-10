@@ -14,7 +14,7 @@ export class UsersViewComponent  {
   @Output() DeleteButtonClicked = new EventEmitter<void>();
 
   status= 'All';
-  usersShowCount = 5;
+  usersShowCount = 30;
   
   
 

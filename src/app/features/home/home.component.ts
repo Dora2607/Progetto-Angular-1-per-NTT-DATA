@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Users } from '../../models/users.model';
+import { UsersService } from '../../services/users.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,67 +9,57 @@ import { Users } from '../../models/users.model';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  users: Array<Users> = [];
+  usersSubscription: Subscription | undefined;
+  dispalyedUsers: Array<Users> = [];
+  deleteButton: boolean = false;
 
-  users: Users[] = [
-    {
-      id: 6823515,
-      name: 'Indira Verma',
-      email: 'indira_verma@champlin-bradtke.test',
-      gender: 'male',
-      status: 'active',
-    },
-    {
-      id: 6823514,
-      name: 'Avadhesh Ahluwalia',
-      email: 'ahluwalia_avadhesh@nicolas.test',
-      gender: 'male',
-      status: 'active',
-    },
-    {
-      id: 6823513,
-      name: 'Sucheta Chattopadhyay',
-      email: 'chattopadhyay_sucheta@corkery.test',
-      gender: 'male',
-      status: 'active',
-    },
-    {
-      id: 6823512,
-      name: 'Aadi Trivedi',
-      email: 'trivedi_aadi@sanford.example',
-      gender: 'male',
-      status: 'inactive',
-    },
-  ];
+  constructor(private usersService: UsersService) {}
 
-  deleteButton:boolean = false;
-
-  dispalyedUsers:Users[]=[] ;
-
-    ngOnInit(): void {
-      this.dispalyedUsers = this.users;
+  ngOnInit(): void {
+    this.getAllUser();
   }
 
-  onStatusChange(newStatus:string){
-    if(newStatus==='all'){
-      this.dispalyedUsers = this.users;
-    }else{
-      this.dispalyedUsers = this.users.filter((user)=> user.status=== newStatus);
+  getAllUser(): void {
+    this.usersSubscription = this.usersService.getUsers().subscribe((users) => {
+      this.users = users;
+      this.dispalyedUsers = [...this.users];
+    });
+  }
+
+  onStatusChange(newStatus: string) {
+    if (newStatus === 'all') {
+      this.dispalyedUsers = [...this.users];
+    } else {
+      this.dispalyedUsers = this.users.filter(
+        (user) => user.status === newStatus,
+      );
     }
   }
 
-  onUsersCountChange(count:number) :void{
+  onUsersCountChange(count: number): void {
     this.dispalyedUsers = this.users.slice(0, count);
   }
 
   onUserDeleted(): boolean {
-    return this.deleteButton = true;
+    return (this.deleteButton = true);
   }
 
-  goToPreviousPage():boolean{
-    return this.deleteButton=false;
+  deleteUser(id: number): void {
+    const confirmDelete = confirm('Are you sure you want to delete the user?');
+    if (confirmDelete) {
+      this.usersService.deleteUser(id).subscribe(() => {
+        this.dispalyedUsers = this.dispalyedUsers.filter(
+          (user) => user.id !== id,
+        );
+        alert('The user has been deleted');
+      });
+    } else {
+      alert('The deletion was canceled');
+    }
   }
 
+  goToPreviousPage(): boolean {
+    return (this.deleteButton = false);
+  }
 }
-
-
-

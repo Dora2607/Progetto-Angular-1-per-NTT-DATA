@@ -4,6 +4,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeRoutingModule } from './features/home-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './shared/material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -31,6 +32,7 @@ import { authReducer } from './state/auth/auth.reducer';
     BrowserModule,
     AppRoutingModule,
     HomeRoutingModule,
+    HttpClientModule, 
     MaterialModule,
     FontAwesomeModule,
     AuthModule,

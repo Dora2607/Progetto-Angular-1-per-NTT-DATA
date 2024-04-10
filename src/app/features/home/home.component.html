@@ -28,7 +28,10 @@
       class="deleteButton"
       [ngStyle]="{ display: deleteButton ? 'block' : 'none' }"
     >
-      <button mat-icon-button color="warn">
+      <button 
+        mat-icon-button 
+        color="warn"
+        (click)="deleteUser(user.id)">
         <mat-icon>cancel</mat-icon>
       </button>
     </div>
@@ -39,7 +42,6 @@
   [ngStyle]="{ display: deleteButton ? 'block' : 'none' }"
   mat-raised-button 
   color="accent"
-  
   (click)="goToPreviousPage()">
   Back 
 </button>

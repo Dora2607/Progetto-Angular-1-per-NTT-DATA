@@ -28,12 +28,12 @@
         <mat-icon>expand_more</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button (click)="onUsersUpdated(5)" mat-menu-item>5</button>
         <button (click)="onUsersUpdated(10)" mat-menu-item>10</button>
-        <button (click)="onUsersUpdated(12)" mat-menu-item>12</button>
+        <button (click)="onUsersUpdated(20)" mat-menu-item>20</button>
+        <button (click)="onUsersUpdated(30)" mat-menu-item>30</button>
       </mat-menu>
       <div class="manageUsers">
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" routerLink="/addUser"> <!--Modificare il router link-->
           <mat-icon>person_add</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="DeleteButton()">
