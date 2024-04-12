@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-add-user',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AddUserComponent {
 
+  email = new FormControl('', [Validators.required, Validators.email]);
+
+  errorMessage = '';
+
 }
+

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
+import {  CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { selectToken } from '../state/auth/auth.reducer';
@@ -9,7 +9,7 @@ import { selectToken } from '../state/auth/auth.reducer';
 })
 export class AuthGuard {
   canActivate: CanActivateFn;
-  canActivateChild: CanActivateChildFn;
+  // canActivateChild: CanActivateChildFn;
 
   constructor(
     private store: Store,
@@ -26,14 +26,19 @@ export class AuthGuard {
         }),
       );
     };
-    // TODO: Implement canActiveChild method for nested routes
-    /*
-    this.canActiveChild = (route) => {
-      
-    };*/
-
-    this.canActivateChild = (route, state) => {
-      return this.canActivate(route, state);
-    };
+    // this.canActivateChild = this.checkLogin();
   }
+
+  // checkLogin(): CanActivateChildFn {
+  //   return () => {
+  //     const token = localStorage.getItem('token');
+  //     const isAuthenticated = !!token;
+  //     console.log('activatechild attivo')
+  //     if (!isAuthenticated) {
+  //       this.router.navigate(['login']);
+  //     }
+  //     return isAuthenticated;
+  //   };
+  // }
 }
+
