@@ -1,29 +1,63 @@
 <app-header></app-header>
 <div class="container">
-    <h3>Add User</h3>
-    <div>
-        <form>
-            <mat-form-field>
-                <mat-label>Name</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Surname</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Gender</mat-label>
-                <mat-select>
-                  <mat-option value="male">First option</mat-option>
-                  <mat-option value="famale">Second option</mat-option>
-                  <mat-option value="none">Third option</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput>
-              </mat-form-field>
-              
-        </form>
-    </div>
+  <h3>Add User</h3>
+  <div>
+    <form class="addUserForm" [formGroup]="addUserForm" (ngSubmit)="addUser()">
+      <mat-form-field class="inputField">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Mario"
+          formControlName="name"
+        />
+      </mat-form-field>
+      <mat-form-field class="inputField">
+        <mat-label>Surname</mat-label>
+        <input
+          matInput
+          type="surname"
+          placeholder="Rossi"
+          formControlName="surname"
+        />
+      </mat-form-field>
+      <mat-form-field class="inputField">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="famale">Famale</mat-option>
+          <mat-option value="none">None</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="inputField">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+        />
+      </mat-form-field>
+      <div class="button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          mat-button
+          [disabled]="!addUserForm.valid"
+        >
+          Add
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          mat-button
+          (click)="goBack($event)"
+        >
+          Back
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

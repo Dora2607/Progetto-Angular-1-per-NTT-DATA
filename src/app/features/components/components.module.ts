@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { LogoComponent } from './logo/logo.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UsersViewComponent } from './users-view/users-view.component';
 import { AddUserComponent } from './add-user/add-user.component';
 
@@ -25,6 +26,7 @@ import { AddUserComponent } from './add-user/add-user.component';
     FontAwesomeModule, 
     ComponentsRoutingModule,
     FormsModule,
+    ReactiveFormsModule 
   ],
   exports: [HeaderComponent, LogoComponent, UsersViewComponent, AddUserComponent]
 })
