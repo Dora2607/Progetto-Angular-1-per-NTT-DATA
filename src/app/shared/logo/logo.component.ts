@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { trigger, style, animate, state, transition} from '@angular/animations';
-import { LogoService } from '../../../services/logo.service';
+import { LogoService } from '../../services/logo.service';
 
 @Component({
   selector: 'app-logo',

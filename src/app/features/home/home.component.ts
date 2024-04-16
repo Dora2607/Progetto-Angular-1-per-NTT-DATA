@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Users } from '../../models/users.model';
 import { UsersService } from '../../services/users.service';
+import { UserDataService } from '../../services/user-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,58 +9,53 @@ import { Subscription } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit  {
   users: Array<Users> = [];
-  usersSubscription: Subscription | undefined;
-  dispalyedUsers: Array<Users> = [];
+  displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
-
-  constructor(private usersService: UsersService) {}
-
+  usersSubscription: Subscription | undefined;
+  
+  constructor(
+    private usersService: UsersService, 
+    private userDataService: UserDataService) {}
+  
+  
   ngOnInit(): void {
-    this.getAllUser();
-  }
+    
+    this.userDataService.usersChanged.subscribe(
+      (users: Array<Users>) => {
+        this.users = users;
+      }
+    )
 
-  getAllUser(): void {
-    this.usersSubscription = this.usersService.getUsers().subscribe((users) => {
-      this.users = users;
-      this.dispalyedUsers = [...this.users];
-    });
+    this.userDataService.displayedUsersChanged.subscribe(
+      (displayedUsers: Array<Users>) => {
+        this.displayedUsers = displayedUsers;
+      }
+    )
+
+    this.userDataService.deleteButtonChanged.subscribe(
+      (deleteButton: boolean) => {
+        this.deleteButton = deleteButton;
+      }
+    )
+
   }
 
   onStatusChange(newStatus: string) {
-    if (newStatus === 'all') {
-      this.dispalyedUsers = [...this.users];
-    } else {
-      this.dispalyedUsers = this.users.filter(
-        (user) => user.status === newStatus,
-      );
-    }
+    this.userDataService.updateStatus(newStatus);
   }
 
   onUsersCountChange(count: number): void {
-    this.dispalyedUsers = this.users.slice(0, count);
+    this.userDataService.updateUsersCount(count);
   }
 
-  onUserDeleted(): boolean {
-    return (this.deleteButton = true);
+  // onUserDeleted(): void {
+  //   this.userDataService.deleteUser();
+  // }
+  
+  onUserDeleted(): void {
+    this.userDataService.deleteUser(id);
   }
 
-  deleteUser(id: number): void {
-    const confirmDelete = confirm('Are you sure you want to delete the user?');
-    if (confirmDelete) {
-      this.usersService.deleteUser(id).subscribe(() => {
-        this.dispalyedUsers = this.dispalyedUsers.filter(
-          (user) => user.id !== id,
-        );
-        alert('The user has been deleted');
-      });
-    } else {
-      alert('The deletion was canceled');
-    }
-  }
-
-  goToPreviousPage(): boolean {
-    return (this.deleteButton = false);
-  }
 }

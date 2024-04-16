@@ -10,6 +10,7 @@ const USERS_URL_SHORT  = 'https://gorest.co.in/public/v2/users'
   providedIn: 'root',
 })
 export class UsersService {
+
   constructor(private httpClient: HttpClient) {}
 
   getUsers(): Observable<Array<Users>> {

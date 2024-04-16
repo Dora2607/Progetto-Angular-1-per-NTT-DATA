@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LogoService } from '../../../services/logo.service';
-import { SearchBarService } from '../../../services/search-bar.service';
+import { LogoService } from '../../services/logo.service';
+import { SearchBarService } from '../../services/search-bar.service';
 
 @Component({
   selector: 'app-header',
