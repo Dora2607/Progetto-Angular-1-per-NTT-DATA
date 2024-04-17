@@ -33,7 +33,7 @@
         <button (click)="onUsersUpdated(30)" mat-menu-item>30</button>
       </mat-menu>
       <div class="manageUsers">
-        <button mat-icon-button color="primary" [routerLink]="['addUser']"> <!--Modificare il router link-->
+        <button mat-icon-button color="primary" (click)="onaddUser()"> 
           <mat-icon>person_add</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="DeleteButton()">

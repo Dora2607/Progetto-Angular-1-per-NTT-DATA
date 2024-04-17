@@ -3,6 +3,8 @@ import { Users } from '../../models/users.model';
 import { UsersService } from '../../services/users.service';
 import { UserDataService } from '../../services/user-data.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,19 @@ import { Subscription } from 'rxjs';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit  {
+
   users: Array<Users> = [];
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
   usersSubscription: Subscription | undefined;
+  showUsersList: boolean = true;
   
   constructor(
     private usersService: UsersService, 
-    private userDataService: UserDataService) {}
+    private userDataService: UserDataService,
+    private router: Router,
+    
+  ) {}
   
   
   ngOnInit(): void {
@@ -39,7 +46,6 @@ export class HomeComponent implements OnInit  {
         this.deleteButton = deleteButton;
       }
     )
-
   }
 
   onStatusChange(newStatus: string) {
@@ -50,11 +56,17 @@ export class HomeComponent implements OnInit  {
     this.userDataService.updateUsersCount(count);
   }
 
-  // onUserDeleted(): void {
-  //   this.userDataService.deleteUser();
-  // }
-  
-  onUserDeleted(): void {
+  toggleVisibility(): void {
+    this.showUsersList = !this.showUsersList;
+    if(!this.showUsersList){
+      this.router.navigate(['/home/addUser']);
+    } else {
+      this.router.navigate(['/home/usersList']);
+    }
+
+  }
+
+  onUserDeleted(id:number): void {
     this.userDataService.deleteUser(id);
   }
 

@@ -6,15 +6,22 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserDataService {
+  // Variable
   users: Array<Users> = [];
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
 
+  // Observables
   usersChanged = new Subject<Array<Users>>();
   displayedUsersChanged = new Subject<Array<Users>>();
   deleteButtonChanged = new Subject<boolean>();
 
+  // private _showUsersList = new BehaviorSubject<boolean>(true);
+  // showUsersList$ = this._showUsersList.asObservable();
+
   constructor() {}
+
+  // Setters
 
   setUsers(users: Array<Users>) {
     this.users = users;
@@ -30,6 +37,8 @@ export class UserDataService {
     this.deleteButton = deleteButton;
     this.deleteButtonChanged.next(this.deleteButton);
   }
+
+  // Update
 
   updateStatus(newStatus: string) {
     if (newStatus === 'all') {
@@ -54,4 +63,9 @@ export class UserDataService {
       );
     }
   }
+
+  // // Show/Hide component
+  // toggleVisibility() {
+  //   this._showUsersList.next(!this._showUsersList.value);
+  // }
 }

@@ -2,9 +2,10 @@
 <app-users-view
   (statusChange)="onStatusChange($event)"
   (usersCountChange)="onUsersCountChange($event)"
-  (DeleteButtonClicked)="onUserDeleted()"
+  (addUser)="toggleVisibility()"
+  (DeleteButtonClicked)="onUserDeleted(132)"
+
 >
+<router-outlet></router-outlet>
 </app-users-view>
 
-<app-users-list></app-users-list>
-<app-add-user></app-add-user>

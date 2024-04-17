@@ -7,15 +7,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class UsersViewComponent  {
 
-  
-  
-  @Output() statusChange = new EventEmitter<string>();  
+  //EventEmitter
+  @Output() statusChange = new EventEmitter<string>();
   @Output() usersCountChange = new EventEmitter<number>();
+  @Output() addUser = new EventEmitter<boolean>();
   @Output() DeleteButtonClicked = new EventEmitter<void>();
 
   status= 'All';
   usersShowCount = 30;
-  
+  toggle: boolean = false;
+
   
 
   onStatusUpdate(newStatus:string): void{
@@ -26,7 +27,7 @@ export class UsersViewComponent  {
     }else if (this.status==="active"){
       this.status='Online';
     }else{
-      this.status="Offline";      
+      this.status="Offline";
     }
   }
 
@@ -35,10 +36,14 @@ export class UsersViewComponent  {
     this.usersCountChange.emit(count);
   }
 
-  DeleteButton(): void{
-     this.DeleteButtonClicked.emit();
+  onaddUser():void{
+    this.toggle = true;
+    this.addUser.emit(this.toggle);
   }
 
 
+  DeleteButton(): void{
+     this.DeleteButtonClicked.emit();
+  }
 
 }

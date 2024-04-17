@@ -13,11 +13,6 @@ import {
 export class AddUserComponent implements OnInit {
  
   public addUserForm!: FormGroup;
-
-  
-
-  errorMessage = '';
-
   constructor() {}
 
   ngOnInit(): void {
