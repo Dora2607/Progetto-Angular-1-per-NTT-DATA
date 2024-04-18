@@ -1,7 +1,7 @@
 <div class="container">
   <h3>Add User</h3>
   <div>
-    <form class="addUserForm" [formGroup]="addUserForm" (ngSubmit)="addUser()">
+    <form class="addUserForm" [formGroup]="addUserForm" (ngSubmit)="newUser()">
       <mat-form-field class="inputField">
         <mat-label>Name</mat-label>
         <input
@@ -15,7 +15,7 @@
         <mat-label>Surname</mat-label>
         <input
           matInput
-          type="surname"
+          type="text"
           placeholder="Rossi"
           formControlName="surname"
         />

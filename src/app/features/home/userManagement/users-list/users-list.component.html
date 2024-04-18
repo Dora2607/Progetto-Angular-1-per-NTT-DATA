@@ -5,6 +5,7 @@
     *ngFor="let user of displayedUsers; let i = index"
     [class.even]="i % 2 === 0"
     [class.odd]="i % 2 === 1"
+    
   >
     <mat-list-item id="{{ user.id }}" class="userItem">
       <mat-icon
@@ -20,7 +21,7 @@
       class="deleteButton"
       [ngStyle]="{ display: deleteButton ? 'block' : 'none' }"
     >
-      <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
+      <button mat-icon-button color="warn" (click)="activeDeleteUser(user.id)">
         <mat-icon>cancel</mat-icon>
       </button>
     </div>

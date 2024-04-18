@@ -5,6 +5,9 @@ import {
   Validators,
 } from '@angular/forms';
 
+
+
+
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -14,6 +17,7 @@ export class AddUserComponent implements OnInit {
  
   public addUserForm!: FormGroup;
   constructor() {}
+  
 
   ngOnInit(): void {
     this.addUserForm = new FormGroup({
@@ -24,7 +28,9 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  addUser(){}
+  newUser(){
+    
+  }
 
   goBack(event:Event){
     event.preventDefault();

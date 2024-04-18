@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { UserDataService } from '../../../services/user-data.service';
 
 @Component({
   selector: 'app-users-view',
@@ -11,13 +12,13 @@ export class UsersViewComponent  {
   @Output() statusChange = new EventEmitter<string>();
   @Output() usersCountChange = new EventEmitter<number>();
   @Output() addUser = new EventEmitter<boolean>();
-  @Output() DeleteButtonClicked = new EventEmitter<void>();
-
+ 
   status= 'All';
   usersShowCount = 30;
   toggle: boolean = false;
+  delete: boolean = false;
 
-  
+  constructor(private userDataService:UserDataService){}
 
   onStatusUpdate(newStatus:string): void{
     this.status = newStatus;
@@ -42,8 +43,9 @@ export class UsersViewComponent  {
   }
 
 
-  DeleteButton(): void{
-     this.DeleteButtonClicked.emit();
+  deleteButton(): void{
+    this.delete = true;
+    this.userDataService.deleteButtonClicked.next(this.delete)
   }
 
 }

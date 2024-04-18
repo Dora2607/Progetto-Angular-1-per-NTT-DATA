@@ -1,3 +1,5 @@
+@import '../../../../../styles.scss';
+
 .container {
   margin: 3rem 1rem 2rem 1rem;
   padding-bottom: 2rem;
@@ -23,6 +25,21 @@
     button{
         margin: 0.5rem;
     }
+  }
+
+}
+
+@media (min-width: $breakpoint-small) {
+  .container {
+    margin: 2rem 3rem 2.5rem 3rem;
+  }
+
+
+}
+
+@media (min-width: $breakpoint-medium) {
+  .container {
+    margin: 2.5rem 4rem 3rem 4rem;
   }
 
 }

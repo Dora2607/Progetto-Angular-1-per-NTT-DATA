@@ -11,6 +11,7 @@ import { UserDataService } from '../../../../services/user-data.service';
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
+
   users: Array<Users> = [];
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
@@ -34,11 +35,12 @@ export class UsersListComponent implements OnInit {
       },
     );
 
-    this.userDataService.deleteButtonChanged.subscribe(
-      (deleteButton: boolean) => {
+    this.userDataService.deleteButtonClicked.subscribe(
+      (deleteButton:boolean)=>{
         this.deleteButton = deleteButton;
-      },
-    );
+      }
+    )
+
   }
 
   getAllUser(): void {
@@ -48,7 +50,10 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  deleteUser(id: number): void {
+
+
+
+  activeDeleteUser(id: number): void {
     const confirmDelete = confirm('Are you sure you want to delete the user?');
     if (confirmDelete) {
       this.usersService.deleteUser(id).subscribe(() => {

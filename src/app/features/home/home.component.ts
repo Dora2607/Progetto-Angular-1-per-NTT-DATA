@@ -15,9 +15,9 @@ export class HomeComponent implements OnInit  {
 
   users: Array<Users> = [];
   displayedUsers: Array<Users> = [];
-  deleteButton: boolean = false;
   usersSubscription: Subscription | undefined;
   showUsersList: boolean = true;
+
   
   constructor(
     private usersService: UsersService, 
@@ -40,12 +40,6 @@ export class HomeComponent implements OnInit  {
         this.displayedUsers = displayedUsers;
       }
     )
-
-    this.userDataService.deleteButtonChanged.subscribe(
-      (deleteButton: boolean) => {
-        this.deleteButton = deleteButton;
-      }
-    )
   }
 
   onStatusChange(newStatus: string) {
@@ -60,14 +54,7 @@ export class HomeComponent implements OnInit  {
     this.showUsersList = !this.showUsersList;
     if(!this.showUsersList){
       this.router.navigate(['/home/addUser']);
-    } else {
-      this.router.navigate(['/home/usersList']);
     }
-
-  }
-
-  onUserDeleted(id:number): void {
-    this.userDataService.deleteUser(id);
   }
 
 }

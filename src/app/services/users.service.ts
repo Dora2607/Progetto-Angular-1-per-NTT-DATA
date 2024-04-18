@@ -17,6 +17,15 @@ export class UsersService {
     return this.httpClient.get<Array<Users>>(USERS_URL);
   }
 
+  addUser(user:Users){
+    const token = localStorage.getItem('token');
+    return this.httpClient.post(
+      `${USERS_URL_SHORT}`,
+      user,
+      { headers: { Authorization: `Bearer ${token}` }},
+    );
+  }
+
   deleteUser(userId: number) {
     const token = localStorage.getItem('token');
     return this.httpClient.delete(
