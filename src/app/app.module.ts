@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; //da rimuovere
 
 
+
 //components
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';

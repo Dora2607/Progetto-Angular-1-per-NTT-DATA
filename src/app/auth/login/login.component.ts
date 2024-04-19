@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit{
   login(): void {
     if (this.loginForm.valid) {
       this.store.dispatch(login());
-      this.loginForm.reset();
+      // this.loginForm.reset();
     }
 
   }

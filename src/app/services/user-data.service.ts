@@ -9,12 +9,13 @@ export class UserDataService {
   // Variable
   users: Array<Users> = [];
   displayedUsers: Array<Users> = [];
-  deleteButton: boolean = false;
+
 
   // Observables
   usersChanged = new Subject<Array<Users>>();
   displayedUsersChanged = new Subject<Array<Users>>();
   deleteButtonClicked = new Subject<boolean>();
+  addUserButtonClicked = new Subject<boolean>();
 
   constructor() {}
 
@@ -52,4 +53,17 @@ export class UserDataService {
       this.displayedUsers.filter((user) => user.id !== id),
     );
   }
+
+  //search bar
+  searchUsers(searchTerm: string) {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    this.setDisplayedUsers(
+      this.users.filter((user) => 
+        user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        user.email.toLowerCase().includes(lowerCaseSearchTerm)
+      )
+    );
+  }
+
+
 }

@@ -40,6 +40,14 @@ export class HomeComponent implements OnInit  {
         this.displayedUsers = displayedUsers;
       }
     )
+    this.userDataService.addUserButtonClicked.subscribe(
+      (showUsersList:boolean) => {
+        this.showUsersList = !showUsersList;
+        if(!this.showUsersList){
+          this.router.navigate(['/home/addUser']);
+        }
+      }
+    )
   }
 
   onStatusChange(newStatus: string) {
@@ -50,11 +58,6 @@ export class HomeComponent implements OnInit  {
     this.userDataService.updateUsersCount(count);
   }
 
-  toggleVisibility(): void {
-    this.showUsersList = !this.showUsersList;
-    if(!this.showUsersList){
-      this.router.navigate(['/home/addUser']);
-    }
-  }
+
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Users } from '../models/users.model';
+import { Users, newUser } from '../models/users.model';
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
 const USERS_URL_SHORT  = 'https://gorest.co.in/public/v2/users'
@@ -17,7 +17,7 @@ export class UsersService {
     return this.httpClient.get<Array<Users>>(USERS_URL);
   }
 
-  addUser(user:Users){
+  addUser(user:newUser){
     const token = localStorage.getItem('token');
     return this.httpClient.post(
       `${USERS_URL_SHORT}`,

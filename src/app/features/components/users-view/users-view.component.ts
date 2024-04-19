@@ -11,7 +11,7 @@ export class UsersViewComponent  {
   //EventEmitter
   @Output() statusChange = new EventEmitter<string>();
   @Output() usersCountChange = new EventEmitter<number>();
-  @Output() addUser = new EventEmitter<boolean>();
+
  
   status= 'All';
   usersShowCount = 30;
@@ -39,7 +39,7 @@ export class UsersViewComponent  {
 
   onaddUser():void{
     this.toggle = true;
-    this.addUser.emit(this.toggle);
+    this.userDataService.addUserButtonClicked.next(this.toggle);
   }
 
 
