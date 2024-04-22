@@ -54,16 +54,7 @@ export class UserDataService {
     );
   }
 
-  //search bar
-  searchUsers(searchTerm: string) {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    this.setDisplayedUsers(
-      this.users.filter((user) => 
-        user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-        user.email.toLowerCase().includes(lowerCaseSearchTerm)
-      )
-    );
-  }
+
 
 
 }

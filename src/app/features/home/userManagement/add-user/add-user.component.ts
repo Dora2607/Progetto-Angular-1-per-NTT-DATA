@@ -66,15 +66,28 @@ export class AddUserComponent implements OnInit {
       status: this.randomStatus()
     }
 
+    // this.usersService.addUser(this.addNewUser).subscribe(
+      
+      
+    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //   (response:any) =>{
+    //     alert('User added successfully')
+    //     this.userDataService.users.push(response as Users);
+    //     this.userDataService.setDisplayedUsers(this.userDataService.users);
+    //   });
+
     this.usersService.addUser(this.addNewUser).subscribe(
-      
-      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response:any) =>{
         alert('User added successfully')
-        this.userDataService.users.push(response as Users);
-        this.userDataService.setDisplayedUsers(this.userDataService.users);
+        const newUser = response as Users;
+        this.userDataService.users.push(newUser);
+        const newDisplayedUsers = [...this.userDataService.displayedUsers, newUser];
+        this.userDataService.setDisplayedUsers(newDisplayedUsers);
+        console.log(this.userDataService.displayedUsers)
       });
+    
+
 
   }
 
