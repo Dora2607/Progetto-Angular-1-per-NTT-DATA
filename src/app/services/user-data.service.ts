@@ -47,6 +47,13 @@ export class UserDataService {
     this.setDisplayedUsers(this.users.slice(0, count));
   }
 
+
+  addUser (user: Users) {
+    this.users = [...this.users, user];
+    this.usersChanged.next(this.users.slice());
+    this.setDisplayedUsers(this.users);
+  }
+
   deleteUser(id: number) {
     this.setUsers(this.users.filter((user) => user.id !== id));
     this.setDisplayedUsers(

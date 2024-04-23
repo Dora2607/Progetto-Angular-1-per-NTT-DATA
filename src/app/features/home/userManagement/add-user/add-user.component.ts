@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Users, newUser } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
 import { UserDataService } from '../../../../services/user-data.service';
 import { Router } from '@angular/router';
-
-
 
 @Component({
   selector: 'app-add-user',
@@ -17,25 +11,20 @@ import { Router } from '@angular/router';
   styleUrl: './add-user.component.scss',
 })
 export class AddUserComponent implements OnInit {
- 
   public addUserForm!: FormGroup;
- 
-  addNewUser: newUser ={
+
+  addNewUser: newUser = {
     name: '',
     email: '',
     gender: '',
-    status: ''
-  }
-  
+    status: '',
+  };
 
   constructor(
-    private usersService:UsersService,
-    private userDataService:UserDataService,
+    private usersService: UsersService,
+    private userDataService: UserDataService,
     private router: Router,
-   
   ) {}
-  
-
 
   ngOnInit(): void {
     this.addUserForm = new FormGroup({
@@ -46,55 +35,42 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-
-  fullName(){
-    const name = this.addUserForm.value.firstName +' '+ this.addUserForm.value.lastName;
+  fullName() {
+    const name =
+      this.addUserForm.value.firstName + ' ' + this.addUserForm.value.lastName;
     return name;
   }
 
-  randomStatus(){
+  randomStatus() {
     const status = ['active', 'inactive'];
     const random = Math.floor(Math.random() * status.length);
     return status[random];
   }
 
-  newUser(){
+  newUser() {
     this.addNewUser = {
       name: this.fullName(),
       email: this.addUserForm.value.email,
       gender: this.addUserForm.value.gender,
-      status: this.randomStatus()
-    }
-
-    // this.usersService.addUser(this.addNewUser).subscribe(
-      
-      
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   (response:any) =>{
-    //     alert('User added successfully')
-    //     this.userDataService.users.push(response as Users);
-    //     this.userDataService.setDisplayedUsers(this.userDataService.users);
-    //   });
+      status: this.randomStatus(),
+    };
 
     this.usersService.addUser(this.addNewUser).subscribe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (response:any) =>{
-        alert('User added successfully')
+      (response: any) => {
+        alert('User added successfully');
         const newUser = response as Users;
-        this.userDataService.users.push(newUser);
-        const newDisplayedUsers = [...this.userDataService.displayedUsers, newUser];
-        this.userDataService.setDisplayedUsers(newDisplayedUsers);
-        console.log(this.userDataService.displayedUsers)
-      });
-    
-
-
+        this.userDataService.addUser(newUser);
+        console.log(this.userDataService.displayedUsers);
+        this.userDataService.usersChanged.next(
+          this.userDataService.users.slice(),
+        );
+      },
+    );
   }
 
-  goBack(event:Event){
+  goBack(event: Event) {
     event.preventDefault();
-    history.back();
+    this.router.navigate(['/home/usersList']);
   }
- 
-
 }
