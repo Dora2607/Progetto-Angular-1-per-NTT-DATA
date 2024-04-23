@@ -65,6 +65,10 @@ export class AddUserComponent implements OnInit {
         this.userDataService.usersChanged.next(
           this.userDataService.users.slice(),
         );
+        this.userDataService.displayedUsersChanged.next(
+          this.userDataService.displayedUsers.slice(),
+        );
+        this.router.navigate(['/home/usersList']);
       },
     );
   }

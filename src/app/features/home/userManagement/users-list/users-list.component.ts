@@ -11,7 +11,6 @@ import { UserDataService } from '../../../../services/user-data.service';
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
-
   users: Array<Users> = [];
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
@@ -23,8 +22,14 @@ export class UsersListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllUser();
+    
+    if (this.userDataService.users.length === 0) {
+      this.getAllUser();
+    }else{
+      this.userDataService.updateDisplayedUsers();
+    }
 
+    
     this.userDataService.usersChanged.subscribe((users: Array<Users>) => {
       this.users = users;
     });
@@ -32,15 +37,15 @@ export class UsersListComponent implements OnInit {
     this.userDataService.displayedUsersChanged.subscribe(
       (displayedUsers: Array<Users>) => {
         this.displayedUsers = displayedUsers;
+        console.log(this.displayedUsers);
       },
     );
 
     this.userDataService.deleteButtonClicked.subscribe(
-      (deleteButton:boolean)=>{
+      (deleteButton: boolean) => {
         this.deleteButton = deleteButton;
-      }
-    )
-
+      },
+    );
   }
 
   getAllUser(): void {
@@ -49,9 +54,6 @@ export class UsersListComponent implements OnInit {
       this.userDataService.setDisplayedUsers([...users]);
     });
   }
-
-
-
 
   activeDeleteUser(id: number): void {
     const confirmDelete = confirm('Are you sure you want to delete the user?');

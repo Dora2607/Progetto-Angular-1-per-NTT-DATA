@@ -14,7 +14,7 @@ export class UsersViewComponent  {
 
  
   status= 'All';
-  usersShowCount = 30;
+  usersShowCount = 35;
   toggle: boolean = false;
   delete: boolean = false;
 

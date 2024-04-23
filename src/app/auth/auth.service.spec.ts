@@ -13,4 +13,10 @@ describe('AuthService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+  
+  it('should be loggedIn', ()=>{
+    localStorage.setItem('token','testToken')
+    expect(service.isLoggedIn()).toBeTruthy();
+    localStorage.removeItem('token')
+  })
 });
