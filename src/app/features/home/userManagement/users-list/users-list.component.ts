@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users-list',
@@ -15,18 +16,24 @@ export class UsersListComponent implements OnInit {
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
+  id: string | undefined;
+  
+  Users$!:Observable<Users[]>
+  selectedId=0;
 
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     
-    if (this.userDataService.users.length === 0) {
+    if (this.userDataService.firstVisit) {
       this.getAllUser();
+      this.userDataService.firstVisit = false;
     }else{
-      this.userDataService.updateDisplayedUsers();
+      this.displayedUsers = this.userDataService.getDisplayedUsers()
     }
 
     
@@ -37,7 +44,6 @@ export class UsersListComponent implements OnInit {
     this.userDataService.displayedUsersChanged.subscribe(
       (displayedUsers: Array<Users>) => {
         this.displayedUsers = displayedUsers;
-        console.log(this.displayedUsers);
       },
     );
 
@@ -46,6 +52,19 @@ export class UsersListComponent implements OnInit {
         this.deleteButton = deleteButton;
       },
     );
+
+    this.id = this.route.snapshot.params['id'];
+    console.log(this.id)
+    
+
+    // this.Users$ = this.route.paramMap.pipe(
+    //   // Extract the id from the route
+    //   switchMap((params)=>{
+    //     this.selectedId = parseInt(params.get('id')!,10);
+    //     return this.userDataService.getUsers();
+    //   })
+    // )
+
   }
 
   getAllUser(): void {
@@ -70,4 +89,8 @@ export class UsersListComponent implements OnInit {
   goToPreviousPage(): boolean {
     return (this.deleteButton = false);
   }
+
+
+ 
+
 }

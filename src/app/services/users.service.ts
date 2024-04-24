@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { Users, newUser } from '../models/users.model';
-import { UserDataService } from './user-data.service';
+
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
 const USERS_URL_SHORT  = 'https://gorest.co.in/public/v2/users'
@@ -14,7 +14,7 @@ export class UsersService {
 
   constructor(
     private httpClient: HttpClient,
-    private userDataService: UserDataService
+    
   ) {}
 
   getUsers(): Observable<Array<Users>> {

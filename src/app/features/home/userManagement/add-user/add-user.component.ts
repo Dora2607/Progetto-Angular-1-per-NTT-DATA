@@ -54,24 +54,18 @@ export class AddUserComponent implements OnInit {
       gender: this.addUserForm.value.gender,
       status: this.randomStatus(),
     };
-
+  
     this.usersService.addUser(this.addNewUser).subscribe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
         alert('User added successfully');
         const newUser = response as Users;
         this.userDataService.addUser(newUser);
-        console.log(this.userDataService.displayedUsers);
-        this.userDataService.usersChanged.next(
-          this.userDataService.users.slice(),
-        );
-        this.userDataService.displayedUsersChanged.next(
-          this.userDataService.displayedUsers.slice(),
-        );
         this.router.navigate(['/home/usersList']);
       },
     );
   }
+  
 
   goBack(event: Event) {
     event.preventDefault();

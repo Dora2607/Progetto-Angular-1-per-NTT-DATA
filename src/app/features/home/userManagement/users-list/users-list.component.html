@@ -14,7 +14,7 @@
         matListItemIcon
         >circle</mat-icon
       >
-      <div class="userTitle" matListItemTitle>{{ user.name }}</div>
+      <div class="userTitle" matListItemTitle><a [routerLink]="[user.id]">{{ user.name }}</a></div>
       <div class="userLine" matListItemLine>{{ user.email }}</div>
     </mat-list-item>
     <div

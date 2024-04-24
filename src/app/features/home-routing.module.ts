@@ -5,8 +5,7 @@ import { AuthGuard } from '../auth/auth.guard';
 
 import { AddUserComponent } from './home/userManagement/add-user/add-user.component';
 import { UsersListComponent } from './home/userManagement/users-list/users-list.component';
-
-
+import { UserDetailsComponent } from './userDetails/user-details/user-details.component';
 
 const routes: Routes = [
   {
@@ -16,11 +15,27 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        
+
         children: [
-          { path: 'usersList', component:UsersListComponent, canActivate: [AuthGuard]},
-          { path: 'addUser', component: AddUserComponent, canActivate: [AuthGuard] },
-          { path:'', redirectTo:'usersList', pathMatch:'full'}
+          {
+            path: 'usersList',
+            component: UsersListComponent,
+            canActivate: [AuthGuard],
+            children: [
+              {
+                path: ':id',
+                component: UserDetailsComponent,
+                canActivate: [AuthGuard],
+              },
+            ],
+          },
+
+          {
+            path: 'addUser',
+            component: AddUserComponent,
+            canActivate: [AuthGuard],
+          },
+          { path: '', redirectTo: 'usersList', pathMatch: 'full' },
         ],
       },
     ],
