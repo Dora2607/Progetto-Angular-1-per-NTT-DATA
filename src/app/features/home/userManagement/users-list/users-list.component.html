@@ -3,6 +3,7 @@
   <div
     class="usersContainer"
     *ngFor="let user of displayedUsers; let i = index"
+    
     [class.even]="i % 2 === 0"
     [class.odd]="i % 2 === 1"
     
@@ -14,7 +15,7 @@
         matListItemIcon
         >circle</mat-icon
       >
-      <div class="userTitle" matListItemTitle><a [routerLink]="['/userList', userID]">{{ user.name }}</a></div>
+      <div class="userTitle" matListItemTitle><a [routerLink]="['/home/usersList', user.id]">{{ user.name }}</a></div>
       <div class="userLine" matListItemLine>{{ user.email }}</div>
     </mat-list-item>
     <div

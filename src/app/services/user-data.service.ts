@@ -63,14 +63,18 @@ export class UserDataService {
     this.setDisplayedUsers(this.users);
   }
 
-  // getUsers(): Observable<Users[]>{
-  //   return of(this.users);
-  // }
+  getUsers(): Observable<Users[]> {
+    console.log(of(this.users)) // da eliminare
+    return of(this.users);
+    
+  }
 
-  // getUser(id: number | string)  {
-  //   return this.getUsers().pipe(
-  //     map((users: Array<Users>) => users.find(user => user.id === +id)!)
-  //   );
-  // }
-
+  getUser(id: number | string) {
+    return this.getUsers().pipe(
+      map((users: Array<Users>) => users.find((user) => user.id === +id)!,
+      console.log(this.users) // da eliminare
+    ),
+      
+    );
+  }
 }

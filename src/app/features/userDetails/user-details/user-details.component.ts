@@ -1,24 +1,40 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { UserDataService } from '../../../services/user-data.service';
+import { Observable, switchMap } from 'rxjs';
+import { Users } from '../../../models/users.model';
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
-  styleUrl: './user-details.component.scss'
+  styleUrl: './user-details.component.scss',
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
 
-  constructor(private route:ActivatedRoute){
-    this.route.params.subscribe((params) =>{
-      console.log("User Details Params", params);
-      const userID = params['id'];
-      if(!userID || isNaN(+userID)){
-        alert('Invalid User ID');
-      }else{
-        // Fetch the user details using the provided user id and display it on UI
-        this.displayUserDetails(+userID);
-      }
-    });
+  
+  user$!: Observable<Users>;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private userDataService: UserDataService,
+  ) {}
+
+
+  
+
+
+  ngOnInit() {
+    this.user$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => this.userDataService.getUser(params.get('id')!))
+    );
   }
+
+
+   gotoUsers(user: Users) {
+    const userId = user ? user.id : null;
+    this.router.navigate(['/home/usersList', userId]);
+  }
+  
 
 }

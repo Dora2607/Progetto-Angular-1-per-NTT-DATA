@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-users-list',
@@ -16,15 +17,16 @@ export class UsersListComponent implements OnInit {
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
-  id: string | undefined;
-  
-  Users$!:Observable<Users[]>
-  selectedId=0;
+
+  users$!:Observable<Users[]>
+  selectedId: number = 0;
+
 
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
-    private route: ActivatedRoute,
+    private route:ActivatedRoute, 
+    
   ) {}
 
   ngOnInit(): void {
@@ -53,17 +55,14 @@ export class UsersListComponent implements OnInit {
       },
     );
 
-    this.id = this.route.snapshot.params['id'];
-    console.log(this.id)
-    
+    this.users$ = this.route.paramMap.pipe(
+      switchMap((params) => {
+        this.selectedId = parseInt(params.get('id')!,10);
+        console.log(this.selectedId)
+        return this.userDataService.getUsers();
+      }),
+    );
 
-    // this.Users$ = this.route.paramMap.pipe(
-    //   // Extract the id from the route
-    //   switchMap((params)=>{
-    //     this.selectedId = parseInt(params.get('id')!,10);
-    //     return this.userDataService.getUsers();
-    //   })
-    // )
 
   }
 
