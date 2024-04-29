@@ -21,13 +21,11 @@ const routes: Routes = [
             path: 'usersList',
             component: UsersListComponent,
             canActivate: [AuthGuard],
-            children: [
-              {
-                path: ':id',
-                component: UserDetailsComponent,
-                canActivate: [AuthGuard],
-              },
-            ],
+          },
+          {
+            path: 'usersList/:id',
+            component: UserDetailsComponent,
+            canActivate: [AuthGuard],
           },
 
           {
