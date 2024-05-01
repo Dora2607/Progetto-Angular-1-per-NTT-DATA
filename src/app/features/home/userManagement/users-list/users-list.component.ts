@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
 import { Subscription } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
-
 
 @Component({
   selector: 'app-users-list',
@@ -18,27 +16,20 @@ export class UsersListComponent implements OnInit {
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
 
-  // users$!:Observable<Users[]>
-  // selectedId: number = 0;
-
-
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
-    private route:ActivatedRoute, 
-    
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    
     if (this.userDataService.firstVisit) {
       this.getAllUser();
       this.userDataService.firstVisit = false;
-    }else{
-      this.displayedUsers = this.userDataService.getDisplayedUsers()
+    } else {
+      this.displayedUsers = this.userDataService.getDisplayedUsers();
     }
 
-    
     this.userDataService.usersChanged.subscribe((users: Array<Users>) => {
       this.users = users;
     });
@@ -54,16 +45,6 @@ export class UsersListComponent implements OnInit {
         this.deleteButton = deleteButton;
       },
     );
-
-    // this.users$ = this.route.paramMap.pipe(
-    //   switchMap((params) => {
-    //     this.selectedId = parseInt(params.get('id')!,10);
-    //     console.log(this.selectedId)
-    //     return this.userDataService.getUsers();
-    //   }),
-    // );
-
-
   }
 
   getAllUser(): void {
@@ -88,8 +69,4 @@ export class UsersListComponent implements OnInit {
   goToPreviousPage(): boolean {
     return (this.deleteButton = false);
   }
-
-
- 
-
 }

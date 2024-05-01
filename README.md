@@ -32,32 +32,31 @@ L'autenticazione è una parte fondamentale di CityGuard. Utilizziamo un modulo d
 
 Le azioni di login e logout sono definite nel file `auth.actions.ts` utilizzando la funzione `createAction` di NgRx.
 
-La gestione dello stato dell'autenticazione è gestita utilizzando NgRx, una libreria di gestione dello stato reattiva per Angular. Il file `auth.reducer.ts` definisce come lo stato dell'applicazione cambia in risposta alle azioni di login e logout.
-
+La gestione dello stato dell'autenticazione è gestita utilizzando NgRx, una libreria di gestione dello stato reattiva per Angular. Il file `auth.reducer.ts` definisce come lo stato dell'applicazione cambia in risposta alle azioni di login e logout. 
 Quando un utente effettua l'accesso, l'azione di login viene inviata e il token di autenticazione viene memorizzato nello stato dell'applicazione e nel `localStorage`. Questo token viene utilizzato per determinare se un utente è autenticato.
+
+In questo contesto, viene definto quando la componente `app-header` sarà visibile o meno. In pratica, se l'utente non è autenticato e quindi non ha un token di autenticazione, l'header non sarà visibile. Se l'utente è autenticato, l'header sarà visibile.
 
 Il file `auth.effects.ts` definisce gli effetti laterali delle azioni di login e logout. Quando un utente effettua l'accesso o si disconnette, l'applicazione naviga rispettivamente alla pagina home o alla pagina di login.
 
 Infine, utilizziamo un `AuthGuard` per proteggere le rotte che richiedono l'autenticazione. Se un utente non autenticato tenta di accedere a una di queste rotte, verrà reindirizzato alla pagina di login.
 
-Il servizio `AuthService` fornisce un metodo `isLoggedIn` che controlla se esiste un token nel `localStorage`, indicando se un utente è attualmente autenticato.
+### HeaderComponent
+`app-header` è una barra degli strumenti che contiene un menu per navigare tra le diverse componenti dell'applicazione, un componente logo e un pulsante che attiva la barra di ricerca. Quando il pulsante di ricerca viene cliccato, viene chiamato il metodo `toggleSearchBar()` che mostra la barra di ricerca.
+#### Approfondimento della SearchBarComponent contenuta nella HeaderComponent
+
+La **SearchBarComponent** fornisce una barra di ricerca per trovare gli utenti per nome o email. Quando un termine di ricerca viene inserito e inviato, il metodo `searchUsers()` viene chiamato per filtrare gli utenti visualizzati in base al termine di ricerca. C'è anche un pulsante per terminare la ricerca, che nasconde la barra di ricerca e ripristina l'elenco degli utenti visualizzati.
 
 
 ### HomeComponent
 
-`HomeComponent` è il cuore dell'applicazione CityGuard. Questo componente gestisce la visualizzazione degli utenti e fornisce un'interfaccia per interagire con l'elenco degli utenti. Include tre elementi principali: `app-header`, `app-users-view` e `router-outlet`.
-
-`app-header` è una barra degli strumenti che contiene un menu per navigare tra le diverse componenti dell'applicazione, un componente logo e un pulsante che attiva la barra di ricerca. Quando il pulsante di ricerca viene cliccato, viene chiamato il metodo `toggleSearchBar()` che mostra la barra di ricerca.
+`HomeComponent` è il cuore dell'applicazione CityGuard. Questo componente gestisce la visualizzazione degli utenti e fornisce un'interfaccia per interagire con l'elenco degli utenti. Include due elementi principali: `app-users-view` e `router-outlet`.
 
 `app-users-view` gestisce la visualizzazione degli utenti. Include filtri per visualizzare gli utenti in base allo stato online/offline/tutti, il numero di utenti da visualizzare e fornisce bottoni per aggiungere o rimuovere utenti.
 
 `router-outlet` è un segnaposto che Angular riempie dinamicamente in base allo stato del router. Permette di visualizzare diversi componenti in base alla rotta corrente.
 
 In `HomeComponent`, vengono gestiti gli eventi di modifica dello stato e del conteggio degli utenti. Questi eventi sono emessi dal componente `app-users-view` e gestiti in `HomeComponent`. Inoltre, `HomeComponent` si iscrive ai cambiamenti degli utenti e degli utenti visualizzati utilizzando `UserDataService`. Quando gli utenti o gli utenti visualizzati cambiano, `HomeComponent` aggiorna i suoi dati di conseguenza. Infine, `HomeComponent` gestisce la navigazione alla pagina di aggiunta di un nuovo utente quando il pulsante di aggiunta utente viene cliccato.
-
-#### Approfondimento della SearchBarComponent contenuta nella HeaderComponent
-
-La **SearchBarComponent** fornisce una barra di ricerca per trovare gli utenti per nome o email. Quando un termine di ricerca viene inserito e inviato, il metodo `searchUsers()` viene chiamato per filtrare gli utenti visualizzati in base al termine di ricerca. C'è anche un pulsante per terminare la ricerca, che nasconde la barra di ricerca e ripristina l'elenco degli utenti visualizzati.
 
 #### UsersViewComponent
 

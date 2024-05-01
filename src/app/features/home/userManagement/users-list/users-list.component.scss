@@ -36,6 +36,16 @@
 }
 .userTitle {
   font-size: $font-size-sm;
+  
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover, &:active {
+      color: $accent-color;
+    }
+  }
+  
+  
 }
 .userLine {
   font-size: $font-size-xs;

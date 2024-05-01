@@ -25,7 +25,6 @@ import { AddUserComponent } from './add-user/add-user.component';
     SharedModule,
     UserManagementRoutingModule,
     FormsModule,
-    
     ReactiveFormsModule 
   ],
   exports: [UsersListComponent, AddUserComponent]
