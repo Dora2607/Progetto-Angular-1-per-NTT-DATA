@@ -11,7 +11,7 @@ import { HomeRoutingModule } from './features/home-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; //da rimuovere
 import { HomeModule} from './features/home.module';
-
+import { SharedModule } from './shared/shared.module';
 
 
 //components
@@ -40,6 +40,7 @@ import { authReducer } from './state/auth/auth.reducer';
     HttpClientModule, 
     FontAwesomeModule,
     HomeModule,
+    SharedModule,
     StoreModule.forRoot({auth:authReducer}),
     EffectsModule.forRoot([AuthEffects])
 

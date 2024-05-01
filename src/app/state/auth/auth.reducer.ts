@@ -34,3 +34,8 @@ export const selectToken = createSelector(
   selectAuthState,
   (auth) => auth.token,
 );
+
+export const selectIsLoggedIn = createSelector(
+  selectAuthState,
+  (auth) => !!auth.token
+)

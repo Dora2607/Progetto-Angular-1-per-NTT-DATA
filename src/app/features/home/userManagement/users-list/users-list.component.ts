@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
-import { Observable, Subscription, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,8 +18,8 @@ export class UsersListComponent implements OnInit {
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
 
-  users$!:Observable<Users[]>
-  selectedId: number = 0;
+  // users$!:Observable<Users[]>
+  // selectedId: number = 0;
 
 
   constructor(
@@ -55,13 +55,13 @@ export class UsersListComponent implements OnInit {
       },
     );
 
-    this.users$ = this.route.paramMap.pipe(
-      switchMap((params) => {
-        this.selectedId = parseInt(params.get('id')!,10);
-        console.log(this.selectedId)
-        return this.userDataService.getUsers();
-      }),
-    );
+    // this.users$ = this.route.paramMap.pipe(
+    //   switchMap((params) => {
+    //     this.selectedId = parseInt(params.get('id')!,10);
+    //     console.log(this.selectedId)
+    //     return this.userDataService.getUsers();
+    //   }),
+    // );
 
 
   }
