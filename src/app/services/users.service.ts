@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { Users, newUser } from '../models/users.model';
+import { Posts } from '../models/posts.model';
 
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
@@ -36,5 +37,9 @@ export class UsersService {
       `${USERS_URL_SHORT}/${userId}`,
       { headers: { Authorization: `Bearer ${token}` }},
     )
+  }
+
+  getPosts(userId:number): Observable<Array<Posts>>{
+    return this.httpClient.get<Array<Posts>>(`${USERS_URL_SHORT}/${userId}/posts`)
   }
 }

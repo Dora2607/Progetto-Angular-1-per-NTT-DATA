@@ -1,1 +1,22 @@
-<p>post-list works!</p>
+<div class="postsContainer">
+  <mat-card class="postContainer" *ngFor="let post of posted">
+    <div class="postBorder"></div>
+    <div class="postContent">
+      <mat-card-header>
+        <mat-card-title class="postTitle">{{ post.title }}</mat-card-title>
+        <mat-card-subtitle class="postSubtitle">by: {{userProfile.name}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        
+          {{ post.body }}
+        
+      </mat-card-content>
+    </div>
+    <mat-card-actions class="postFooter">
+      <button mat-button><strong>Show Comments</strong></button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="emptyPost" *ngIf="emptyPosts">
+    <h3>There are no posts from this user</h3>
+  </div>
+</div>

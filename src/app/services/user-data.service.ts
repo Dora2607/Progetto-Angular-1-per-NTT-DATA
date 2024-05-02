@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
-import { Observable, Subject, map, of } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -63,18 +63,5 @@ export class UserDataService {
     this.setDisplayedUsers(this.users);
   }
 
-  getUsers(): Observable<Users[]> {
-    console.log(of(this.users)) // da eliminare
-    return of(this.users);
-    
-  }
 
-  getUser(id: number | string) {
-    return this.getUsers().pipe(
-      map((users: Array<Users>) => users.find((user) => user.id === +id)!,
-      console.log(this.users) // da eliminare
-    ),
-      
-    );
-  }
 }

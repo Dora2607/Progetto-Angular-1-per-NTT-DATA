@@ -9,6 +9,9 @@
       padding-top: 1rem;
       padding-bottom: 0.5rem;
     }
+    .cardSubtitle{
+      color:black;
+    }
   }
   .dataUserContent {
     margin-top: 0.25rem;
@@ -61,6 +64,34 @@
       span {
         color: $powder-blue;
       }
+    }
+  }
+}
+
+@media (min-width: $breakpoint-medium) {
+  .userProfileCard {
+    .dataUserHeader {
+      .cardTitle {
+        padding-top: 1.5rem;
+        padding-bottom: 1rem;
+      }
+    }
+    .dataUserContent p {
+      padding: 0.25rem;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-large) {
+  .userProfileCard {
+    .dataUserHeader {
+      .cardTitle {
+        padding-top: 2rem;
+        padding-bottom: 1.5rem;
+      }
+    }
+    .dataUserContent p {
+      padding: 0.5rem;
     }
   }
 }
