@@ -8,6 +8,11 @@ import { UserDataService } from './user-data.service';
 })
 export class UserIdentityService {
   userDescriptions: string[] = [];
+
+  // private postCounter = new BehaviorSubject<number>(0);
+
+  // currentPostCounter = this.postCounter.asObservable();
+
   
 
   constructor(private userDataService: UserDataService) {}
@@ -21,6 +26,7 @@ export class UserIdentityService {
       map((users: Array<Users>) => users.find((user) => user.id === +id)!),
     );
   }
+
   getUserDescription() {
     this.userDescriptions = [
       "Let's make our city a hub for new ideas, commerce, culture, science, productivity, and social development.",
@@ -37,4 +43,8 @@ export class UserIdentityService {
         Math.floor(Math.random() * this.userDescriptions.length)
       ];
   }
+
+  // changePostedCounter(lenght:number){
+  //   this.postCounter.next(lenght);
+  // }
 }

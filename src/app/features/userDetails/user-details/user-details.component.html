@@ -2,4 +2,13 @@
   <app-user-profile [userId]="userId"></app-user-profile>
   <app-post-list [userId]="userId"></app-post-list>
 </div>
+<div class="goToList">
+  <button
+    mat-raised-button
+    color="accent"
+  >
+    Back
+  </button>
+</div>
+<app-comments></app-comments>
 <router-outlet></router-outlet>

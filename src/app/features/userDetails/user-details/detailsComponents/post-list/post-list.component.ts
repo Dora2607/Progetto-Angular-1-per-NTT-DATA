@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Component, Input, OnInit } from '@angular/core';
 import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
@@ -15,6 +16,8 @@ export class PostListComponent implements OnInit{
   userProfile!: Users;
   emptyPosts:boolean=false;
   
+  
+  
   constructor(
     private usersService: UsersService,
     private userIdentity: UserIdentityService,
@@ -25,20 +28,20 @@ export class PostListComponent implements OnInit{
       (posts:Array<Posts>) => {
         this.posted = posts;
         if(this.posted.length!=0){
+          // this.userIdentity.changePostedCounter(this.posted.length)
           return this.emptyPosts=false;
         }else{
           return this.emptyPosts=true;
         }
+        
       }
     )
+    // Get the profile of the user
     this.userIdentity.getUser(this.userId).subscribe(
       (data) => {
         this.userProfile = data;
       }
     );
   }
-
-
-
-
+  
 }
