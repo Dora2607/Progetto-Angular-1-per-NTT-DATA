@@ -1,2 +1,27 @@
 <p>comments works!</p>
 
+<mat-card class="commentContainer" *ngFor="let comment of commentsList[postId]">
+  <div class="commentBorder"></div>
+  <div class="commentContent">
+    <mat-card-header>
+      <mat-card-title class="commentTitle">{{ comment.name }}</mat-card-title>
+      <mat-card-subtitle class="commentSubtitle"
+        >by: {{ comment.email }}</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content>
+      {{ comment.body }}
+    </mat-card-content>
+  </div>
+  <!-- <mat-card-actions class="postFooter">
+    <button mat-button (click)="toggleComments(post.id)">
+      <strong>{{
+        isComponentVisible[post.id] ? "Hide Comments" : "Show Comments"
+      }}</strong>
+    </button>
+  </mat-card-actions>
+   Pop up for comments
+  <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
+    <app-comments></app-comments>
+  </div> -->
+</mat-card>

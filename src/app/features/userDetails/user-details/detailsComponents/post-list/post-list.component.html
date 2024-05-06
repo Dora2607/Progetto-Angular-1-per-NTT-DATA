@@ -7,15 +7,18 @@
         <mat-card-subtitle class="postSubtitle">by: {{userProfile.name}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        
           {{ post.body }}
-        
       </mat-card-content>
     </div>
     <mat-card-actions class="postFooter">
-      <button mat-button><strong>Show Comments</strong></button>
+      <button mat-button (click)="toggleComments(post.id)"><strong>{{isComponentVisible[post.id] ? 'Hide Comments':'Show Comments'}}</strong></button>
     </mat-card-actions>
+      <!-- Pop up for comments -->
+    <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
+      <app-comments [postId]="post.id"></app-comments>
+    </div>    
   </mat-card>
+
   <div class="emptyPost" *ngIf="emptyPosts">
     <h3>There are no posts from this user</h3>
   </div>

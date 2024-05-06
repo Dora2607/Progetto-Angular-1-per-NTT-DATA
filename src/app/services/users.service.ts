@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { Users, newUser } from '../models/users.model';
 import { Posts } from '../models/posts.model';
+import { Comments } from '../models/comments.model';
 
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
 const USERS_URL_SHORT  = 'https://gorest.co.in/public/v2/users'
+const POSTS_URL_SHORT = 'https://gorest.co.in/public/v2/posts'
+
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +44,9 @@ export class UsersService {
 
   getPosts(userId:number): Observable<Array<Posts>>{
     return this.httpClient.get<Array<Posts>>(`${USERS_URL_SHORT}/${userId}/posts`)
+  }
+
+  getComments(postId:number): Observable<Array<Comments>>{
+    return this.httpClient.get<Array<Comments>>(`${POSTS_URL_SHORT}/${postId}/comments`)
   }
 }

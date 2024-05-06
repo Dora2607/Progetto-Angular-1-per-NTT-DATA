@@ -13,6 +13,7 @@ import { Users } from '../../../models/users.model';
 export class UserDetailsComponent implements OnInit {
   userId!: string;
   userProfile!: Users;
+  
 
   constructor(
     private route: ActivatedRoute,
