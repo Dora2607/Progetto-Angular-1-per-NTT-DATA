@@ -8,40 +8,32 @@ import { Users } from '../../../../../models/users.model';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrl: './post-list.component.scss'
+  styleUrl: './post-list.component.scss',
 })
-export class PostListComponent implements OnInit{
-  @Input() userId!: string;
-  posted: Array<Posts> = []; 
+export class PostListComponent implements OnInit {
+  posted: Array<Posts> = [];
   userProfile!: Users;
-  emptyPosts:boolean=false;
-  
-  
-  
-  constructor(
-    private usersService: UsersService,
-    private userIdentity: UserIdentityService,
-  ) { }
+  emptyPosts: boolean = false;
+
+  constructor(private userIdentity: UserIdentityService) {}
 
   ngOnInit(): void {
-    this.usersService.getPosts(+this.userId).subscribe(
-      (posts:Array<Posts>) => {
-        this.posted = posts;
-        if(this.posted.length!=0){
-          // this.userIdentity.changePostedCounter(this.posted.length)
-          return this.emptyPosts=false;
-        }else{
-          return this.emptyPosts=true;
-        }
-        
+
+    // Get the posts of the user
+    this.userIdentity.currentPosts.subscribe((posts) => {
+      this.posted = posts;
+      if (this.posted.length != 0) {
+        // this.userIdentity.changePostedCounter(this.posted.length)
+        return (this.emptyPosts = false);
+      } else {
+        return (this.emptyPosts = true);
       }
-    )
+    });
+
     // Get the profile of the user
-    this.userIdentity.getUser(this.userId).subscribe(
-      (data) => {
-        this.userProfile = data;
-      }
-    );
+    this.userIdentity.currentUser.subscribe((data) => {
+      this.userProfile = data;
+    });
   }
   
 }

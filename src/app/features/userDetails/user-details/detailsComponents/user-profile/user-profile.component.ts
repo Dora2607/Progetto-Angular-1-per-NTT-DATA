@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { Users } from '../../../../../models/users.model';
 import { UsersService } from '../../../../../services/users.service';
@@ -10,10 +10,10 @@ import { Posts } from '../../../../../models/posts.model';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  @Input() userId!: string;
+ 
+  posted: Array<Posts>=[];
   userProfile!: Users;
   randomDescription: string = '';
-  posted: Array<Posts> = [];
   postNumber: number = 0;
 
   constructor(
@@ -22,16 +22,15 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userIdentity.getUser(this.userId).subscribe((data) => {
-      this.userProfile = data;
-    });
-    this.randomDescription = this.userIdentity.getUserDescription();
 
-    this.usersService
-      .getPosts(+this.userId)
-      .subscribe((posts: Array<Posts>) => {
-        this.posted = posts;
-        this.postNumber = this.posted.length;
-      });
+    this.userIdentity.currentUser.subscribe(user =>{
+      this.userProfile = user;
+      this.randomDescription = this.userIdentity.getUserDescription();
+    })
+    
+    this.userIdentity.currentPosts.subscribe(posts =>{
+      this.posted=posts;
+      this.postNumber = this.posted.length;
+    })
   }
 }

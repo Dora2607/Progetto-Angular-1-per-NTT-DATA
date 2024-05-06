@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
+import { Posts } from '../models/posts.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +10,17 @@ import { UserDataService } from './user-data.service';
 export class UserIdentityService {
   userDescriptions: string[] = [];
 
-  // private postCounter = new BehaviorSubject<number>(0);
+  private identityUserSource = new BehaviorSubject<Users>({
+    id: 0,
+    name: '',
+    email: '',
+    gender: '',
+    status: '',
+  });
+  currentUser = this.identityUserSource.asObservable();
 
-  // currentPostCounter = this.postCounter.asObservable();
-
-  
+  private postsSource = new BehaviorSubject<Array<Posts>>([]);
+  currentPosts = this.postsSource.asObservable();
 
   constructor(private userDataService: UserDataService) {}
 
@@ -40,8 +47,16 @@ export class UserIdentityService {
     ];
 
     return this.userDescriptions[
-        Math.floor(Math.random() * this.userDescriptions.length)
-      ];
+      Math.floor(Math.random() * this.userDescriptions.length)
+    ];
+  }
+
+  emitUpdatePosts(posts: Array<Posts>) {
+    this.postsSource.next(posts);
+  }
+
+  emitUpdateUser(user:Users){
+    this.identityUserSource.next(user)
   }
 
   // changePostedCounter(lenght:number){
