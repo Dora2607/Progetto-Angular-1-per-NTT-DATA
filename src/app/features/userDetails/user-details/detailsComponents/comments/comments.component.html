@@ -1,15 +1,13 @@
-<p>comments works!</p>
-
-<mat-card class="commentContainer" *ngFor="let comment of commentsList[postId]">
+<div class="commentContainer" *ngFor="let comment of commentsList[postId]">
   <div class="commentBorder"></div>
   <div class="commentContent">
-    <mat-card-header>
-      <mat-card-title class="commentTitle">{{ comment.name }}</mat-card-title>
+    <mat-card-header class="commentHeader">
+      <mat-card-title class="commentTitle">{{ comment.name }} <span><mat-icon> reply</mat-icon></span></mat-card-title>
       <mat-card-subtitle class="commentSubtitle"
         >by: {{ comment.email }}</mat-card-subtitle
       >
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="commentBody">
       {{ comment.body }}
     </mat-card-content>
   </div>
@@ -24,4 +22,5 @@
   <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
     <app-comments></app-comments>
   </div> -->
-</mat-card>
+</div>
+

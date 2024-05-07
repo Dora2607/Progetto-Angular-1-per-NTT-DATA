@@ -1,0 +1,15 @@
+@import '../../../../../../styles.scss';
+
+.commentContainer{
+    width: 100%;
+    border-bottom: 3px solid $primary-color;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    .commentContent{
+        padding-left: 2rem;
+        .commentHeader{
+            margin-top: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
+    }
+}
