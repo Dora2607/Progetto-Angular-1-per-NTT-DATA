@@ -44,7 +44,7 @@ export class UsersViewComponent  {
 
 
   deleteButton(): void{
-    this.delete = true;
+    this.delete = !this.delete;
     this.userDataService.deleteButtonClicked.next(this.delete)
   }
 
