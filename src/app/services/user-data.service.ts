@@ -51,6 +51,7 @@ export class UserDataService {
     this.users.push(user);
     this.emitUsersChange();
     this.setDisplayedUsers(this.users);
+    
   }
 
   getDisplayedUsers() {

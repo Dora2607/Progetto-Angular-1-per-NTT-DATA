@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
 import { Subscription } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
-import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
   users: Array<Users> = [];
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
@@ -19,7 +19,7 @@ export class UsersListComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
-    private route: ActivatedRoute,
+    
   ) {}
 
   ngOnInit(): void {
@@ -30,14 +30,19 @@ export class UsersListComponent implements OnInit {
       this.displayedUsers = this.userDataService.getDisplayedUsers();
     }
 
-    this.userDataService.usersChanged.subscribe((users: Array<Users>) => {
-      this.users = users;
-    });
-
-    this.userDataService.displayedUsersChanged.subscribe(
-      (displayedUsers: Array<Users>) => {
-        this.displayedUsers = displayedUsers;
+    this.usersSubscription = this.userDataService.usersChanged.subscribe(
+      (users: Array<Users>) => {
+        this.users = users;
       },
+    );
+
+    this.usersSubscription.add(
+      this.userDataService.displayedUsersChanged.subscribe(
+        (displayedUsers: Array<Users>) => {
+          this.displayedUsers = displayedUsers;
+          
+        },
+      ),
     );
 
     this.userDataService.deleteButtonClicked.subscribe(
@@ -48,9 +53,10 @@ export class UsersListComponent implements OnInit {
   }
 
   getAllUser(): void {
-    this.usersSubscription = this.usersService.getUsers().subscribe((users) => {
+    this.usersService.getUsers().subscribe((users) => {
       this.userDataService.setUsers(users);
       this.userDataService.setDisplayedUsers([...users]);
+      
     });
   }
 
@@ -67,6 +73,12 @@ export class UsersListComponent implements OnInit {
   }
 
   goToPreviousPage(): boolean {
-    return (this.deleteButton = false);
+    return (this.deleteButton = !this.deleteButton);
+  }
+
+  ngOnDestroy(): void {
+    if(this.usersSubscription){
+      this.usersSubscription.unsubscribe();
+    }
   }
 }

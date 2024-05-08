@@ -20,4 +20,16 @@ describe('UsersListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should subscribe to usersChanged on ngOnInit', ()=>{
+  //   spyOn(userDataService.usersChanged, 'subscribe');
+  //   component.ngOnInit();
+  //   expect(userDataService.usersChanged.subscribe).toHaveBeenCalled();
+  // })
+
+  // it('should subscribe to displayedUsersChanged on ngOnInit', ()=>{
+  //   spyOn(userDataService.displayedUsersChanged, 'subscribe');
+  //   component.ngOnInit();
+  //   expect(userDataService.displayedUsersChanged.subscribe).toHaveBeenCalled();
+  // })
 });

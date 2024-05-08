@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Users } from '../../models/users.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
 
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
-  users: Array<Users> = [];
-  displayedUsers: Array<Users> = [];
+export class HomeComponent implements OnInit, OnDestroy {
+
   showUsersList: boolean = true;
+  subscription: Subscription | undefined;
 
   constructor(
     private userDataService: UserDataService,
@@ -20,16 +20,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userDataService.usersChanged.subscribe((users: Array<Users>) => {
-      this.users = users;
-    });
-
-    this.userDataService.displayedUsersChanged.subscribe(
-      (displayedUsers: Array<Users>) => {
-        this.displayedUsers = displayedUsers;
-      },
-    );
-    this.userDataService.addUserButtonClicked.subscribe(
+    this.subscription = this.userDataService.addUserButtonClicked.subscribe(
       (showUsersList: boolean) => {
         this.showUsersList = !showUsersList;
         if (!this.showUsersList) {
@@ -45,5 +36,10 @@ export class HomeComponent implements OnInit {
 
   onUsersCountChange(count: number): void {
     this.userDataService.updateUsersCount(count);
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription)
+    this.subscription.unsubscribe();
   }
 }

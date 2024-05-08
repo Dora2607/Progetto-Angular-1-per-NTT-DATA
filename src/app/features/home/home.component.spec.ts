@@ -6,7 +6,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { UserDataService } from '../../services/user-data.service';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Users } from '../../models/users.model';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -15,8 +14,6 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     const userDataServiceMock = {
-      usersChanged: new Subject<Array<Users>>(),
-      displayedUsersChanged: new Subject<Array<Users>>(),
       addUserButtonClicked: new Subject<boolean>(),
       updateStatus: jasmine.createSpy('updateStatus'),
       updateUsersCount: jasmine.createSpy('updateUsersCount'),
@@ -38,40 +35,27 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should subscribe to usersChanged on ngOnInit', ()=>{
-    spyOn(userDataService.usersChanged, 'subscribe');
+  it('should subscribe to addUserButtonClicked on ngOnInit', () => {
+    spyOn(userDataService.addUserButtonClicked, 'subscribe');
     component.ngOnInit();
-    expect(userDataService.usersChanged.subscribe).toHaveBeenCalled();
-  })
-
-  it('should subscribe to displayedUsersChanged on ngOnInit', ()=>{
-    spyOn(userDataService.displayedUsersChanged, 'subscribe');
-    component.ngOnInit();
-    expect(userDataService.displayedUsersChanged.subscribe).toHaveBeenCalled();
-  })
+    expect(userDataService.addUserButtonClicked.subscribe).toHaveBeenCalled();
+  });
 
   it('should call updateStatus when onStatusChange is called', () => {
     component.onStatusChange('test-status');
     expect(userDataService.updateStatus).toHaveBeenCalledWith('test-status');
   });
-  
+
   it('should call updateUsersCount when onUsersCountChange is called', () => {
     component.onUsersCountChange(5);
     expect(userDataService.updateUsersCount).toHaveBeenCalledWith(5);
   });
 
-
   it('should toggle showUsersList and navigate when addUserButtonClicked emits', () => {
-    
     const navigateSpy = spyOn(TestBed.inject(Router), 'navigate');
     component.showUsersList = false;
     userDataService.addUserButtonClicked.next(true);
     expect(component.showUsersList).toBe(false);
     expect(navigateSpy).toHaveBeenCalledWith(['/home/addUser']);
-    
   });
-
-
 });
-  
-
