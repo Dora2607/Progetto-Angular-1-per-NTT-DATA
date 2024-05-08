@@ -4,19 +4,35 @@
     <div class="postContent">
       <mat-card-header>
         <mat-card-title class="postTitle">{{ post.title }}</mat-card-title>
-        <mat-card-subtitle class="postSubtitle">by: {{userProfile.name}}</mat-card-subtitle>
+        <mat-card-subtitle class="postSubtitle"
+          >by: {{ userProfile.name }}</mat-card-subtitle
+        >
       </mat-card-header>
       <mat-card-content>
-          {{ post.body }}
+        {{ post.body }}
       </mat-card-content>
     </div>
     <mat-card-actions class="postFooter">
-      <button mat-button (click)="toggleComments(post.id)"><strong>{{isComponentVisible[post.id] ? 'Hide Comments':'Show Comments'}}</strong></button>
+      <div class="btntoggle">
+        <button mat-button (click)="toggleComments(post.id)">
+          <ng-container *ngIf="isComponentVisible[post.id]; else elseBlock">
+            <mat-icon mat-icon-button>chat</mat-icon>
+          </ng-container>
+          <ng-template #elseBlock>
+            <mat-icon mat-icon-button>chat_bubble</mat-icon>
+          </ng-template>
+        </button>
+      </div>
+      <div class="btnAddComment">
+        <button mat-icon-button>
+          <mat-icon>reply</mat-icon>
+        </button>
+      </div>
     </mat-card-actions>
-      <!-- Pop up for comments -->
+    <!-- Pop up for comments -->
     <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
       <app-comments [postId]="post.id"></app-comments>
-    </div>    
+    </div>
   </mat-card>
 
   <div class="emptyPost" *ngIf="emptyPosts">

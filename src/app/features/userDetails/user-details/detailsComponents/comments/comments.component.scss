@@ -5,8 +5,8 @@
   border-bottom: 3px solid $primary-color;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  .commentContent {
-    padding-left: 2rem;
+  .commentContent,.emptyComments {
+    padding: 2rem;
     .commentHeader {
       margin-top: 1.5rem;
       padding-bottom: 0.5rem;
@@ -16,13 +16,27 @@
         justify-content: space-between;
       }
     }
+    .btnReply{
+      width: 100%;
+      text-align: right;
+    }
   }
 }
 
 @media (min-width: $breakpoint-medium) {
   .commentContainer {
-    .commentContent {
+    .commentContent, .emptyComments {
       padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-large) {
+  .commentContainer {
+    .commentContent .emptyComments {
+      padding-left: 8rem;
+      padding-right: 8rem;
     }
   }
 }

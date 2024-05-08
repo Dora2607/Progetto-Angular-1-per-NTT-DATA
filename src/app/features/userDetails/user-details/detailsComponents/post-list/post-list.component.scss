@@ -24,11 +24,16 @@
   }
   .postFooter {
     background-color: $cadet-gray;
-    padding: 0.5rem;
-    button {
-      margin: auto;
-      padding: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: flex-end;
+    padding: 1rem;
+    .mat-icon{
+      color: $alice-blue;
     }
+
   }
   .emptyPost{
     margin-top: 2.5rem;
