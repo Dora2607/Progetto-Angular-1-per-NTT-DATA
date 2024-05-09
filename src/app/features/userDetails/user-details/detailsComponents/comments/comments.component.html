@@ -1,13 +1,14 @@
-<div class="commentContainer">
+<!-- <div class="commentContainer">
   <ng-container *ngIf="commentsList[postId]?.length !== 0; else noComments">
     <div class="commentContent" *ngFor="let comment of commentsList[postId]">
       <mat-card-header class="commentHeader">
-        <mat-card-title class="commentTitle"
-          >{{ comment.name }}></mat-card-title
-        >
+        <mat-card-title class="commentTitle">
+          {{ comment.name }}
+        </mat-card-title>
         <mat-card-subtitle class="commentSubtitle"
-          >by: {{ comment.email }}</mat-card-subtitle
-        >
+          >by:
+          {{ comment.email }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="commentBody">
         {{ comment.body }}
@@ -24,15 +25,32 @@
       <mat-card-content>There are no comments.</mat-card-content>
     </div>
   </ng-template>
-  <!-- <mat-card-actions class="postFooter">
-    <button mat-button (click)="toggleComments(post.id)">
-      <strong>{{
-        isComponentVisible[post.id] ? "Hide Comments" : "Show Comments"
-      }}</strong>
-    </button>
-  </mat-card-actions>
-   Pop up for comments
-  <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
-    <app-comments></app-comments>
-  </div> -->
+</div> -->
+<div class="commentContainer" *ngIf="loaded; else loading">
+  <ng-container *ngIf="commentsArray.length !== 0; else noComments">
+    <div class="commentContent" *ngFor="let comment of commentsArray">
+      <mat-card-header class="commentHeader">
+        <mat-card-title class="commentTitle">
+          {{ comment.name }}
+        </mat-card-title>
+        <mat-card-subtitle class="commentSubtitle"
+          >by:
+          {{ comment.email }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="commentBody">
+        {{ comment.body }}
+      </mat-card-content>
+    </div>
+  </ng-container>
+  <ng-template #noComments>
+    <div class="emptyComments">
+      <mat-card-content>There are no comments.</mat-card-content>
+    </div>
+  </ng-template>
 </div>
+<ng-template #loading>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

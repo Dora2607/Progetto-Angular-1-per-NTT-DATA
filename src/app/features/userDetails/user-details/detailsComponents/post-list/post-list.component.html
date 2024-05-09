@@ -25,11 +25,14 @@
       </div>
       <div class="btnAddComment">
         <button mat-icon-button>
-          <mat-icon>reply</mat-icon>
+          <mat-icon>create</mat-icon>
         </button>
       </div>
     </mat-card-actions>
     <!-- Pop up for comments -->
+    <!-- <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
+      <app-comments [postId]="post.id"></app-comments>
+    </div> -->
     <div class="popupCommentBox" *ngIf="isComponentVisible[post.id]">
       <app-comments [postId]="post.id"></app-comments>
     </div>

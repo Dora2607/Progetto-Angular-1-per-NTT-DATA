@@ -16,6 +16,7 @@ export class PostListComponent implements OnInit {
   userProfile!: Users;
   emptyPosts: boolean = false;
   isComponentVisible: { [id: number]: boolean } = {};
+  // isComponentVisible:boolean=false
   
 
   constructor(
@@ -40,12 +41,18 @@ export class PostListComponent implements OnInit {
     this.userIdentity.currentUser.subscribe((data) => {
       this.userProfile = data;
     });
+
   }
 
-  toggleComments(id:number){
-    this.isComponentVisible[id] = !this.isComponentVisible[id];
-    this.usersService.getComments(id).subscribe(comments =>{
-      this.userIdentity.emitUpdateComments({postId:id,comments:comments});
-    });
-  }
-}
+  // toggleComments(id:number){
+  //   this.isComponentVisible[id] = !this.isComponentVisible[id];
+  //   this.usersService.getComments(id).subscribe(comments =>{
+  //     this.userIdentity.emitUpdateComments({postId:id,comments:comments});
+  //   });
+  // }
+   toggleComments(id:number){
+     this.isComponentVisible[id] = !this.isComponentVisible[id];
+     }
+   }
+
+
