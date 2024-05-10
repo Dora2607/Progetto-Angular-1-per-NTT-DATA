@@ -4,7 +4,7 @@ import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { Users } from '../../../../../models/users.model';
-import { Comments } from '../../../../../models/comments.model';
+
 
 @Component({
   selector: 'app-post-list',
@@ -16,8 +16,6 @@ export class PostListComponent implements OnInit {
   userProfile!: Users;
   emptyPosts: boolean = false;
   isComponentVisible: { [id: number]: boolean } = {};
-  // isComponentVisible:boolean=false
-  
 
   constructor(
     private userIdentity: UserIdentityService,
@@ -25,7 +23,6 @@ export class PostListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     // Get the posts of the user
     this.userIdentity.currentPosts.subscribe((posts) => {
       this.posted = posts;
@@ -34,25 +31,15 @@ export class PostListComponent implements OnInit {
       } else {
         return (this.emptyPosts = true);
       }
-      
     });
 
     // Get the profile of the user
     this.userIdentity.currentUser.subscribe((data) => {
       this.userProfile = data;
     });
-
   }
 
-  // toggleComments(id:number){
-  //   this.isComponentVisible[id] = !this.isComponentVisible[id];
-  //   this.usersService.getComments(id).subscribe(comments =>{
-  //     this.userIdentity.emitUpdateComments({postId:id,comments:comments});
-  //   });
-  // }
-   toggleComments(id:number){
-     this.isComponentVisible[id] = !this.isComponentVisible[id];
-     }
-   }
-
-
+  toggleComments(id: number) {
+    this.isComponentVisible[id] = !this.isComponentVisible[id];
+  }
+}

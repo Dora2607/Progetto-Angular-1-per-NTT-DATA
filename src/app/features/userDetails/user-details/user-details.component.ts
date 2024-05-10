@@ -4,7 +4,7 @@ import { UsersService } from '../../../services/users.service';
 import { Posts } from '../../../models/posts.model';
 import { UserIdentityService } from '../../../services/user-identity.service';
 import { Users } from '../../../models/users.model';
-import { Comments } from '../../../models/comments.model';
+
 
 @Component({
   selector: 'app-user-details',
@@ -15,7 +15,7 @@ export class UserDetailsComponent implements OnInit {
   userId!: string;
   userProfile!: Users;
   posts: Array<Posts> = [];
-  allComments:Comments[][]=[]
+
 
   constructor(
     private route: ActivatedRoute,
@@ -27,26 +27,6 @@ export class UserDetailsComponent implements OnInit {
     this.userId = this.route.snapshot.params['id'];
     this.getUserById(+this.userId);
     this.updatedPosts(+this.userId);
-
-    this.usersService.getPosts(+this.userId).subscribe(posts=>{
-      this.posts =posts;
-      this.posts.forEach(post =>{
-        this.usersService.getComments(post.id).subscribe(
-          comments =>{
-            this.allComments.push(comments)
-          }
-        )
-
-      })
-    })
-    console.log(this.allComments)
-    console.log(this.allComments.length)
-
-    for (let i: number=0; i<this.allComments.length;i++){
-      console.log(i)
-    }
-
-    this.userIdentity.emitUpdateCommentsCount(this.allComments.length)
 
   }
 

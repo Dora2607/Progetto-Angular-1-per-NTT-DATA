@@ -3,7 +3,7 @@ import { UserIdentityService } from '../../../../../services/user-identity.servi
 import { Users } from '../../../../../models/users.model';
 import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
-import { Comments } from '../../../../../models/comments.model';
+
 
 
 @Component({
@@ -17,9 +17,7 @@ export class UserProfileComponent implements OnInit {
   userProfile!: Users;
   randomDescription: string = '';
   postNumber: number = 0;
-  commentsList:{ [id:number]: Array<Comments>}={}; 
-  commentNumber: number = 0;
-  postId:number=0;
+  
 
 
   constructor(
@@ -39,8 +37,5 @@ export class UserProfileComponent implements OnInit {
       this.postNumber = this.posted.length;
     })
 
-    this.userIdentity.currentCommentsCount.subscribe(count =>{
-      this.commentNumber = count;
-    })
   }
 }
