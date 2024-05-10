@@ -11,10 +11,11 @@ import { LogoService } from '../../services/logo.service';
 export class LoginComponent implements OnInit{
 
   public loginForm !: FormGroup;
+  public signupForm!: FormGroup;
 
   emailTouched = false;
   passwordTouched = false;
-  
+  isChecked: boolean = false;
   
   
   constructor(
@@ -29,6 +30,10 @@ export class LoginComponent implements OnInit{
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required], 
     })
+    this.signupForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    })
+
   }
 
   login(): void {
@@ -39,8 +44,16 @@ export class LoginComponent implements OnInit{
 
   }
 
+  signup(): void {
+    console.log('ciao')
+  }
+
 
   logout(): void {
     this.store.dispatch(logout());
+  }
+
+  toggleCheck() {
+    this.isChecked = !this.isChecked;
   }
 }
