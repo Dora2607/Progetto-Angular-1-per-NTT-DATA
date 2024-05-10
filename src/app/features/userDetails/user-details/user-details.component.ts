@@ -4,6 +4,7 @@ import { UsersService } from '../../../services/users.service';
 import { Posts } from '../../../models/posts.model';
 import { UserIdentityService } from '../../../services/user-identity.service';
 import { Users } from '../../../models/users.model';
+import { Todos } from '../../../models/todos.model';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class UserDetailsComponent implements OnInit {
     this.userId = this.route.snapshot.params['id'];
     this.getUserById(+this.userId);
     this.updatedPosts(+this.userId);
+    this.updatedTodos(+this.userId);
 
   }
 
@@ -40,6 +42,12 @@ export class UserDetailsComponent implements OnInit {
     this.usersService.getPosts(id).subscribe((posts: Array<Posts>) => {
       this.userIdentity.emitUpdatePosts(posts);
     });
+  }
+
+  updatedTodos(id:number){
+    this.usersService.getTodos(id).subscribe((todos: Array<Todos>)=>{
+      this.userIdentity.emitUpdateTodos(todos);
+    })
   }
 
   // go to back

@@ -4,6 +4,7 @@ import { Observable} from 'rxjs';
 import { Users, newUser } from '../models/users.model';
 import { Posts } from '../models/posts.model';
 import { Comments } from '../models/comments.model';
+import { Todos } from '../models/todos.model';
 
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
@@ -49,4 +50,10 @@ export class UsersService {
   getComments(postId:number): Observable<Array<Comments>>{
     return this.httpClient.get<Array<Comments>>(`${POSTS_URL_SHORT}/${postId}/comments`)
   }
+
+  getTodos(userId:number): Observable<Array<Todos>>{
+    return this.httpClient.get<Array<Todos>>(`${USERS_URL_SHORT}/${userId}/todos`)
+  }
+
+
 }

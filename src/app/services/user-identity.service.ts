@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
 import { Posts } from '../models/posts.model';
-
+import { Todos } from '../models/todos.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +23,8 @@ export class UserIdentityService {
   private postsSource = new BehaviorSubject<Array<Posts>>([]);
   currentPosts = this.postsSource.asObservable();
 
-  // private commentsSource = new BehaviorSubject<{[id: number]: Array<Comments>}>({});
-  // currentComments = this.commentsSource.asObservable();
-  private commentsCountSource= new BehaviorSubject<number>(0);
-  public currentCommentsCount = this.commentsCountSource.asObservable();
-
+  private todosSource = new BehaviorSubject<Array<Todos>>([]);
+  currentTodos = this.todosSource.asObservable();
 
   constructor(private userDataService: UserDataService) {}
 
@@ -57,28 +54,13 @@ export class UserIdentityService {
       Math.floor(Math.random() * this.userDescriptions.length)
     ];
   }
-
-  emitUpdatePosts(posts: Array<Posts>) {
-    this.postsSource.next(posts);
-  }
-
   emitUpdateUser(user: Users) {
     this.identityUserSource.next(user);
   }
-
-  // emitUpdateComments(commentsData: {
-  //   postId: number;
-  //   comments: Array<Comments>;
-  // }) {
-  //   const currentComments = this.commentsSource.getValue();
-  //   currentComments[commentsData.postId] = commentsData.comments;
-  //   this.commentsSource.next(currentComments);
-  // }
-
-  emitUpdateCommentsCount(num:number){
-    this.commentsCountSource.next(num);
+  emitUpdatePosts(posts: Array<Posts>) {
+    this.postsSource.next(posts);
   }
-
+  emitUpdateTodos(todos: Array<Todos>) {
+    this.todosSource.next(todos);
   }
-
-
+}
