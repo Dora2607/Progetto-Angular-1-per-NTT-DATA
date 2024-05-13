@@ -4,6 +4,7 @@
       <app-logo></app-logo>
     </div>
     <div class="mainContainer">
+      <!--Login Form-->
       <mat-card
         class="loginCard"
         [ngClass]="{ disappear: isChecked, show: !isChecked }"
@@ -80,31 +81,36 @@
         </mat-card-content>
       </mat-card>
 
+      <!--Signup Form-->
       <mat-card
         class="signupCard"
         [ngClass]="{ disappear: !isChecked, show: isChecked }"
       >
         <mat-card-title class="cardTitle">Sign up</mat-card-title>
         <mat-card-content class="content">
-          <form class="loginForm" [formGroup]="signupForm" (ngSubmit)="signup()">
-            <mat-form-field class="inputField">
-              <mat-label>Name</mat-label>
+          <form
+            class="signupForm"
+            [formGroup]="signupForm"
+            (ngSubmit)="signup()"
+          >
+            <mat-form-field class="inputForm">
               <input
-                matInput
-                id="name"
+                class="inputField"
                 type="text"
-                placeholder="Lisa"
+                matInput
+                placeholder="Name"
                 formControlName="name"
                 autocomplete="name"
               />
             </mat-form-field>
-            <mat-form-field class="inputField">
+            <mat-form-field class="inputForm">
               <mat-label>Gender</mat-label>
               <mat-select id="gender" formControlName="gender">
                 <mat-option value="male">Male</mat-option>
                 <mat-option value="female">Female</mat-option>
               </mat-select>
             </mat-form-field>
+
             <mat-form-field class="inputForm">
               <input
                 class="inputField"
@@ -116,12 +122,12 @@
               />
               <mat-error
                 *ngIf="
-                  loginForm.get('email')?.dirty &&
-                  !loginForm.get('email')?.valid &&
+                  signupForm.get('email')?.dirty &&
+                  !signupForm.get('email')?.valid &&
                   emailTouched
                 "
               >
-                <span *ngIf="loginForm.get('email')?.errors"
+                <span *ngIf="signupForm.get('email')?.errors"
                   >Please enter a valid email address.</span
                 >
               </mat-error>
@@ -139,12 +145,12 @@
               />
               <mat-error
                 *ngIf="
-                  loginForm.get('password')?.dirty &&
-                  !loginForm.get('password')?.valid &&
+                  signupForm.get('password')?.dirty &&
+                  !signupForm.get('password')?.valid &&
                   passwordTouched
                 "
               >
-                <span *ngIf="loginForm.get('password')?.errors"
+                <span *ngIf="signupForm.get('password')?.errors"
                   >Please enter a valid password.</span
                 >
               </mat-error>
@@ -155,7 +161,7 @@
                 color="primary"
                 type="submit"
                 mat-button
-                [disabled]="!loginForm.valid"
+                [disabled]="!signupForm.valid"
               >
                 Sign up
               </button>

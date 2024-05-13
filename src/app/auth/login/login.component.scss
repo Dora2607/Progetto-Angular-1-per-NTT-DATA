@@ -1,5 +1,39 @@
 @import "../../../styles.scss";
 
+$card-transition: opacity 0.6s ease, visibility 0.6s ease, transform 0.6s ease;
+$container-width: 350px;
+$container-height: 250px;
+$container-max-height: 540px;
+$card-form-width: 70%;
+
+@mixin card-show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+@mixin card-hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@mixin card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: $container-max-height;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 10px 10px;
+  @include card-hide;
+  transform: scale(0.8);
+  transition: $card-transition;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -22,7 +56,7 @@
   .flexDiv {
     width: 80%;
     min-height: 80vh;
-    max-height: 420px;
+    max-height: $container-max-height;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,13 +68,15 @@
 .logoContainer,
 .mainContainer {
   height: 100%;
-  max-height: 220px;
-  width: 350px;
+  max-height: $container-height;
+  width: $container-width;
 }
 
 .mainContainer {
-  max-height: 420px;
+  // max-height: $container-max-height;
   position: relative;
+  max-height: 640px;
+    height: 600pc;
 }
 
 .logoContainer {
@@ -56,22 +92,9 @@
   }
 }
 
-.loginCard, .signupCard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  max-height: 420px;
-  height: 100%;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 0 0 10px 10px;
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(0.8);
-  transition: opacity 0.6s ease, visibility 0.6s ease, transform 0.6s ease;
+.loginCard,
+.signupCard {
+  @include card;
 
   .cardTitle {
     width: 100%;
@@ -81,8 +104,10 @@
     padding: 0.75rem;
     text-align: center;
   }
-  .loginForm {
-    width: 70%;
+
+  .loginForm,
+  .signupForm {
+    width: $card-form-width;
     margin: auto;
     margin-top: 2rem;
     display: flex;
@@ -92,34 +117,53 @@
     .inputForm {
       padding-bottom: 1.2rem;
     }
-    .btnForm{
+
+    .btnForm {
       display: flex;
       flex-direction: column;
       align-items: center;
-    button {
-      min-width: 215px;
-      min-height: 38px;
-      
-    }
-    p {
-      padding: 0.5rem;
+
+      button {
+        min-width: 215px;
+        min-height: 38px;
+      }
+
+      p {
+        padding: 0.5rem;
+      }
     }
   }
+}
+
+.signupCard{
+  height: $container-max-height;
+  .signupForm{
+    .inputForm {
+      padding-bottom: 0;
+
+    }
+    .btnForm {
+      button{
+        min-height: 20px;
+        
+      }
+      p{
+        padding: 0.25rem;
+      }
+    }
   }
 }
 
-
-
- .loginCard.show, .signupCard.show {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
+.loginCard.show,
+.signupCard.show {
+  @include card-show;
 }
 
-.loginCard.disappear, .signupCard.disappear {
-  opacity: 0;
-  visibility: hidden;
+.loginCard.disappear,
+.signupCard.disappear {
+  @include card-hide;
 }
+
 
 @media (min-width: $breakpoint-small) {
   .container {
@@ -131,13 +175,16 @@
   .logoContainer,
   .mainContainer {
     height: 100%;
-    max-height: 420px;
-    width: 350px;
+    max-height: $container-max-height;
+    width: $container-width;
   }
 
   .logoContainer {
     border-radius: 10px 0 0 10px;
-    box-shadow:  rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    box-shadow:
+      rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+      rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
     transition: 0.4s;
 
     & * {
@@ -146,9 +193,12 @@
       cursor: default;
     }
   }
-  .loginCard,.signupCard {
+
+  .loginCard,
+  .signupCard {
     border-radius: 0 10px 10px 0;
-    .cardTitle{
+
+    .cardTitle {
       border-radius: 0 10px 0 0;
     }
   }
@@ -171,14 +221,18 @@
     width: 450px;
   }
 
-  .loginCard,.signupCard {
+  .loginCard,
+  .signupCard {
     max-height: 520px;
     height: 100%;
-    .loginForm {
+
+    .loginForm,
+    .signupForm {
       width: 90%;
       margin-top: 2rem;
+
       .inputForm {
-        padding-bottom: 1.6rem;
+        // padding-bottom: 1.6rem;
         width: 300px;
       }
     }
@@ -193,11 +247,13 @@
     width: 550px;
   }
 
-  .loginCard, .signupCard {
+  .loginCard,
+  .signupCard {
     max-height: 620px;
     height: 100%;
 
-    .loginForm {
+    .loginForm,
+    .signupForm {
       margin-top: 4rem;
       width: 100%;
 
@@ -208,5 +264,3 @@
   }
 }
 
-@media (min-width: $breakpoint-xlarge) {
-}

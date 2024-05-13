@@ -5,7 +5,7 @@ import { Users, newUser } from '../models/users.model';
 import { Posts } from '../models/posts.model';
 import { Comments } from '../models/comments.model';
 import { Todos } from '../models/todos.model';
-
+import { TOKEN } from '../token';
 
 const USERS_URL = 'https://gorest.co.in/public/v2/users?page=1&per_page=30';
 const USERS_URL_SHORT  = 'https://gorest.co.in/public/v2/users'
@@ -28,6 +28,15 @@ export class UsersService {
 
   addUser(user:newUser){
     const token = localStorage.getItem('token');
+    return this.httpClient.post(
+      `${USERS_URL_SHORT}`,
+      user,
+      { headers: { Authorization: `Bearer ${token}` }},
+    )
+  }
+
+  registerUser(user:newUser){
+    const token = TOKEN;
     return this.httpClient.post(
       `${USERS_URL_SHORT}`,
       user,

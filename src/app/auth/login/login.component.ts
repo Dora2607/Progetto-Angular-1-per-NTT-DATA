@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { login, logout } from '../../state/auth/auth.actions';
+import { login, logout, register } from '../../state/auth/auth.actions';
 import { LogoService } from '../../services/logo.service';
 @Component({
   selector: 'app-login',
@@ -31,7 +31,10 @@ export class LoginComponent implements OnInit{
       password: ['', Validators.required], 
     })
     this.signupForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      gender: ['',Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     })
 
   }
@@ -45,7 +48,15 @@ export class LoginComponent implements OnInit{
   }
 
   signup(): void {
-    console.log('ciao')
+    if(this.signupForm.valid){
+      this.store.dispatch(register({
+        name: this.signupForm.value.name,
+        gender: this.signupForm.value.gender,
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password,
+      }));
+      // this.signupForm.reset();
+    }
   }
 
 
