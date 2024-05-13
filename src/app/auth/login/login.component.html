@@ -3,8 +3,11 @@
     <div class="logoContainer">
       <app-logo></app-logo>
     </div>
-    <div class="loginContainer">
-      <mat-card class="loginCard">
+    <div class="mainContainer">
+      <mat-card
+        class="loginCard"
+        [ngClass]="{ disappear: isChecked, show: !isChecked }"
+      >
         <mat-card-title class="cardTitle">Sign in</mat-card-title>
         <mat-card-content class="content">
           <form class="loginForm" [formGroup]="loginForm" (ngSubmit)="login()">
@@ -19,10 +22,10 @@
               />
               <mat-error
                 *ngIf="
-                loginForm.get('email')?.dirty &&
-                !loginForm.get('email')?.valid &&
-                emailTouched
-              "
+                  loginForm.get('email')?.dirty &&
+                  !loginForm.get('email')?.valid &&
+                  emailTouched
+                "
               >
                 <span *ngIf="loginForm.get('email')?.errors"
                   >Please enter a valid email address.</span
@@ -42,17 +45,17 @@
               />
               <mat-error
                 *ngIf="
-                loginForm.get('password')?.dirty &&
-                !loginForm.get('password')?.valid &&
-                passwordTouched
-              "
+                  loginForm.get('password')?.dirty &&
+                  !loginForm.get('password')?.valid &&
+                  passwordTouched
+                "
               >
                 <span *ngIf="loginForm.get('password')?.errors"
                   >Please enter a valid password.</span
                 >
               </mat-error>
             </mat-form-field>
-            <div class="button">
+            <div class="btnForm">
               <button
                 mat-raised-button
                 color="primary"
@@ -60,7 +63,110 @@
                 mat-button
                 [disabled]="!loginForm.valid"
               >
-                Login
+                Log In
+              </button>
+              <p>or</p>
+              <button
+                mat-stroked-button
+                color="accent"
+                type="button"
+                mat-button
+                (click)="toggleCheck()"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card
+        class="signupCard"
+        [ngClass]="{ disappear: !isChecked, show: isChecked }"
+      >
+        <mat-card-title class="cardTitle">Sign up</mat-card-title>
+        <mat-card-content class="content">
+          <form class="loginForm" [formGroup]="signupForm" (ngSubmit)="signup()">
+            <mat-form-field class="inputField">
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                id="name"
+                type="text"
+                placeholder="Lisa"
+                formControlName="name"
+                autocomplete="name"
+              />
+            </mat-form-field>
+            <mat-form-field class="inputField">
+              <mat-label>Gender</mat-label>
+              <mat-select id="gender" formControlName="gender">
+                <mat-option value="male">Male</mat-option>
+                <mat-option value="female">Female</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="inputForm">
+              <input
+                class="inputField"
+                type="email"
+                matInput
+                placeholder="Email"
+                formControlName="email"
+                (blur)="emailTouched = true"
+              />
+              <mat-error
+                *ngIf="
+                  loginForm.get('email')?.dirty &&
+                  !loginForm.get('email')?.valid &&
+                  emailTouched
+                "
+              >
+                <span *ngIf="loginForm.get('email')?.errors"
+                  >Please enter a valid email address.</span
+                >
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="inputForm">
+              <input
+                class="inputField"
+                type="password"
+                matInput
+                placeholder="Password"
+                autocomplete="on"
+                formControlName="password"
+                (blur)="passwordTouched = true"
+              />
+              <mat-error
+                *ngIf="
+                  loginForm.get('password')?.dirty &&
+                  !loginForm.get('password')?.valid &&
+                  passwordTouched
+                "
+              >
+                <span *ngIf="loginForm.get('password')?.errors"
+                  >Please enter a valid password.</span
+                >
+              </mat-error>
+            </mat-form-field>
+            <div class="btnForm">
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                mat-button
+                [disabled]="!loginForm.valid"
+              >
+                Sign up
+              </button>
+              <p>or</p>
+              <button
+                type="button"
+                mat-stroked-button
+                color="accent"
+                (click)="toggleCheck()"
+              >
+                I have an account
               </button>
             </div>
           </form>
