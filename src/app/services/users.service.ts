@@ -64,5 +64,8 @@ export class UsersService {
     return this.httpClient.get<Array<Todos>>(`${USERS_URL_SHORT}/${userId}/todos`)
   }
 
+  getUserDetail(userId:number): Observable<Users>{
+    return this.httpClient.get<Users>(`${USERS_URL_SHORT}/${userId}`)
+  }
 
 }

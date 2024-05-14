@@ -4,28 +4,39 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { login, logout, registerFailure, registerSuccess } from './auth.actions';
+import { loginFailure, loginSuccess, logout, registerFailure, registerSuccess } from './auth.actions';
 import { TOKEN } from '../../token';
 import { Users } from '../../models/users.model';
 
 export interface State {
   user: Users | null;
   token: string | null;
+  loginSuccessful :boolean;
 }
-export const initialState = { user:null, token: null };
+export const initialState = { user:null, token: null, loginSuccessful:false };
 
 export const authReducer = createReducer<State>(
   initialState,
-  on(login, (state: State): State => {
+  on(loginSuccess, (state: State, {user}): State => {
     return {
       ...state,
+      user,
       token: TOKEN,
+      loginSuccessful:true,
+    };
+  }),
+  on(loginFailure, (state: State): State => {
+    return {
+      ...state,
+      token: null,
+      loginSuccessful:false,
     };
   }),
   on(logout, (state: State): State => {
     return {
       ...state,
       token: null,
+      loginSuccessful:false,
     };
   }),
   on(registerSuccess, (state: State, { user }): State => {
@@ -34,14 +45,13 @@ export const authReducer = createReducer<State>(
       user,
     };
   }),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  on(registerFailure, (state: State, { error }): State => {
-    // handle the error
+  on(registerFailure, (state: State): State => {
     return state;
   }),
 );
 
 export const selectAuthState = createFeatureSelector<State>('auth');
+
 
 export const selectToken = createSelector(
   selectAuthState,
@@ -50,5 +60,5 @@ export const selectToken = createSelector(
 
 export const selectIsLoggedIn = createSelector(
   selectAuthState,
-  (auth) => !!auth.token
-)
+  (auth) => auth.loginSuccessful
+);

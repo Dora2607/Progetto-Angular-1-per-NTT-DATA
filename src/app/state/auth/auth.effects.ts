@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   login,
+  loginSuccess,
+  loginFailure,
   logout,
   register,
   registerSuccess,
@@ -22,19 +24,59 @@ export class AuthEffects {
     private usersService: UsersService,
   ) {}
 
+  register$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(register),
+      switchMap((action) => 
+        this.usersService
+          .registerUser({
+            name: action.name,
+            gender: action.gender,
+            email: action.email,
+            status: 'active',
+          })
+          .pipe(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            map((user: any) => {
+              
+              localStorage.setItem(
+                user.email,
+                JSON.stringify({ ...user, password: action.password }),
+              );
+              alert('Registration was successful');
+              return registerSuccess({ user });
+            }),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            catchError((error: any) => of(registerFailure({ error }))),
+          ),
+      ),
+    );
+  });
+
   login$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(login),
-        tap(() => {
-          localStorage.setItem('token', TOKEN);
-          this.router.navigate(['home']);
+        switchMap((action) => {
+          const storedUserString = localStorage.getItem(action.email);
+          if (storedUserString) {
+            const storedUser = JSON.parse(storedUserString);
+            if (storedUser && storedUser.password === action.password) {
+              localStorage.setItem('token', TOKEN);
+              return of(loginSuccess({ user: storedUser }));
+            } else {
+              alert('Invalid credentials');
+              return of(loginFailure({ error: 'Invalid credentials' }));
+            }
+          } else {
+            alert('The user does not exist');
+            return of(loginFailure({ error: 'The user does not exist' }));
+          }
         }),
       );
     },
-    { dispatch: false },
-  );
 
+  );
   logout$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -47,32 +89,4 @@ export class AuthEffects {
     },
     { dispatch: false },
   );
-
-  register$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(register),
-      switchMap((action) =>
-        this.usersService
-          .registerUser({
-            name: action.name,
-            gender: action.gender,
-            email: action.email,
-            status: 'active',
-          })
-          .pipe(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            map((user:any) => {
-              // Save the user id and password to localStorage
-              localStorage.setItem(
-                user.email,
-                JSON.stringify({ id: user.id, password: action.password }),
-              );
-              return registerSuccess({ user });
-            }),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            catchError((error:any) => of(registerFailure({ error }))),
-          ),
-      ),
-    );
-  });
 }
