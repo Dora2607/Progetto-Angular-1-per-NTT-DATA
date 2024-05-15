@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
-
+import { Store } from '@ngrx/store';
+import { selectLoggedInUser } from '../../../../state/auth/auth.reducer';
 
 @Component({
   selector: 'app-users-list',
@@ -15,11 +16,12 @@ export class UsersListComponent implements OnInit, OnDestroy {
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
+  loggedInUser!: Users ;
 
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
-    
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -40,10 +42,18 @@ export class UsersListComponent implements OnInit, OnDestroy {
       this.userDataService.displayedUsersChanged.subscribe(
         (displayedUsers: Array<Users>) => {
           this.displayedUsers = displayedUsers;
-          
         },
       ),
     );
+
+    this.store
+      .select(selectLoggedInUser)
+      .pipe(filter((user) => user !== null && user !== undefined))
+      .subscribe((user) => {
+        if (user) {
+          this.loggedInUser = user;
+        }
+      });
 
     this.userDataService.deleteButtonClicked.subscribe(
       (deleteButton: boolean) => {
@@ -55,8 +65,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
   getAllUser(): void {
     this.usersService.getUsers().subscribe((users) => {
       this.userDataService.setUsers(users);
+      if (this.loggedInUser && !users.find(u => u.id === this.loggedInUser.id)) {
+        this.userDataService.addUser(this.loggedInUser);
+      }
       this.userDataService.setDisplayedUsers([...users]);
-      
     });
   }
 
@@ -77,7 +89,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.usersSubscription){
+    if (this.usersSubscription) {
       this.usersSubscription.unsubscribe();
     }
   }

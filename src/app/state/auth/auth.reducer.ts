@@ -4,39 +4,45 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { loginFailure, loginSuccess, logout, registerFailure, registerSuccess } from './auth.actions';
+import {
+  loginFailure,
+  loginSuccess,
+  logout,
+  registerFailure,
+  registerSuccess,
+} from './auth.actions';
 import { TOKEN } from '../../token';
 import { Users } from '../../models/users.model';
 
 export interface State {
   user: Users | null;
   token: string | null;
-  loginSuccessful :boolean;
+  loginSuccessful: boolean;
 }
-export const initialState = { user:null, token: null, loginSuccessful:false };
+export const initialState = { user: null, token: null, loginSuccessful: false };
 
 export const authReducer = createReducer<State>(
   initialState,
-  on(loginSuccess, (state: State, {user}): State => {
+  on(loginSuccess, (state: State, { user }): State => {
     return {
       ...state,
       user,
       token: TOKEN,
-      loginSuccessful:true,
+      loginSuccessful: true,
     };
   }),
   on(loginFailure, (state: State): State => {
     return {
       ...state,
       token: null,
-      loginSuccessful:false,
+      loginSuccessful: false,
     };
   }),
   on(logout, (state: State): State => {
     return {
       ...state,
       token: null,
-      loginSuccessful:false,
+      loginSuccessful: false,
     };
   }),
   on(registerSuccess, (state: State, { user }): State => {
@@ -52,7 +58,6 @@ export const authReducer = createReducer<State>(
 
 export const selectAuthState = createFeatureSelector<State>('auth');
 
-
 export const selectToken = createSelector(
   selectAuthState,
   (auth) => auth.token,
@@ -60,5 +65,10 @@ export const selectToken = createSelector(
 
 export const selectIsLoggedIn = createSelector(
   selectAuthState,
-  (auth) => auth.loginSuccessful
+  (auth) => auth.loginSuccessful,
+);
+
+export const selectLoggedInUser = createSelector(
+  selectAuthState,
+  (auth) => auth.user,
 );

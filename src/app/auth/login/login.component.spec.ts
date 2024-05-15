@@ -3,7 +3,7 @@ import { LoginComponent } from './login.component';
 import { AuthModule } from '../auth.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { login, logout } from '../../state/auth/auth.actions';
+import { login, register} from '../../state/auth/auth.actions';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
@@ -46,18 +46,54 @@ describe('LoginComponent', () => {
   })
 
   it('should dispatch login action when login is called with valid form', () => {
-    component.loginForm.controls['email'].setValue('test@test.com');
-    component.loginForm.controls['password'].setValue('password');
-
+    const email = 'test@test.com';
+    const password = 'password';
+  
+    component.loginForm.controls['email'].setValue(email);
+    component.loginForm.controls['password'].setValue(password);
+  
     component.login();
-
-    expect(dispatchSpy).toHaveBeenCalledWith(login());
+  
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      login({
+        email: email,
+        password: password,
+      })
+    );
   });
 
-  it('should dispatch logout action when logout is called', () => {
-    component.logout();
-
-    expect(dispatchSpy).toHaveBeenCalledWith(logout());
+  it('should validate signup form', () => {
+    component.signupForm.controls['name'].setValue('John Doe');
+    component.signupForm.controls['gender'].setValue('Male');
+    component.signupForm.controls['email'].setValue('john.doe@example.com');
+    component.signupForm.controls['password'].setValue('password');
+  
+    expect(component.signupForm.valid).toBeTruthy();
   });
+  
+  it('should dispatch register action when signup is called with valid form', () => {
+    const name = 'John Doe';
+    const gender = 'Male';
+    const email = 'john.doe@example.com';
+    const password = 'password';
+  
+    component.signupForm.controls['name'].setValue(name);
+    component.signupForm.controls['gender'].setValue(gender);
+    component.signupForm.controls['email'].setValue(email);
+    component.signupForm.controls['password'].setValue(password);
+  
+    component.signup();
+  
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      register({
+        name: name,
+        gender: gender,
+        email: email,
+        password: password,
+      })
+    );
+  });
+
+
 });
 

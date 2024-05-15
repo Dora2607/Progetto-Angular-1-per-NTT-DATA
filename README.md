@@ -28,21 +28,21 @@ In questa sezione, esploreremo le componenti principali e i servizi utilizzati i
 
 ### Autenticazione e Gestione dello Stato
 
-L'autenticazione è una parte fondamentale di CityGuard. Utilizziamo un modulo di login per autenticare gli utenti. Il modulo di login è gestito dal componente `LoginComponent`, che utilizza un `FormGroup` per gestire i dati del modulo. Quando un utente invia il modulo, se i dati sono validi, viene eseguita l'azione di login.
+L'autenticazione è una parte fondamentale di CityGuard. Utilizziamo un modulo di login e registrazione per autenticare gli utenti. I moduli di login e registrazione sono gestiti dal componente `LoginComponent`, che utilizza un `FormGroup` per gestire i dati del modulo. Quando un utente invia il modulo, se i dati sono validi, viene eseguita l'azione di login o registrazione.
 
-Le azioni di login e logout sono definite nel file `auth.actions.ts` utilizzando la funzione `createAction` di NgRx.
+Le azioni di login, logout e registrazione sono definite nel file `auth.actions.ts` utilizzando la funzione `createAction` di NgRx. Quando un utente si registra o effettua l'accesso, le informazioni dell'utente vengono salvate nello stato dell'applicazione e nel `localStorage`. Queste informazioni vengono utilizzate per determinare se un utente è autenticato e per mantenere le informazioni dell'utente tra le sessioni.
 
-La gestione dello stato dell'autenticazione è gestita utilizzando NgRx, una libreria di gestione dello stato reattiva per Angular. Il file `auth.reducer.ts` definisce come lo stato dell'applicazione cambia in risposta alle azioni di login e logout. 
-Quando un utente effettua l'accesso, l'azione di login viene inviata e il token di autenticazione viene memorizzato nello stato dell'applicazione e nel `localStorage`. Questo token viene utilizzato per determinare se un utente è autenticato.
+La gestione dello stato dell'autenticazione è gestita utilizzando NgRx, una libreria di gestione dello stato reattiva per Angular. Il file `auth.reducer.ts` definisce come lo stato dell'applicazione cambia in risposta alle azioni di login, logout e registrazione.
 
-In questo contesto, viene definto quando la componente `app-header` sarà visibile o meno. In pratica, se l'utente non è autenticato e quindi non ha un token di autenticazione, l'header non sarà visibile. Se l'utente è autenticato, l'header sarà visibile.
-
-Il file `auth.effects.ts` definisce gli effetti laterali delle azioni di login e logout. Quando un utente effettua l'accesso o si disconnette, l'applicazione naviga rispettivamente alla pagina home o alla pagina di login.
+Il file `auth.effects.ts` definisce gli effetti laterali delle azioni di login, logout e registrazione. Quando un utente si registra, effettua l'accesso o si disconnette, l'applicazione naviga rispettivamente alla pagina home o alla pagina di login.
 
 Infine, utilizziamo un `AuthGuard` per proteggere le rotte che richiedono l'autenticazione. Se un utente non autenticato tenta di accedere a una di queste rotte, verrà reindirizzato alla pagina di login.
 
+In questo contesto, viene definito quando la componente `app-header` sarà visibile o meno. In pratica, se l'utente non è autenticato e quindi non ha un token di autenticazione, l'header non sarà visibile. Se l'utente è autenticato, l'header sarà visibile.
+
+
 ### HeaderComponent
-`app-header` è una barra degli strumenti che contiene un menu per navigare tra le diverse componenti dell'applicazione, un componente logo e un pulsante che attiva la barra di ricerca. Quando il pulsante di ricerca viene cliccato, viene chiamato il metodo `toggleSearchBar()` che mostra la barra di ricerca.
+`app-header` è una barra degli strumenti che contiene un menu per navigare tra le diverse componenti dell'applicazione, un componente logo e un pulsante che attiva la barra di ricerca. Quando il pulsante di ricerca viene cliccato, viene chiamato il metodo `toggleSearchBar()` che mostra la barra di ricerca. 
 #### Approfondimento della SearchBarComponent contenuta nella HeaderComponent
 
 La **SearchBarComponent** fornisce una barra di ricerca per trovare gli utenti per nome o email. Quando un termine di ricerca viene inserito e inviato, il metodo `searchUsers()` viene chiamato per filtrare gli utenti visualizzati in base al termine di ricerca. C'è anche un pulsante per terminare la ricerca, che nasconde la barra di ricerca e ripristina l'elenco degli utenti visualizzati.

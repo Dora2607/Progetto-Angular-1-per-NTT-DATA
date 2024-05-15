@@ -48,7 +48,7 @@ export class UserDataService {
   }
 
   addUser(user: Users) {
-    this.users.push(user);
+    this.users.unshift(user);
     this.emitUsersChange();
     this.setDisplayedUsers(this.users);
     

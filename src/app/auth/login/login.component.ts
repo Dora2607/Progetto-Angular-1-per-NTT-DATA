@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { login, logout, register } from '../../state/auth/auth.actions';
+import { login, register } from '../../state/auth/auth.actions';
 import { LogoService } from '../../services/logo.service';
 import { Router } from '@angular/router';
 @Component({
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public signupForm!: FormGroup;
+  
 
   emailTouched = false;
   passwordTouched = false;
@@ -67,10 +68,6 @@ export class LoginComponent implements OnInit {
       );
       // this.signupForm.reset();
     }
-  }
-
-  logout(): void {
-    this.store.dispatch(logout());
   }
 
   toggleCheck() {

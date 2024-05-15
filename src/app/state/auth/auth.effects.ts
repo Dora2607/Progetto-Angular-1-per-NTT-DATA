@@ -63,7 +63,11 @@ export class AuthEffects {
             const storedUser = JSON.parse(storedUserString);
             if (storedUser && storedUser.password === action.password) {
               localStorage.setItem('token', TOKEN);
-              return of(loginSuccess({ user: storedUser }));
+              
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const {password, ...userloggedIn} = storedUser
+              
+              return of(loginSuccess({ user: userloggedIn }));
             } else {
               alert('Invalid credentials');
               return of(loginFailure({ error: 'Invalid credentials' }));
