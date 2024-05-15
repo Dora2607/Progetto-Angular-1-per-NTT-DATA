@@ -4,7 +4,7 @@ import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { Users } from '../../../../../models/users.model';
-
+import { UserDataService } from '../../../../../services/user-data.service';
 
 @Component({
   selector: 'app-post-list',
@@ -16,13 +16,22 @@ export class PostListComponent implements OnInit {
   userProfile!: Users;
   emptyPosts: boolean = false;
   isComponentVisible: { [id: number]: boolean } = {};
+  addCommentBox: { [id: number]: boolean } = {};
+  loggedInUser!: Users;
 
   constructor(
     private userIdentity: UserIdentityService,
+    private userDataService: UserDataService,
     private usersService: UsersService,
   ) {}
 
   ngOnInit(): void {
+    this.userDataService.getLoggedInUser().subscribe((user) => {
+      if (user) {
+        this.loggedInUser = user;
+      }
+    });
+
     // Get the posts of the user
     this.userIdentity.currentPosts.subscribe((posts) => {
       this.posted = posts;
@@ -41,5 +50,9 @@ export class PostListComponent implements OnInit {
 
   toggleComments(id: number) {
     this.isComponentVisible[id] = !this.isComponentVisible[id];
+  }
+
+  toggleAddComments(id:number) {
+    this.addCommentBox[id] = !this.addCommentBox[id];
   }
 }

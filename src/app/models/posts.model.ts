@@ -4,3 +4,8 @@ export interface Posts {
     title:string;
     body:string;   
 }
+
+export interface newPosts {
+    title:string;
+    body:string;   
+}

@@ -5,3 +5,9 @@ export interface Comments {
     email:string;
     body:string;
 }
+
+export interface newComments {
+    name:string;
+    email:string;
+    body:string;
+}

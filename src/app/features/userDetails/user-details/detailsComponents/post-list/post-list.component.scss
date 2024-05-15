@@ -39,3 +39,19 @@
     margin-top: 2.5rem;
   }
 }
+
+.commentContainer{
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+  width: 100%;
+  padding-left: 2rem;
+  .commentContent{
+    width: 80%;
+    margin: 2rem 1rem;
+    .commentHeader{
+      padding-bottom: 1rem;
+    }
+  }
+
+}

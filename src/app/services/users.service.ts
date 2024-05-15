@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { Users, newUser } from '../models/users.model';
-import { Posts } from '../models/posts.model';
-import { Comments } from '../models/comments.model';
+import { Posts, newPosts } from '../models/posts.model';
+import { Comments, newComments } from '../models/comments.model';
 import { Todos } from '../models/todos.model';
 import { TOKEN } from '../token';
 
@@ -66,6 +66,24 @@ export class UsersService {
 
   getUserDetail(userId:number): Observable<Users>{
     return this.httpClient.get<Users>(`${USERS_URL_SHORT}/${userId}`)
+  }
+
+   addComments(postId:number,comment:newComments){
+     const token = localStorage.getItem('token');
+     return this.httpClient.post(
+      `${POSTS_URL_SHORT}/${postId}/comments`,
+       comment,
+       { headers: { Authorization: `Bearer ${token}` }},
+     )
+   }
+
+   addPosts(userId:number,post:newPosts){
+    const token = localStorage.getItem('token');
+    return this.httpClient.post(
+     `${USERS_URL_SHORT}/${userId}/posts`,
+      post,
+      { headers: { Authorization: `Bearer ${token}` }},
+    )
   }
 
 }

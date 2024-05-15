@@ -15,7 +15,10 @@
         matListItemIcon
         >circle</mat-icon
       >
-      <div class="userTitle" matListItemTitle><a [routerLink]="['/home/usersList', user.id]">{{ user.name }}</a></div>
+      <div class="userTitle" matListItemTitle>
+        <a [routerLink]="['/home/usersList', user.id]">{{ user.name }} <mat-icon class="personalProfile" *ngIf="user.id === loggedInUser.id">personal</mat-icon></a>
+        
+      </div>
       <div class="userLine" matListItemLine>{{ user.email }}</div>
     </mat-list-item>
     <div

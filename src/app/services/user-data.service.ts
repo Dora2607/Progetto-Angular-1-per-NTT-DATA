@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
-import { Subject } from 'rxjs';
+import { Observable, Subject, filter } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectLoggedInUser } from '../state/auth/auth.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +16,9 @@ export class UserDataService {
   displayedUsersChanged = new Subject<Array<Users>>();
   deleteButtonClicked = new Subject<boolean>();
   addUserButtonClicked = new Subject<boolean>();
+  
 
-  constructor() {}
+  constructor(private store:Store){}
 
   setUsers(users: Array<Users>) {
     this.users = users;
@@ -45,6 +48,12 @@ export class UserDataService {
 
   updateUsersCount(count: number) {
     this.setDisplayedUsers(this.users.slice(0, count));
+  }
+
+  getLoggedInUser(): Observable<Users | null> {
+    return this.store
+      .select(selectLoggedInUser)
+      .pipe(filter((user) => user !== null && user !== undefined))    
   }
 
   addUser(user: Users) {
