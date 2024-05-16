@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Comments } from '../../../../../models/comments.model';
-import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { UsersService } from '../../../../../services/users.service';
+import { CommentsService } from '../../../../../services/comments.service';
 
 @Component({
   selector: 'app-comments',
@@ -10,18 +10,48 @@ import { UsersService } from '../../../../../services/users.service';
 })
 export class CommentsComponent implements OnInit {
   @Input() postId!: number;
-  commentsArray: Comments[] = [];
+
+  commentArray:Array<Comments>=[]
+  // displayedComments:Array<Comments>=[]
   loaded: boolean = false;
+  comments: { [postId: number]: Comments[] } = {};
+  displayedComments: { [postId: number]: Comments[] } = {};
 
   constructor(
     private usersService: UsersService,
-    private userIdentity: UserIdentityService,
+    private commentsService: CommentsService
   ) {}
 
   ngOnInit(): void {
-    this.usersService.getComments(this.postId).subscribe((comment) => {
-      this.commentsArray = comment;
-      this.loaded = true;
-    });
+    if(this.commentsService.firstVisitCommentComponent){
+      this.getAllComments();
+      this.commentsService.firstVisitCommentComponent=false;
+    }else{
+      this.commentArray = this.commentsService.getDisplayedComments(this.postId);
+    }
+
+    this.commentsService.commentsChanged.subscribe(
+      (comments) => {
+        this.comments = comments;
+        
+        }
+    )
+
+    this.commentsService.displayedCommentsChanged.subscribe(
+      (displayedComments)=>{
+        this.displayedComments = displayedComments;
+      }
+    )
+    
   }
+
+  getAllComments() {
+     this.usersService.getComments(this.postId).subscribe((comment) => {
+      this.commentsService.setComments(this.postId, comment)
+      this.commentsService.setDisplayedComments(this.postId,[...comment])
+       this.loaded = true;
+    });
+    
+  }
+  
 }
