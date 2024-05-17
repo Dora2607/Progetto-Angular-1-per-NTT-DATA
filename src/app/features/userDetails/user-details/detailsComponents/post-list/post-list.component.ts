@@ -87,11 +87,13 @@ export class PostListComponent implements OnInit {
       .addComments(id, this.addNewComment)
       .subscribe((comment: any) => {
         alert('Comment added successfully');
-        console.log(comment);
-        this.commentsService.setComments(id,[
+        const newComments = [
           ...this.commentsService.getDisplayedComments(id),
           comment,
-        ]);
+        ];
+        this.commentsService.setComments(id, newComments);
+        this.commentsService.setDisplayedComments(id, newComments);
+        
       });
   }
 }

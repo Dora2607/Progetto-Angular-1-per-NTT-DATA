@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Comments } from '../models/comments.model';
 import { Subject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommentsService {
   //nuovo metodo per vedere i commenti
   firstVisitCommentComponent: boolean = true;

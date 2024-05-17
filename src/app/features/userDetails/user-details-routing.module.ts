@@ -11,33 +11,6 @@ const routes: Routes = [
     path: '',
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
-    // children: [  {
-    //   path: 'usersList/:id/profile',
-    //   loadChildren: () =>
-    //     import('./user-details/detailsComponents/details.module').then(
-    //       (m) => m.DetailsModule,
-    //     ),
-    //   canActivate: [AuthGuard],
-    // },]
-    // children: [
-    //   {
-    //     path: '',
-    //     children: [
-    //       {
-    //         path: 'userProfile',
-    //         component: UserProfileComponent,
-    //         canActivate: [AuthGuard],
-    //       },
-
-    //       {
-    //         path: 'postList',
-    //         component: PostListComponent,
-    //         canActivate: [AuthGuard],
-    //       },
-    //       // { path: '', redirectTo: 'usersList', pathMatch: 'full' },
-    //     ],
-    //   },
-    // ],
   },
 ];
 

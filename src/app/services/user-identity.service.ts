@@ -1,24 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
 import { Posts } from '../models/posts.model';
 import { Todos } from '../models/todos.model';
-import { Comments } from '../models/comments.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserIdentityService {
   userDescriptions: string[] = [];
-
-  //da valutare
-  private commentsArray: Comments[] = [];
-  private commentsUpdated = new Subject<Comments[]>();
-
-
-  
-  
 
   private identityUserSource = new BehaviorSubject<Users>({
     id: 0,
@@ -34,8 +26,6 @@ export class UserIdentityService {
 
   private todosSource = new BehaviorSubject<Array<Todos>>([]);
   currentTodos = this.todosSource.asObservable();
-
-  
 
   constructor(private userDataService: UserDataService) {}
 
@@ -65,6 +55,7 @@ export class UserIdentityService {
       Math.floor(Math.random() * this.userDescriptions.length)
     ];
   }
+
   emitUpdateUser(user: Users) {
     this.identityUserSource.next(user);
   }
@@ -75,15 +66,5 @@ export class UserIdentityService {
     this.todosSource.next(todos);
   }
 
-
-
-  getCommentsUpdatedListener(){
-    return this.commentsUpdated.asObservable()
-  }
-
-  addSingleComment(newComment:Comments){
-    this.commentsArray.push(newComment);
-    this.commentsUpdated.next([...this.commentsArray]);
-  }
 
 }

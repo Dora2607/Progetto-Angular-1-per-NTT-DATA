@@ -96,6 +96,18 @@ Quando il modulo viene inviato, viene chiamato il metodo `newUser()`. Questo met
 
 Il metodo `goBack()` viene chiamato quando viene cliccato il pulsante "Indietro". Questo metodo naviga alla pagina della lista degli utenti.
 
+
+### CommentsComponent
+
+Il `CommentsComponent` è un componente chiave dell'applicazione che gestisce la visualizzazione e l'aggiunta di commenti per un post specifico. Questo componente riceve l'ID del post come input e utilizza il servizio `UsersService` per ottenere tutti i commenti per quel post. I commenti vengono quindi memorizzati nel servizio `CommentsService` per essere utilizzati in seguito.
+
+Quando il componente viene inizializzato, controlla se è la prima volta che il componente dei commenti viene visitato. Se è la prima volta, richiede tutti i commenti per il post specifico. Altrimenti, recupera i commenti visualizzati precedentemente dal servizio `CommentsService`.
+
+Il componente si sottoscrive agli Observable `commentsChanged` e `displayedCommentsChanged` del servizio `CommentsService` per essere notificato quando i commenti o i commenti visualizzati cambiano.
+
+Infine, il componente implementa il metodo `ngOnDestroy` per annullare le sottoscrizioni quando il componente viene distrutto, prevenendo così eventuali perdite di memoria.
+
+
 ## Service
 
 ### UsersService
