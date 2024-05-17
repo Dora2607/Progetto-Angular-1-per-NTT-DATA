@@ -6,7 +6,6 @@ import { AuthGuard } from '../auth/auth.guard';
 import { AddUserComponent } from './home/userManagement/add-user/add-user.component';
 import { UsersListComponent } from './home/userManagement/users-list/users-list.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -38,6 +37,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./userDetails/user-details.module').then(
         (m) => m.UserDetailsModule,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'postOverview',
+    loadChildren: () =>
+      import('./postOverview/post-overview.module').then(
+        (m) => m.PostOverviewModule,
       ),
     canActivate: [AuthGuard],
   },

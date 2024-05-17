@@ -5,9 +5,12 @@ import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from './components/components.module';
 import { UserManagementModule } from './home/userManagement/user-management.module';
 import { UserDetailsModule } from './userDetails/user-details.module';
+import { PostOverviewModule } from './postOverview/post-overview.module';
 
 import { HomeRoutingModule } from './home-routing.module';
+import { PostOverviewRoutingModule } from './postOverview/post-overview-routing.module';
 import { HomeComponent } from './home/home.component';
+
 
 
 @NgModule({
@@ -21,6 +24,8 @@ import { HomeComponent } from './home/home.component';
     UserManagementModule,
     HomeRoutingModule,
     UserDetailsModule,
+    PostOverviewModule,
+    PostOverviewRoutingModule
   ],
   
 })

@@ -6,9 +6,10 @@ import { Posts } from '../../../../../models/posts.model';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { Users } from '../../../../../models/users.model';
 import { UserDataService } from '../../../../../services/user-data.service';
-import { Comments, newComments } from '../../../../../models/comments.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { newComments } from '../../../../../models/comments.model';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CommentsService } from '../../../../../services/comments.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
@@ -16,7 +17,10 @@ import { CommentsService } from '../../../../../services/comments.service';
   styleUrl: './post-list.component.scss',
 })
 export class PostListComponent implements OnInit {
+  @Input() posts: Array<Posts> = [];
+
   posted: Array<Posts> = [];
+  postedArray: Array<Posts> = [];
   userProfile!: Users;
   emptyPosts: boolean = false;
   isComponentVisible: { [id: number]: boolean } = {};
@@ -26,6 +30,8 @@ export class PostListComponent implements OnInit {
   public commentForm!: FormGroup;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private userIdentity: UserIdentityService,
     private userDataService: UserDataService,
     private usersService: UsersService,
@@ -39,15 +45,24 @@ export class PostListComponent implements OnInit {
       }
     });
 
-    // Get the posts of the user
-    this.userIdentity.currentPosts.subscribe((posts) => {
-      this.posted = posts;
-      if (this.posted.length != 0) {
-        return (this.emptyPosts = false);
-      } else {
-        return (this.emptyPosts = true);
-      }
-    });
+    // const url = this.route.snapshot.url.join('');
+    const url = this.router.url;
+    console.log(url);
+    if (url.includes('usersList')) {
+      // Get the posts of the user
+      this.userIdentity.currentPosts.subscribe((posts) => {
+        this.postedArray = posts;
+        if (this.postedArray.length != 0) {
+          this.emptyPosts = false;
+        } else {
+          this.emptyPosts = true;
+        }
+        this.posted = this.postedArray;
+      });
+    } else if (url.includes('postOverview')) {
+      this.posted = this.posts;
+      console.log(this.posted);
+    }
 
     this.commentForm = new FormGroup({
       commentText: new FormControl(''),
@@ -93,7 +108,6 @@ export class PostListComponent implements OnInit {
         ];
         this.commentsService.setComments(id, newComments);
         this.commentsService.setDisplayedComments(id, newComments);
-        
       });
   }
 }
