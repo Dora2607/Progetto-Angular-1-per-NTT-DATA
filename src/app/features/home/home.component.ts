@@ -30,13 +30,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  onStatusChange(newStatus: string) {
-    this.userDataService.updateStatus(newStatus);
-  }
-
-  onUsersCountChange(count: number): void {
-    this.userDataService.updateUsersCount(count);
-  }
 
   ngOnDestroy(): void {
     if(this.subscription)

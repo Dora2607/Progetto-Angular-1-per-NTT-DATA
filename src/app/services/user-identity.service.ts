@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
 import { Posts } from '../models/posts.model';
 import { Todos } from '../models/todos.model';
+import { UsersService } from './users.service';
 
 
 @Injectable({
@@ -11,6 +12,12 @@ import { Todos } from '../models/todos.model';
 })
 export class UserIdentityService {
   userDescriptions: string[] = [];
+
+
+  constructor(
+    private usersService: UsersService,
+    private userDataService: UserDataService) {}
+  
 
   private identityUserSource = new BehaviorSubject<Users>({
     id: 0,
@@ -27,10 +34,8 @@ export class UserIdentityService {
   private todosSource = new BehaviorSubject<Array<Todos>>([]);
   currentTodos = this.todosSource.asObservable();
 
-  constructor(private userDataService: UserDataService) {}
-
   getUsers(): Observable<Users[]> {
-    return of(this.userDataService.users);
+    return of(this.userDataService.allUsers);
   }
 
   getUser(id: number | string) {
@@ -56,6 +61,18 @@ export class UserIdentityService {
     ];
   }
 
+  getIds(users:Users[]):number[]{
+    return users.map((user) => user.id);
+  }
+
+  getAllPosts(userIds:number[]):Observable<Posts[]>{
+    return forkJoin(userIds.map(id => 
+      this.usersService.getPosts(id)
+    )).pipe(
+      map(arrays => arrays.flat())
+    );
+  }
+
   emitUpdateUser(user: Users) {
     this.identityUserSource.next(user);
   }
@@ -65,6 +82,8 @@ export class UserIdentityService {
   emitUpdateTodos(todos: Array<Todos>) {
     this.todosSource.next(todos);
   }
+
+
 
 
 }

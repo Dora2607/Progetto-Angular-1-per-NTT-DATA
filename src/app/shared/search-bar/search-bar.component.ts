@@ -26,7 +26,7 @@ export class SearchBarComponent {
   searchUsers(searchTerm: string) {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     this.userDataService.setDisplayedUsers(
-      this.userDataService.users.filter(
+      this.userDataService.displayedUsers.filter(
         (user) =>
           user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
           user.email.toLowerCase().includes(lowerCaseSearchTerm),
@@ -42,7 +42,7 @@ export class SearchBarComponent {
   endSearch() {
     this.showSearchBar = false;
     this.usersService.getUsers().subscribe((users) => {
-      this.userDataService.setUsers(users);
+      // this.userDataService.setUsers(users);
       this.userDataService.setDisplayedUsers([...users]);
     });
     this.search = '';

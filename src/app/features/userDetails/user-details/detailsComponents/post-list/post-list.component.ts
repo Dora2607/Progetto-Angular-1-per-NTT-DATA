@@ -9,7 +9,7 @@ import { UserDataService } from '../../../../../services/user-data.service';
 import { newComments } from '../../../../../models/comments.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CommentsService } from '../../../../../services/comments.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
@@ -30,7 +30,6 @@ export class PostListComponent implements OnInit {
   public commentForm!: FormGroup;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private userIdentity: UserIdentityService,
     private userDataService: UserDataService,
@@ -45,7 +44,6 @@ export class PostListComponent implements OnInit {
       }
     });
 
-    // const url = this.route.snapshot.url.join('');
     const url = this.router.url;
     console.log(url);
     if (url.includes('usersList')) {
@@ -60,8 +58,10 @@ export class PostListComponent implements OnInit {
         this.posted = this.postedArray;
       });
     } else if (url.includes('postOverview')) {
-      this.posted = this.posts;
-      console.log(this.posted);
+      this.userIdentity.currentPosts.subscribe(posts=>{
+        this.posted = posts;
+      })
+     
     }
 
     this.commentForm = new FormGroup({
@@ -92,6 +92,7 @@ export class PostListComponent implements OnInit {
   };
 
   addComment(id: number) {
+    console.log('questo è un test per gli id', id)
     this.addNewComment = {
       name: this.loggedInUser.name,
       email: this.loggedInUser.email,

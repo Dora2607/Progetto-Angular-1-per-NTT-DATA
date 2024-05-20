@@ -22,12 +22,14 @@ export class CommentsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('postid', this.postId)
     if (this.commentsService.firstVisitCommentComponent) {
       this.getAllComments();
       this.commentsService.firstVisitCommentComponent = false;
     } else {
       this.displayedComments[this.postId] =
         this.commentsService.getDisplayedComments(this.postId);
+        console.log(this.displayedComments[this.postId], 'nel secondo caso')
     }
 
     this.commentsSubscription = this.commentsService.commentsChanged.subscribe(
@@ -47,8 +49,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   getAllComments() {
     this.usersService.getComments(this.postId).subscribe((comment) => {
+      console.log(comment)
       this.commentsService.setComments(this.postId, comment);
-      this.commentsService.setDisplayedComments(this.postId, [...comment]);
+      const commenti = this.commentsService.setDisplayedComments(this.postId, [...comment]);
+      console.log(commenti, 'da display')
     });
   }
 

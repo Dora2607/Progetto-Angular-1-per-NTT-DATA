@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
-import { Observable, Subject, filter } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectLoggedInUser } from '../state/auth/auth.reducer';
 
@@ -8,70 +8,57 @@ import { selectLoggedInUser } from '../state/auth/auth.reducer';
   providedIn: 'root',
 })
 export class UserDataService {
-  users: Array<Users> = [];
+  allUsers: Array<Users> = [];
   displayedUsers: Array<Users> = [];
   firstVisit: boolean = true;
 
-  usersChanged = new Subject<Array<Users>>();
-  displayedUsersChanged = new Subject<Array<Users>>();
+  allUsersChanged =  new BehaviorSubject<Array<Users>>([]);
+  displayedUsersChanged = new BehaviorSubject<Array<Users>>([]);
   deleteButtonClicked = new Subject<boolean>();
   addUserButtonClicked = new Subject<boolean>();
-  
 
-  constructor(private store:Store){}
+  constructor(private store: Store) {}
 
-  setUsers(users: Array<Users>) {
-    this.users = users;
-    this.emitUsersChange();
+  setAllUsers(users: Array<Users>) {
+    this.allUsers = users;
+    this.allUsersChanged.next(this.allUsers.slice());
+    this.setDisplayedUsers(users);
   }
 
   setDisplayedUsers(displayedUsers: Array<Users>) {
     this.displayedUsers = displayedUsers;
-    this.emitDisplayedUsersChange();
-  }
-
-  emitUsersChange() {
-    this.usersChanged.next(this.users.slice());
-  }
-
-  emitDisplayedUsersChange() {
     this.displayedUsersChanged.next(this.displayedUsers.slice());
   }
 
   updateStatus(newStatus: string) {
     this.setDisplayedUsers(
       newStatus === 'all'
-        ? [...this.users]
-        : this.users.filter((user) => user.status === newStatus),
+        ? [...this.allUsers]
+        : this.allUsers.filter((user) => user.status === newStatus),
     );
   }
 
   updateUsersCount(count: number) {
-    this.setDisplayedUsers(this.users.slice(0, count));
+    this.setDisplayedUsers(this.allUsers.slice(0, count));
   }
 
   getLoggedInUser(): Observable<Users | null> {
     return this.store
       .select(selectLoggedInUser)
-      .pipe(filter((user) => user !== null && user !== undefined))    
+      .pipe(filter((user) => user !== null && user !== undefined));
   }
 
   addUser(user: Users) {
-    this.users.unshift(user);
-    this.emitUsersChange();
-    this.setDisplayedUsers(this.users);
-    
+    this.allUsers.unshift(user);
+    this.displayedUsersChanged.next(this.allUsers.slice());
   }
 
   getDisplayedUsers() {
-    return this.displayedUsers.slice();
+    return this.allUsers.slice();
   }
 
   deleteUser(id: number) {
-    this.users = this.users.filter((user) => user.id !== id);
-    this.emitUsersChange();
-    this.setDisplayedUsers(this.users);
+    this.allUsers = this.displayedUsers.filter((user) => user.id !== id);
+    this.displayedUsersChanged.next(this.allUsers.slice());
   }
-
-
 }

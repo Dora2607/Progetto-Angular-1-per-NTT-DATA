@@ -3,7 +3,7 @@ import { Users } from '../../../../models/users.model';
 import { UsersService } from '../../../../services/users.service';
 import { Subscription } from 'rxjs';
 import { UserDataService } from '../../../../services/user-data.service';
-import { Store } from '@ngrx/store';
+
 
 @Component({
   selector: 'app-users-list',
@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  users: Array<Users> = [];
+  // users: Array<Users> = [];
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
@@ -21,7 +21,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   constructor(
     private usersService: UsersService,
     private userDataService: UserDataService,
-    private store: Store,
+    
   ) {}
 
   ngOnInit(): void {
@@ -30,20 +30,13 @@ export class UsersListComponent implements OnInit, OnDestroy {
       this.userDataService.firstVisit = false;
     } else {
       this.displayedUsers = this.userDataService.getDisplayedUsers();
+      
     }
 
-    this.usersSubscription = this.userDataService.usersChanged.subscribe(
+    this.usersSubscription = this.userDataService.displayedUsersChanged.subscribe(
       (users: Array<Users>) => {
-        this.users = users;
+        this.displayedUsers = users;
       },
-    );
-
-    this.usersSubscription.add(
-      this.userDataService.displayedUsersChanged.subscribe(
-        (displayedUsers: Array<Users>) => {
-          this.displayedUsers = displayedUsers;
-        },
-      ),
     );
 
     this.userDataService.getLoggedInUser().subscribe((user) => {
@@ -61,7 +54,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   getAllUser(): void {
     this.usersService.getUsers().subscribe((users) => {
-      this.userDataService.setUsers(users);
+      this.userDataService.setAllUsers(users)
       if (
         this.loggedInUser &&
         !users.find((u) => u.id === this.loggedInUser.id)

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { UserDataService } from '../../../services/user-data.service';
+import { Component } from '@angular/core';
+import { UserDataService } from '../../../../services/user-data.service';
 
 @Component({
   selector: 'app-users-view',
@@ -7,11 +7,6 @@ import { UserDataService } from '../../../services/user-data.service';
   styleUrl: './users-view.component.scss'
 })
 export class UsersViewComponent  {
-
-  //EventEmitter
-  @Output() statusChange = new EventEmitter<string>();
-  @Output() usersCountChange = new EventEmitter<number>();
-
  
   status= 'All';
   usersShowCount = 35;
@@ -22,7 +17,7 @@ export class UsersViewComponent  {
 
   onStatusUpdate(newStatus:string): void{
     this.status = newStatus;
-    this.statusChange.emit(newStatus);
+    this.userDataService.updateStatus(newStatus);
     if (this.status === "all"){
       this.status='All';
     }else if (this.status==="active"){
@@ -34,7 +29,7 @@ export class UsersViewComponent  {
 
   onUsersUpdated(count:number) :void{
     this.usersShowCount = count;
-    this.usersCountChange.emit(count);
+    this.userDataService.updateUsersCount(count);
   }
 
   onaddUser():void{

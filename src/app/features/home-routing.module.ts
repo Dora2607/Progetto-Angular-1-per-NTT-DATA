@@ -27,6 +27,7 @@ const routes: Routes = [
             component: AddUserComponent,
             canActivate: [AuthGuard],
           },
+          
           { path: '', redirectTo: 'usersList', pathMatch: 'full' },
         ],
       },
@@ -48,12 +49,7 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'components',
-    loadChildren: () =>
-      import('./components/components.module').then((m) => m.ComponentsModule),
-    canActivate: [AuthGuard],
-  },
+
 ];
 
 @NgModule({
