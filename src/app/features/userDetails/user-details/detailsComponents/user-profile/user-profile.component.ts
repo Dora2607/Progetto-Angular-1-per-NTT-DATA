@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
 import { Users } from '../../../../../models/users.model';
-import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
 import { Todos } from '../../../../../models/todos.model';
 
@@ -24,7 +23,6 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userIdentity: UserIdentityService,
-    private usersService: UsersService,
   ) {}
 
   ngOnInit(): void {
