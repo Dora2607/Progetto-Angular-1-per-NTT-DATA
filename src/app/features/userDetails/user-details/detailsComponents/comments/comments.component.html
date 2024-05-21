@@ -1,6 +1,6 @@
 <div class="commentContainer">
-  <ng-container *ngIf="displayedComments[postId]?.length !== 0; else noComments">
-    <div class="commentContent" *ngFor="let comment of displayedComments[postId]">
+  <ng-container *ngIf="comments.length !== 0; else noComments">
+    <div class="commentContent" *ngFor="let comment of comments">
       <mat-card-header class="commentHeader">
         <mat-card-title class="commentTitle">
           {{ comment.name }}

@@ -11,7 +11,7 @@ import { UserDataService } from '../../../../services/user-data.service';
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  // users: Array<Users> = [];
+
   usersSubscription: Subscription | undefined;
   displayedUsers: Array<Users> = [];
   deleteButton: boolean = false;
@@ -25,6 +25,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loggedInUser = this.usersService.initializePersonalProfile();
+
     if (this.userDataService.firstVisit) {
       this.getAllUser();
       this.userDataService.firstVisit = false;
@@ -38,12 +40,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.displayedUsers = users;
       },
     );
-
-    this.userDataService.getLoggedInUser().subscribe((user) => {
-      if (user) {
-        this.loggedInUser = user;
-      }
-    });
 
     this.userDataService.deleteButtonClicked.subscribe(
       (deleteButton: boolean) => {
@@ -64,6 +60,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
       this.userDataService.setDisplayedUsers([...users]);
     });
   }
+
+  
 
   activeDeleteUser(id: number): void {
     const confirmDelete = confirm('Are you sure you want to delete the user?');

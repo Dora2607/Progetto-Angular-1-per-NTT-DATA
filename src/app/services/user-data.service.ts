@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
-import { BehaviorSubject, Observable, Subject, filter } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectLoggedInUser } from '../state/auth/auth.reducer';
+
 
 @Injectable({
   providedIn: 'root',
@@ -42,11 +42,6 @@ export class UserDataService {
     this.setDisplayedUsers(this.allUsers.slice(0, count));
   }
 
-  getLoggedInUser(): Observable<Users | null> {
-    return this.store
-      .select(selectLoggedInUser)
-      .pipe(filter((user) => user !== null && user !== undefined));
-  }
 
   addUser(user: Users) {
     this.allUsers.unshift(user);

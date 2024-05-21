@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Comments } from '../../../../../models/comments.model';
-import { UsersService } from '../../../../../services/users.service';
 import { CommentsService } from '../../../../../services/comments.service';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-comments',
@@ -11,66 +10,29 @@ import { Observable, Subscription, tap } from 'rxjs';
 })
 export class CommentsComponent implements OnInit, OnDestroy {
   @Input() postId!: number;
+  comments: Comments[] = [];
+  private commentsSubscription!: Subscription;
 
-  comments: { [postId: number]: Comments[] } = {};
-  displayedComments: { [postId: number]: Comments[] } = {};
-  commentsSubscription: Subscription | undefined;
 
   constructor(
-    private usersService: UsersService,
     private commentsService: CommentsService,
   ) {}
 
   ngOnInit(): void {
-    console.log('postid', this.postId)
-    if (this.commentsService.firstVisitCommentComponent) {
-      this.getAllComments().subscribe(()=>{
-        this.displayedComments[this.postId] = this.commentsService.getDisplayedComments(this.postId);
-      });
-      this.commentsService.firstVisitCommentComponent = false;
-    } else {
-      this.displayedComments[this.postId] =
-        this.commentsService.getDisplayedComments(this.postId);
+    this.comments = this.commentsService.getComments(this.postId);
+    if (this.comments.length === 0) {
+      this.commentsService.fetchComments(this.postId);
     }
-
     this.commentsSubscription = this.commentsService.commentsChanged.subscribe(
-      (comments) => {
-        this.comments = comments;
-      },
-    );
-
-    this.commentsSubscription.add(
-      this.commentsService.displayedCommentsChanged.subscribe(
-        (displayedComments) => {
-          this.displayedComments = displayedComments;
-        },
-      ),
-    );
-  }
-
-  // getAllComments() {
-  //   this.usersService.getComments(this.postId).subscribe((comment) => {
-  //     console.log(comment)
-  //     this.commentsService.setComments(this.postId, comment);
-  //     this.commentsService.setDisplayedComments(this.postId, [...comment]);
-      
-  //   });
-  // }
-
-  getAllComments(): Observable<Comments[]> {
-    return this.usersService.getComments(this.postId).pipe(
-      tap((comment) => {
-        console.log(comment)
-        this.commentsService.setComments(this.postId, comment);
-        this.commentsService.setDisplayedComments(this.postId, [...comment]);
-        console.log(comment, 'da display')
-      })
+      (comments: { [postId: number]: Comments[] }) => {
+        this.comments = comments[this.postId] || [];
+      }
     );
   }
 
   ngOnDestroy(): void {
-    if (this.commentsSubscription) {
-      this.commentsSubscription.unsubscribe();
-    }
+    this.commentsSubscription.unsubscribe();
   }
 }
+
+

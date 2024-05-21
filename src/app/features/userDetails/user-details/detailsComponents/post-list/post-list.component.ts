@@ -26,8 +26,7 @@ export class PostListComponent implements OnInit {
   isComponentVisible: { [id: number]: boolean } = {};
   addCommentBox: { [id: number]: boolean } = {};
   loggedInUser!: Users;
-
-  public commentForm!: FormGroup;
+  commentForm!: FormGroup;
 
   constructor(
     private router: Router,
@@ -38,14 +37,17 @@ export class PostListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userDataService.getLoggedInUser().subscribe((user) => {
-      if (user) {
-        this.loggedInUser = user;
-      }
-    });
+    this.loggedInUser= this.usersService.initializePersonalProfile();
+    this.initializePosts();
+    this.initializeCommentForm();
+    this.initializeUserProfile();
+  }
 
+
+
+
+  initializePosts(){
     const url = this.router.url;
-    console.log(url);
     if (url.includes('usersList')) {
       // Get the posts of the user
       this.userIdentity.currentPosts.subscribe((posts) => {
@@ -63,17 +65,22 @@ export class PostListComponent implements OnInit {
       })
      
     }
+  }
 
+  initializeCommentForm(){
     this.commentForm = new FormGroup({
       commentText: new FormControl(''),
     });
+  }
 
-    // Get the profile of the user
+  initializeUserProfile(){
     this.userIdentity.currentUser.subscribe((data) => {
       this.userProfile = data;
     });
   }
 
+
+  //toggle the visibility of the comments and add comment box for a specific post ID
   toggleComments(id: number) {
     this.isComponentVisible[id] = !this.isComponentVisible[id];
   }
@@ -81,10 +88,9 @@ export class PostListComponent implements OnInit {
   toggleAddComments(id: number) {
     this.addCommentBox[id] = !this.addCommentBox[id];
   }
-  goBack(id: number) {
-    this.addCommentBox[id] = !this.addCommentBox[id];
-  }
 
+
+  // Add new Comments
   addNewComment: newComments = {
     name: '',
     email: '',
@@ -92,7 +98,6 @@ export class PostListComponent implements OnInit {
   };
 
   addComment(id: number) {
-    console.log('questo è un test per gli id', id)
     this.addNewComment = {
       name: this.loggedInUser.name,
       email: this.loggedInUser.email,
@@ -104,11 +109,16 @@ export class PostListComponent implements OnInit {
       .subscribe((comment: any) => {
         alert('Comment added successfully');
         const newComments = [
-          ...this.commentsService.getDisplayedComments(id),
+          ...this.commentsService.getComments(id),
           comment,
         ];
         this.commentsService.setComments(id, newComments);
-        this.commentsService.setDisplayedComments(id, newComments);
+        
       });
   }
+
+  goBack(id: number) {
+    this.addCommentBox[id] = !this.addCommentBox[id];
+  }
+
 }
