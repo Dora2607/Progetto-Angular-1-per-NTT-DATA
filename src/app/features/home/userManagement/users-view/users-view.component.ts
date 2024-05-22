@@ -1,46 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserDataService } from '../../../../services/user-data.service';
 
 @Component({
   selector: 'app-users-view',
   templateUrl: './users-view.component.html',
-  styleUrl: './users-view.component.scss'
+  styleUrl: './users-view.component.scss',
 })
-export class UsersViewComponent  {
- 
-  status= 'All';
+export class UsersViewComponent implements OnInit {
+  status = 'All';
   usersShowCount = 35;
-  toggle: boolean = false;
+  toggle: boolean = true;
   delete: boolean = false;
+  toggleComponent!: boolean;
 
-  constructor(private userDataService:UserDataService){}
+  constructor(private userDataService: UserDataService) {}
+  ngOnInit(): void {
+    this.userDataService.currentToggleComponent.subscribe(
+      (toggleComponent) => (this.toggleComponent = toggleComponent)
+    )
+  }
 
-  onStatusUpdate(newStatus:string): void{
+  onStatusUpdate(newStatus: string): void {
     this.status = newStatus;
     this.userDataService.updateStatus(newStatus);
-    if (this.status === "all"){
-      this.status='All';
-    }else if (this.status==="active"){
-      this.status='Online';
-    }else{
-      this.status="Offline";
+    if (this.status === 'all') {
+      this.status = 'All';
+    } else if (this.status === 'active') {
+      this.status = 'Online';
+    } else {
+      this.status = 'Offline';
     }
   }
 
-  onUsersUpdated(count:number) :void{
+  onUsersUpdated(count: number): void {
     this.usersShowCount = count;
     this.userDataService.updateUsersCount(count);
   }
 
-  onaddUser():void{
+  onaddUser(): void {
     this.toggle = true;
+    this.userDataService.setToggleComponent(this.toggleComponent);
     this.userDataService.addUserButtonClicked.next(this.toggle);
   }
 
-
-  deleteButton(): void{
+  deleteButton(): void {
     this.delete = !this.delete;
-    this.userDataService.deleteButtonClicked.next(this.delete)
+    this.userDataService.deleteButtonClicked.next(this.delete);
   }
-
 }

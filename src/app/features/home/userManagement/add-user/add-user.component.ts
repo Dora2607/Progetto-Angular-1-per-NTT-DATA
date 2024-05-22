@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AddUserComponent implements OnInit {
   public addUserForm!: FormGroup;
+  toggleComponent!: boolean;  
 
   addNewUser: newUser = {
     name: '',
@@ -33,6 +34,10 @@ export class AddUserComponent implements OnInit {
       gender: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
     });
+
+    this.userDataService.currentToggleComponent.subscribe(
+      (toggleComponent) => (this.toggleComponent = toggleComponent)
+    )
   }
 
   fullName() {
@@ -61,6 +66,7 @@ export class AddUserComponent implements OnInit {
         alert('User added successfully');
         const newUser = response as Users;
         this.userDataService.addUser(newUser);
+        this.userDataService.setToggleComponent(this.toggleComponent);
         this.router.navigate(['/home/usersList']);
       },
     );
@@ -69,6 +75,7 @@ export class AddUserComponent implements OnInit {
 
   goBack(event: Event) {
     event.preventDefault();
+    this.userDataService.setToggleComponent(this.toggleComponent);
     this.router.navigate(['/home/usersList']);
   }
 }

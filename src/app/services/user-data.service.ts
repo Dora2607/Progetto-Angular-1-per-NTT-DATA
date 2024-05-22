@@ -11,11 +11,15 @@ export class UserDataService {
   allUsers: Array<Users> = [];
   displayedUsers: Array<Users> = [];
   firstVisit: boolean = true;
+  toggleComponent:boolean = true;
 
   allUsersChanged =  new BehaviorSubject<Array<Users>>([]);
   displayedUsersChanged = new BehaviorSubject<Array<Users>>([]);
   deleteButtonClicked = new Subject<boolean>();
   addUserButtonClicked = new Subject<boolean>();
+  toggleComponentSource = new BehaviorSubject<boolean>(this.toggleComponent);
+  currentToggleComponent= this.toggleComponentSource.asObservable();
+
 
   constructor(private store: Store) {}
 
@@ -50,6 +54,11 @@ export class UserDataService {
 
   getDisplayedUsers() {
     return this.allUsers.slice();
+  }
+
+  setToggleComponent(toggleComponent:boolean){
+    this.toggleComponent =!toggleComponent;
+    this.toggleComponentSource.next(this.toggleComponent);
   }
 
   deleteUser(id: number) {
