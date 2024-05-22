@@ -40,7 +40,6 @@ export class PostListComponent implements OnInit {
     this.loggedInUser= this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
-    this.initializeUserProfile();
   }
 
 
@@ -58,12 +57,13 @@ export class PostListComponent implements OnInit {
           this.emptyPosts = true;
         }
         this.posted = this.postedArray;
+        this.initializeUserProfile();
       });
     } else if (url.includes('postOverview')) {
       this.userIdentity.currentPosts.subscribe(posts=>{
         this.posted = posts;
       })
-     
+      
     }
   }
 

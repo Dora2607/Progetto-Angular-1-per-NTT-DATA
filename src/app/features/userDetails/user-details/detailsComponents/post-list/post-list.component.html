@@ -14,7 +14,7 @@
     </div>
     <mat-card-actions class="postFooter">
       <div class="btntoggle">
-        <button mat-button (click)="toggleComments(post.id)">
+        <button mat-icon-button (click)="toggleComments(post.id)">
           <ng-container *ngIf="isComponentVisible[post.id]; else elseBlock">
             <mat-icon mat-icon-button>chat</mat-icon>
           </ng-container>

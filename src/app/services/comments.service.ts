@@ -10,15 +10,18 @@ import { UsersService } from './users.service';
 export class CommentsService {
   comments: { [postId: number]: Comments[] } = {};
   commentsChanged = new Subject<{ [postId: number]: Comments[] }>();
-
+  
   constructor(private usersService: UsersService) {}
 
   fetchComments(postId: number) {
+    
     this.usersService.getComments(postId).subscribe(
       (comments) => {
         this.setComments(postId, comments);
       }
     );
+    
+    
   }
 
   setComments(postId: number, comments: Comments[]) {

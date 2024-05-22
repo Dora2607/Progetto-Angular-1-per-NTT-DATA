@@ -1,4 +1,7 @@
-<div class="commentContainer">
+<!-- <div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div> -->
+<div class="commentContainer" >
   <ng-container *ngIf="comments.length !== 0; else noComments">
     <div class="commentContent" *ngFor="let comment of comments">
       <mat-card-header class="commentHeader">

@@ -13,12 +13,15 @@ export class CommentsComponent implements OnInit, OnDestroy {
   comments: Comments[] = [];
   private commentsSubscription!: Subscription;
 
+  
+
 
   constructor(
     private commentsService: CommentsService,
   ) {}
 
   ngOnInit(): void {
+  
     this.comments = this.commentsService.getComments(this.postId);
     if (this.comments.length === 0) {
       this.commentsService.fetchComments(this.postId);
@@ -28,10 +31,13 @@ export class CommentsComponent implements OnInit, OnDestroy {
         this.comments = comments[this.postId] || [];
       }
     );
+
+
   }
 
   ngOnDestroy(): void {
     this.commentsSubscription.unsubscribe();
+    
   }
 }
 

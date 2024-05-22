@@ -14,6 +14,7 @@ export class AddPostComponent implements OnInit{
 loggedInUser!: Users;
 postForm!: FormGroup;
 toggleVisibility:boolean=false;
+toggleIcon:boolean= true;
 
 constructor(
   private userDataService:UserDataService,
@@ -59,6 +60,7 @@ addPost(id: number) {
 
 showAddPostBox(){
   this.toggleVisibility = !this.toggleVisibility
+  this.toggleIcon = !this.toggleIcon
 }
 
 }
