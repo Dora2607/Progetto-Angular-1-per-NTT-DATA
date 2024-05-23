@@ -3,6 +3,7 @@ import { UserIdentityService } from '../../../services/user-identity.service';
 import { Users } from '../../../models/users.model';
 import { UserDataService } from '../../../services/user-data.service';
 import { Posts } from '../../../models/posts.model';
+import { PostsService } from '../../../services/posts.service';
 
 @Component({
   selector: 'app-post-overview',
@@ -18,15 +19,16 @@ export class PostOverviewComponent implements OnInit {
   constructor(
     private userData: UserDataService,
     private userIdentity: UserIdentityService,
+    private postsService: PostsService,
   ) {}
 
   ngOnInit(): void {
     this.users = this.userData.getDisplayedUsers();
     this.usersId = this.userIdentity.getIds(this.users);
 
-    this.userIdentity.getAllPosts(this.usersId).subscribe((posts) => {
+    this.postsService.getAllPosts(this.usersId).subscribe((posts) => {
       this.posts = posts;
-      this.userIdentity.emitUpdatePosts(this.posts);
+      this.postsService.emitUpdatePosts(this.posts);
       
     });
   }

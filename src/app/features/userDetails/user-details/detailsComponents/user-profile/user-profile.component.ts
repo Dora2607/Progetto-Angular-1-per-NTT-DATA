@@ -3,6 +3,7 @@ import { UserIdentityService } from '../../../../../services/user-identity.servi
 import { Users } from '../../../../../models/users.model';
 import { Posts } from '../../../../../models/posts.model';
 import { Todos } from '../../../../../models/todos.model';
+import { PostsService } from '../../../../../services/posts.service';
 
 
 
@@ -23,6 +24,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userIdentity: UserIdentityService,
+    private postsService:PostsService,
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class UserProfileComponent implements OnInit {
       this.randomDescription = this.userIdentity.getUserDescription();
     })
     
-    this.userIdentity.currentPosts.subscribe(posts =>{
+    this.postsService.currentPosts.subscribe(posts =>{
       this.posted=posts;
       this.postNumber = this.posted.length;
     })

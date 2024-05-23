@@ -9,3 +9,8 @@ export interface newPosts {
     title:string;
     body:string;   
 }
+
+export interface ExtendedPosts extends Posts {
+    isNew?: boolean;
+  }
+  

@@ -10,6 +10,7 @@ import { newComments } from '../../../../../models/comments.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CommentsService } from '../../../../../services/comments.service';
 import { Router } from '@angular/router';
+import { PostsService } from '../../../../../services/posts.service';
 
 @Component({
   selector: 'app-post-list',
@@ -30,11 +31,13 @@ export class PostListComponent implements OnInit {
   loggedInUser!: Users;
   commentForm!: FormGroup;
   routerFlag!: boolean;
+  addedPost!: boolean;
 
   constructor(
     private router: Router,
     private userIdentity: UserIdentityService,
     private usersService: UsersService,
+    private postsService: PostsService,
     private commentsService: CommentsService,
   ) {}
 
@@ -42,13 +45,20 @@ export class PostListComponent implements OnInit {
     this.loggedInUser = this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
-   
+    // this.postsService.addedPost$.subscribe(addedPost=>{
+    //   this.addedPost = addedPost;
+    // })
+    this.postsService.displayedPostsChanged.subscribe(
+      (posts: Array<Posts>) => {
+        this.posted = posts;
+      },
+    );
   }
 
   initializePosts() {
     const url = this.router.url;
     if (url.includes('usersList')) {
-      this.userIdentity.currentPosts.subscribe((posts) => {
+      this.postsService.currentPosts.subscribe((posts) => {
         this.postedArray = posts;
         if (this.postedArray.length != 0) {
           this.emptyPosts = false;
@@ -60,11 +70,19 @@ export class PostListComponent implements OnInit {
         this.initializeUserProfile();
       });
     } else if (url.includes('postOverview')) {
-      this.userIdentity.currentPosts.subscribe((posts) => {
-        this.posted = posts;
+      this.postsService.currentPosts.subscribe((posts) => {
+        if (this.postsService.firstVisit) {
+          this.postsService.setAllPosts(posts);
+          this.posted = posts;
+        } else {
+          this.posted = this.postsService.getDispayedPosts();
+        }
         this.routerFlag = false;
         this.initializeUsersProfiles(this.posted);
+        this.postsService.setAllPosts(this.posted);
       });
+
+
     }
   }
 

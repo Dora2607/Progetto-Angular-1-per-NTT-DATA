@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
-import { Posts } from '../models/posts.model';
 import { Todos } from '../models/todos.model';
 import { UsersService } from './users.service';
 
@@ -28,8 +27,7 @@ export class UserIdentityService {
   });
   currentUser = this.identityUserSource.asObservable();
 
-  private postsSource = new BehaviorSubject<Array<Posts>>([]);
-  currentPosts = this.postsSource.asObservable();
+
 
   private todosSource = new BehaviorSubject<Array<Todos>>([]);
   currentTodos = this.todosSource.asObservable();
@@ -65,25 +63,12 @@ export class UserIdentityService {
     return users.map((user) => user.id);
   }
 
-  getAllPosts(userIds:number[]):Observable<Posts[]>{
-    return forkJoin(userIds.map(id => 
-      this.usersService.getPosts(id)
-    )).pipe(
-      map(arrays => arrays.flat())
-    );
-  }
-
   emitUpdateUser(user: Users) {
     this.identityUserSource.next(user);
   }
-  emitUpdatePosts(posts: Array<Posts>) {
-    this.postsSource.next(posts);
-  }
+
   emitUpdateTodos(todos: Array<Todos>) {
     this.todosSource.next(todos);
   }
-
-
-
 
 }

@@ -3,7 +3,8 @@ import { Users } from '../../../../../models/users.model';
 import { UserDataService } from '../../../../../services/user-data.service';
 import { UsersService } from '../../../../../services/users.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { newPosts } from '../../../../../models/posts.model';
+import { Posts, newPosts } from '../../../../../models/posts.model';
+import { PostsService } from '../../../../../services/posts.service';
 
 @Component({
   selector: 'app-add-post',
@@ -18,7 +19,9 @@ toggleIcon:boolean= true;
 
 constructor(
   private userDataService:UserDataService,
-  private usersService:UsersService
+  private usersService:UsersService,
+  private postsService: PostsService,
+  
 ){}
 
 ngOnInit(): void {
@@ -47,15 +50,12 @@ addPost(id: number) {
 
   this.usersService
     .addPosts(id, this.addNewPost)
-    .subscribe((post: any) => {
-      alert('Comment added successfully');
-      // const newComments = [
-      //   ...this.commentsService.getComments(id),
-      //   comment,
-      // ];
-      // this.commentsService.setComments(id, newComments);
-   
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .subscribe((post:any) => {
+      alert('Post added successfully');
+      const newPost:Posts = post;
+      this.postsService.addPersonalPost(newPost)
+});
 }
 
 showAddPostBox(){

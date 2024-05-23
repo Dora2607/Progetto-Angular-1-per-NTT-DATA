@@ -5,6 +5,7 @@ import { Posts } from '../../../models/posts.model';
 import { UserIdentityService } from '../../../services/user-identity.service';
 import { Users } from '../../../models/users.model';
 import { Todos } from '../../../models/todos.model';
+import { PostsService } from '../../../services/posts.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private usersService: UsersService,
     private userIdentity: UserIdentityService,
+    private postsService:PostsService,
     private router:Router,
   ) {}
 
@@ -41,7 +43,7 @@ export class UserDetailsComponent implements OnInit {
 
   updatedPosts(id: number) {
     this.usersService.getPosts(id).subscribe((posts: Array<Posts>) => {
-      this.userIdentity.emitUpdatePosts(posts);
+      this.postsService.emitUpdatePosts(posts);
     });
   }
 
