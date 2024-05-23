@@ -1,15 +1,16 @@
 
 <div class="addPostContainer">
+  <div class="showBox">
 <button
   type="button"
   mat-icon-button
-  class="showBox"
+  class="btnAdd"
   (click)="showAddPostBox()"
 >
   <mat-icon *ngIf="toggleIcon">add</mat-icon>
   <mat-icon *ngIf="!toggleIcon">close</mat-icon>
 </button>
-
+</div>
 <mat-card class="addPostCard" *ngIf="toggleVisibility">
   <div class="postBox">
     <div class="addPostContent">

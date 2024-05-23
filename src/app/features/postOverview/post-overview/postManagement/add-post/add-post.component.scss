@@ -1,19 +1,23 @@
 @import "../../../../../../styles.scss";
 
 .addPostContainer {
-  position: relative;
   .showBox {
-    position: absolute;
-    top: 25px;
-    right: 20px;
-    background-color: $accent-color;
-    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-right: 1rem;
+
+    .btnAdd {
+      background-color: $accent-color;
+      color: white;
+    }
   }
 
   .addPostCard {
     width: 80%;
     margin: auto;
-    margin-top: 7rem;
+    margin-top: 5rem;
     box-shadow: 0px 6px 10px -1px rgba(0, 0, 0, 0.73);
     border-bottom: 5px solid $accent-color;
     .postBox {

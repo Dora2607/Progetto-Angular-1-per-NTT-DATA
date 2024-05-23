@@ -18,37 +18,36 @@ import { Router } from '@angular/router';
 })
 export class PostListComponent implements OnInit {
   @Input() posts: Array<Posts> = [];
+  @Input() users: Array<Users> = [];
 
   posted: Array<Posts> = [];
   postedArray: Array<Posts> = [];
   userProfile!: Users;
+  usersProfiles: { [id: number]: Users } = {};
   emptyPosts: boolean = false;
   isComponentVisible: { [id: number]: boolean } = {};
   addCommentBox: { [id: number]: boolean } = {};
   loggedInUser!: Users;
   commentForm!: FormGroup;
+  routerFlag!: boolean;
 
   constructor(
     private router: Router,
     private userIdentity: UserIdentityService,
-    private userDataService: UserDataService,
     private usersService: UsersService,
     private commentsService: CommentsService,
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUser= this.usersService.initializePersonalProfile();
+    this.loggedInUser = this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
+   
   }
 
-
-
-
-  initializePosts(){
+  initializePosts() {
     const url = this.router.url;
     if (url.includes('usersList')) {
-      // Get the posts of the user
       this.userIdentity.currentPosts.subscribe((posts) => {
         this.postedArray = posts;
         if (this.postedArray.length != 0) {
@@ -57,28 +56,38 @@ export class PostListComponent implements OnInit {
           this.emptyPosts = true;
         }
         this.posted = this.postedArray;
+        this.routerFlag = true;
         this.initializeUserProfile();
       });
     } else if (url.includes('postOverview')) {
-      this.userIdentity.currentPosts.subscribe(posts=>{
+      this.userIdentity.currentPosts.subscribe((posts) => {
         this.posted = posts;
-      })
-      
+        this.routerFlag = false;
+        this.initializeUsersProfiles(this.posted);
+      });
     }
   }
 
-  initializeCommentForm(){
+  initializeCommentForm() {
     this.commentForm = new FormGroup({
       commentText: new FormControl(''),
     });
   }
 
-  initializeUserProfile(){
+  initializeUserProfile() {
     this.userIdentity.currentUser.subscribe((data) => {
       this.userProfile = data;
     });
   }
 
+  initializeUsersProfiles(posts: Posts[]) {
+    posts.map((post) => {
+      const user = this.users.find((user) => user.id === post.user_id);
+      if (user) {
+        this.usersProfiles[post.user_id] = user;
+      }
+    });
+  }
 
   //toggle the visibility of the comments and add comment box for a specific post ID
   toggleComments(id: number) {
@@ -88,7 +97,6 @@ export class PostListComponent implements OnInit {
   toggleAddComments(id: number) {
     this.addCommentBox[id] = !this.addCommentBox[id];
   }
-
 
   // Add new Comments
   addNewComment: newComments = {
@@ -108,17 +116,12 @@ export class PostListComponent implements OnInit {
       .addComments(id, this.addNewComment)
       .subscribe((comment: any) => {
         alert('Comment added successfully');
-        const newComments = [
-          ...this.commentsService.getComments(id),
-          comment,
-        ];
+        const newComments = [...this.commentsService.getComments(id), comment];
         this.commentsService.setComments(id, newComments);
-        
       });
   }
 
   goBack(id: number) {
     this.addCommentBox[id] = !this.addCommentBox[id];
   }
-
 }

@@ -23,9 +23,11 @@ export class PostOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.users = this.userData.getDisplayedUsers();
     this.usersId = this.userIdentity.getIds(this.users);
+
     this.userIdentity.getAllPosts(this.usersId).subscribe((posts) => {
       this.posts = posts;
       this.userIdentity.emitUpdatePosts(this.posts);
+      
     });
   }
 }

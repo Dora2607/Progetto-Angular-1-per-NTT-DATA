@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
 import { Posts } from '../../../models/posts.model';
 import { UserIdentityService } from '../../../services/user-identity.service';
@@ -22,6 +22,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private usersService: UsersService,
     private userIdentity: UserIdentityService,
+    private router:Router,
   ) {}
 
   ngOnInit() {
@@ -52,6 +53,6 @@ export class UserDetailsComponent implements OnInit {
 
   // go to back
   goToList() {
-    window.history.back();
+    this.router.navigate(['/home/usersList']);
   }
 }
