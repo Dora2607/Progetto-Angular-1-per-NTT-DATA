@@ -8,11 +8,10 @@ import { UsersService } from './users.service';
 })
 export class PostsService {
   firstVisit: boolean = true;
-  addedPost!: boolean;
   allPosts: Array<Posts> = [];
   displayedPosts: Array<Posts> = [];
-  private _addPostBtnClicked = new BehaviorSubject<boolean>(false);
-  addedPost$ = this._addPostBtnClicked.asObservable();
+  private addPostBtnClicked = new BehaviorSubject<{ [id: number]: boolean }>({});
+
 
   constructor(
     private usersService:UsersService
@@ -23,7 +22,6 @@ export class PostsService {
 
   allPostsChanged =  new BehaviorSubject<Array<Posts>>([]);
   displayedPostsChanged = new BehaviorSubject<Array<Posts>>([]);
-
 
 
   emitUpdatePosts(posts: Array<Posts>) {
@@ -59,7 +57,13 @@ export class PostsService {
     return this.allPosts.slice();
   }
 
-  setAddedPost(status: boolean) {
-    this._addPostBtnClicked.next(status);
+  getAddedPosts() {
+    return this.addPostBtnClicked.asObservable();
+  }
+
+  addPost(id: number) {
+    const currentPosts = this.addPostBtnClicked.getValue();
+    currentPosts[id] = true;
+    this.addPostBtnClicked.next(currentPosts);
   }
 }

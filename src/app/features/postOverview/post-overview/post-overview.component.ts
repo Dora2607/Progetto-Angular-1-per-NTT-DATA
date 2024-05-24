@@ -11,7 +11,6 @@ import { PostsService } from '../../../services/posts.service';
   styleUrl: './post-overview.component.scss',
 })
 export class PostOverviewComponent implements OnInit {
-
   users: Array<Users> = [];
   usersId: number[] = [];
   posts: Array<Posts> = [];
@@ -26,11 +25,15 @@ export class PostOverviewComponent implements OnInit {
     this.users = this.userData.getDisplayedUsers();
     this.usersId = this.userIdentity.getIds(this.users);
 
-    this.postsService.getAllPosts(this.usersId).subscribe((posts) => {
-      this.posts = posts;
-      this.postsService.emitUpdatePosts(this.posts);
-      
-    });
+    const displayedPosts = this.postsService.getDispayedPosts();
+
+    if (displayedPosts.length === 0) {
+      this.postsService.getAllPosts(this.usersId).subscribe((posts) => {
+        this.posts = posts;
+        this.postsService.emitUpdatePosts(this.posts);
+      });
+    } else {
+      this.posts = [...displayedPosts];
+    }
   }
 }
-  

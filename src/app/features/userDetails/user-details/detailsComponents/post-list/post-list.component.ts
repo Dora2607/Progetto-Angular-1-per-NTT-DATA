@@ -31,7 +31,7 @@ export class PostListComponent implements OnInit {
   loggedInUser!: Users;
   commentForm!: FormGroup;
   routerFlag!: boolean;
-  addedPost!: boolean;
+  addedPosts: { [id: number]: boolean } = {};
 
   constructor(
     private router: Router,
@@ -45,14 +45,15 @@ export class PostListComponent implements OnInit {
     this.loggedInUser = this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
-    // this.postsService.addedPost$.subscribe(addedPost=>{
-    //   this.addedPost = addedPost;
-    // })
     this.postsService.displayedPostsChanged.subscribe(
       (posts: Array<Posts>) => {
         this.posted = posts;
+        this.postedArray=posts;
       },
     );
+    this.postsService.getAddedPosts().subscribe(addedPost=>{
+      this.addedPosts = addedPost;
+    })
   }
 
   initializePosts() {
@@ -60,6 +61,7 @@ export class PostListComponent implements OnInit {
     if (url.includes('usersList')) {
       this.postsService.currentPosts.subscribe((posts) => {
         this.postedArray = posts;
+        console.log(this.postedArray)
         if (this.postedArray.length != 0) {
           this.emptyPosts = false;
         } else {
@@ -79,7 +81,6 @@ export class PostListComponent implements OnInit {
         }
         this.routerFlag = false;
         this.initializeUsersProfiles(this.posted);
-        this.postsService.setAllPosts(this.posted);
       });
 
 
