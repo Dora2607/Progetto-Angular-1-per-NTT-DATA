@@ -17,6 +17,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   deleteButton: boolean = false;
   loggedInUser!: Users;
   personalProfile: boolean = false;
+  
 
   constructor(
     private usersService: UsersService,

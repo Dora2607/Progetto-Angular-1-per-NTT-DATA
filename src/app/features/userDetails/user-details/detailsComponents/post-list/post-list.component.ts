@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from '../../../../../services/users.service';
 import { Posts } from '../../../../../models/posts.model';
 import { UserIdentityService } from '../../../../../services/user-identity.service';
@@ -11,13 +11,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CommentsService } from '../../../../../services/comments.service';
 import { Router } from '@angular/router';
 import { PostsService } from '../../../../../services/posts.service';
+import { Subscription, first } from 'rxjs';
 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss',
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
   @Input() posts: Array<Posts> = [];
   @Input() users: Array<Users> = [];
 
@@ -32,6 +33,7 @@ export class PostListComponent implements OnInit {
   commentForm!: FormGroup;
   routerFlag!: boolean;
   addedPosts: { [id: number]: boolean } = {};
+  postSubscription!: Subscription; 
 
   constructor(
     private router: Router,
@@ -41,41 +43,53 @@ export class PostListComponent implements OnInit {
     private commentsService: CommentsService,
   ) {}
 
+
   ngOnInit(): void {
     this.loggedInUser = this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
-    this.postsService.displayedPostsChanged.subscribe(
+
+
+    this.postSubscription = this.postsService.displayedPostsChanged.subscribe(
       (posts: Array<Posts>) => {
         this.posted = posts;
-        this.postedArray=posts;
       },
     );
-    this.postsService.getAddedPosts().subscribe(addedPost=>{
+    this.postSubscription.add(this.postsService.getAddedPosts().subscribe(addedPost=>{
       this.addedPosts = addedPost;
     })
+  )
   }
 
   initializePosts() {
     const url = this.router.url;
     if (url.includes('usersList')) {
-      this.postsService.currentPosts.subscribe((posts) => {
+      console.log('sono entrata in userlist')
+      this.postsService.singlePostsSource.subscribe((posts) => {
+        console.log(posts,'controllo currentSinglePosts')
         this.postedArray = posts;
-        console.log(this.postedArray)
+        console.log(this.postedArray,'controllo postedArray')
         if (this.postedArray.length != 0) {
           this.emptyPosts = false;
         } else {
           this.emptyPosts = true;
         }
         this.posted = this.postedArray;
+        console.log(this.posted,'controllo posted per usersList')
         this.routerFlag = true;
         this.initializeUserProfile();
       });
-    } else if (url.includes('postOverview')) {
-      this.postsService.currentPosts.subscribe((posts) => {
+    } 
+    if (url.includes('postOverview')) {
+      console.log('sono entrata in postOverview')
+      this.postsService.postsSource.subscribe((posts) => {
         if (this.postsService.firstVisit) {
           this.postsService.setAllPosts(posts);
+          this.postsService.getAllPostsSet().subscribe(()=>{
+            this.postsService.firstVisit=false;
+          })
           this.posted = posts;
+          
         } else {
           this.posted = this.postsService.getDispayedPosts();
         }
@@ -142,5 +156,9 @@ export class PostListComponent implements OnInit {
 
   goBack(id: number) {
     this.addCommentBox[id] = !this.addCommentBox[id];
+  }
+  ngOnDestroy(): void {
+    this.postSubscription.unsubscribe();
+    console.log('i subscribe vengono distrutti')
   }
 }

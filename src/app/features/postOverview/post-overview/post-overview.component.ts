@@ -30,7 +30,7 @@ export class PostOverviewComponent implements OnInit {
     if (displayedPosts.length === 0) {
       this.postsService.getAllPosts(this.usersId).subscribe((posts) => {
         this.posts = posts;
-        this.postsService.emitUpdatePosts(this.posts);
+        this.postsService.postsSource.next(this.posts);
       });
     } else {
       this.posts = [...displayedPosts];

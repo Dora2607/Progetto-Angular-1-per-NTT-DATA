@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
 import { Posts } from '../../../models/posts.model';
@@ -6,6 +6,7 @@ import { UserIdentityService } from '../../../services/user-identity.service';
 import { Users } from '../../../models/users.model';
 import { Todos } from '../../../models/todos.model';
 import { PostsService } from '../../../services/posts.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,11 +14,13 @@ import { PostsService } from '../../../services/posts.service';
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit,OnDestroy {
   userId!: string;
   userProfile!: Users;
+  loggedInUser!:Users;
   posts: Array<Posts> = [];
-
+  addedPosts: { [id: number]: boolean } = {};
+  subscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +30,10 @@ export class UserDetailsComponent implements OnInit {
     private router:Router,
   ) {}
 
+
   ngOnInit() {
     this.userId = this.route.snapshot.params['id'];
+    this.loggedInUser = this.usersService.initializePersonalProfile();
     this.getUserById(+this.userId);
     this.updatedPosts(+this.userId);
     this.updatedTodos(+this.userId);
@@ -36,16 +41,24 @@ export class UserDetailsComponent implements OnInit {
   }
 
   getUserById(id: number) {
-    this.userIdentity.getUser(id).subscribe((data) => {
+    this.subscription = this.userIdentity.getUser(id).subscribe((data) => {
       this.userIdentity.emitUpdateUser(data);
+      console.log(data)
     });
   }
 
   updatedPosts(id: number) {
     this.usersService.getPosts(id).subscribe((posts: Array<Posts>) => {
-      this.postsService.emitUpdatePosts(posts);
+      this.postsService.singlePostsSource.next(posts);
     });
+    
+    if(id===this.loggedInUser.id){
+      console.log(this.loggedInUser.id,'prova id')
+      const personalPost =this.postsService.getPersonalPosts(id);
+      console.log(personalPost,'personalPost')
+      this.postsService.singlePostsSource.next(personalPost);
   }
+}
 
   updatedTodos(id:number){
     this.usersService.getTodos(id).subscribe((todos: Array<Todos>)=>{
@@ -56,5 +69,9 @@ export class UserDetailsComponent implements OnInit {
   // go to back
   goToList() {
     this.router.navigate(['/home/usersList']);
+  }  
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

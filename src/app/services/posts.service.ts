@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, forkJoin, map } from 'rxjs';
 import { Posts } from '../models/posts.model';
 import { UsersService } from './users.service';
 
@@ -10,23 +10,24 @@ export class PostsService {
   firstVisit: boolean = true;
   allPosts: Array<Posts> = [];
   displayedPosts: Array<Posts> = [];
-  private addPostBtnClicked = new BehaviorSubject<{ [id: number]: boolean }>({});
-
+ 
 
   constructor(
     private usersService:UsersService
   ) { }
 
-  private postsSource = new BehaviorSubject<Array<Posts>>([]);
-  currentPosts = this.postsSource.asObservable();
+  postsSource = new BehaviorSubject<Array<Posts>>([]);
+  singlePostsSource = new BehaviorSubject<Array<Posts>>([]);
+
 
   allPostsChanged =  new BehaviorSubject<Array<Posts>>([]);
   displayedPostsChanged = new BehaviorSubject<Array<Posts>>([]);
 
+  private addPostBtnClicked = new BehaviorSubject<{ [id: number]: boolean }>({});
 
-  emitUpdatePosts(posts: Array<Posts>) {
-    this.postsSource.next(posts);
-  }
+  private allPostsSet = new Subject<void>();
+
+
   getAllPosts(userIds:number[]):Observable<Posts[]>{
     return forkJoin(userIds.map(id => 
       this.usersService.getPosts(id)
@@ -38,7 +39,13 @@ export class PostsService {
   setAllPosts(posts:Array<Posts>){
     this.allPosts = posts;
     this.allPostsChanged.next(this.allPosts.slice());
-    this.setDisplayedPosts(this.allPosts)
+    this.setDisplayedPosts(this.allPosts);
+    this.allPostsSet.next();
+    
+  }
+
+  getAllPostsSet(): Observable<void> {
+    return this.allPostsSet.asObservable();
   }
 
   setDisplayedPosts(displayedPosts:Array<Posts>){
@@ -49,7 +56,9 @@ export class PostsService {
   addPersonalPost(post:Posts){
     this.allPosts.unshift(post);
     this.displayedPostsChanged.next(this.allPosts.slice());
-    // this.setAddedPost(true);
+    console.log(this.allPosts)
+    console.log(this.displayedPosts)
+    
 
   }
 
@@ -62,8 +71,14 @@ export class PostsService {
   }
 
   addPost(id: number) {
-    const currentPosts = this.addPostBtnClicked.getValue();
-    currentPosts[id] = true;
-    this.addPostBtnClicked.next(currentPosts);
+    const currentPost = this.addPostBtnClicked.getValue();
+    currentPost[id] = true;
+    this.addPostBtnClicked.next(currentPost);
   }
+
+  getPersonalPosts(id:number){
+    return this.displayedPosts.filter(post => post.user_id === id);
+  }
+
+
 }
