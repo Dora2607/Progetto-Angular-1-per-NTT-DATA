@@ -34,7 +34,7 @@ export class UserProfileComponent implements OnInit {
       this.randomDescription = this.userIdentity.getUserDescription();
     })
     
-    this.postsService.currentSinglePosts.subscribe(posts =>{
+    this.postsService.singlePostsSource.subscribe(posts =>{
       this.posted=posts;
       this.postNumber = this.posted.length;
     })

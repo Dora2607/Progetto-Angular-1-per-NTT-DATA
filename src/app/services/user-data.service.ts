@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { PostsService } from './posts.service';
 
 
 @Injectable({
@@ -21,7 +22,10 @@ export class UserDataService {
   currentToggleComponent= this.toggleComponentSource.asObservable();
 
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private postsService:PostsService
+  ) {}
 
   setAllUsers(users: Array<Users>) {
     this.allUsers = users;
@@ -64,5 +68,6 @@ export class UserDataService {
   deleteUser(id: number) {
     this.allUsers = this.displayedUsers.filter((user) => user.id !== id);
     this.displayedUsersChanged.next(this.allUsers.slice());
+    this.postsService.removePosts(id);
   }
 }

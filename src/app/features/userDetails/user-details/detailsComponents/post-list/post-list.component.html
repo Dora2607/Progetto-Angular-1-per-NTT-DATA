@@ -4,12 +4,12 @@
     <div class="postContent">
       <mat-card-header>
         <mat-card-title class="postTitle">{{ post.title }}</mat-card-title>
-        <mat-card-subtitle class="postSubtitle" *ngIf="!addedPosts[post.user_id]"
+         <mat-card-subtitle class="postSubtitle" *ngIf="!addedPosts[post.user_id]"
           >by: {{ (routerFlag) ? userProfile.name : usersProfiles[post.user_id].name }}</mat-card-subtitle
         >
-        <mat-card-subtitle class="postSubtitle" *ngIf="addedPosts[post.user_id]"
+       <mat-card-subtitle class="postSubtitle" *ngIf="addedPosts[post.user_id]"
         >by: {{loggedInUser.name}}</mat-card-subtitle
-      >
+      > 
       </mat-card-header>
       
       <mat-card-content>

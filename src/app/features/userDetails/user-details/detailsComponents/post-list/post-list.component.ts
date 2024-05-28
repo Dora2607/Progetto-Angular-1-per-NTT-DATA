@@ -19,7 +19,6 @@ import { Subscription, first } from 'rxjs';
   styleUrl: './post-list.component.scss',
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  @Input() posts: Array<Posts> = [];
   @Input() users: Array<Users> = [];
 
   posted: Array<Posts> = [];
@@ -33,7 +32,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   commentForm!: FormGroup;
   routerFlag!: boolean;
   addedPosts: { [id: number]: boolean } = {};
-  postSubscription!: Subscription; 
+  postSubscription!: Subscription;
+  initPostSubscription!: Subscription;
 
   constructor(
     private router: Router,
@@ -43,61 +43,51 @@ export class PostListComponent implements OnInit, OnDestroy {
     private commentsService: CommentsService,
   ) {}
 
-
   ngOnInit(): void {
     this.loggedInUser = this.usersService.initializePersonalProfile();
     this.initializePosts();
     this.initializeCommentForm();
 
-
-    this.postSubscription = this.postsService.displayedPostsChanged.subscribe(
-      (posts: Array<Posts>) => {
-        this.posted = posts;
-      },
-    );
-    this.postSubscription.add(this.postsService.getAddedPosts().subscribe(addedPost=>{
-      this.addedPosts = addedPost;
-    })
-  )
+    this.postSubscription = this.postsService
+      .getAddedPosts()
+      .subscribe((addedPost) => {
+        this.addedPosts = addedPost;
+      });
   }
 
   initializePosts() {
     const url = this.router.url;
+
     if (url.includes('usersList')) {
-      console.log('sono entrata in userlist')
-      this.postsService.singlePostsSource.subscribe((posts) => {
-        console.log(posts,'controllo currentSinglePosts')
-        this.postedArray = posts;
-        console.log(this.postedArray,'controllo postedArray')
-        if (this.postedArray.length != 0) {
-          this.emptyPosts = false;
-        } else {
-          this.emptyPosts = true;
-        }
-        this.posted = this.postedArray;
-        console.log(this.posted,'controllo posted per usersList')
-        this.routerFlag = true;
-        this.initializeUserProfile();
-      });
-    } 
+      this.initPostSubscription = this.postsService.singlePostsSource.subscribe(
+        (posts) => {
+          this.postedArray = posts;
+          if (this.postedArray.length != 0) {
+            this.emptyPosts = false;
+          } else {
+            this.emptyPosts = true;
+          }
+          this.posted = this.postedArray;
+
+          this.routerFlag = true;
+          this.initializeUserProfile();
+        },
+      );
+    }
     if (url.includes('postOverview')) {
-      console.log('sono entrata in postOverview')
       this.postsService.postsSource.subscribe((posts) => {
         if (this.postsService.firstVisit) {
           this.postsService.setAllPosts(posts);
-          this.postsService.getAllPostsSet().subscribe(()=>{
-            this.postsService.firstVisit=false;
-          })
+          this.postsService.getAllPostsSet().subscribe(() => {
+            this.postsService.firstVisit = false;
+          });
           this.posted = posts;
-          
         } else {
           this.posted = this.postsService.getDispayedPosts();
         }
         this.routerFlag = false;
         this.initializeUsersProfiles(this.posted);
       });
-
-
     }
   }
 
@@ -159,6 +149,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.postSubscription.unsubscribe();
-    console.log('i subscribe vengono distrutti')
+    if (this.initPostSubscription) {
+      this.initPostSubscription.unsubscribe();
+    }
   }
 }
