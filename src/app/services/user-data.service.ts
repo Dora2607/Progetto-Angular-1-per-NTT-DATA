@@ -4,7 +4,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { PostsService } from './posts.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -12,19 +11,18 @@ export class UserDataService {
   allUsers: Array<Users> = [];
   displayedUsers: Array<Users> = [];
   firstVisit: boolean = true;
-  toggleComponent:boolean = true;
+  toggleComponent: boolean = true;
 
-  allUsersChanged =  new BehaviorSubject<Array<Users>>([]);
+  allUsersChanged = new BehaviorSubject<Array<Users>>([]);
   displayedUsersChanged = new BehaviorSubject<Array<Users>>([]);
   deleteButtonClicked = new Subject<boolean>();
   addUserButtonClicked = new Subject<boolean>();
   toggleComponentSource = new BehaviorSubject<boolean>(this.toggleComponent);
-  currentToggleComponent= this.toggleComponentSource.asObservable();
-
+  currentToggleComponent = this.toggleComponentSource.asObservable();
 
   constructor(
     private store: Store,
-    private postsService:PostsService
+    private postsService: PostsService,
   ) {}
 
   setAllUsers(users: Array<Users>) {
@@ -50,7 +48,6 @@ export class UserDataService {
     this.setDisplayedUsers(this.allUsers.slice(0, count));
   }
 
-
   addUser(user: Users) {
     this.allUsers.unshift(user);
     this.displayedUsersChanged.next(this.allUsers.slice());
@@ -60,8 +57,8 @@ export class UserDataService {
     return this.allUsers.slice();
   }
 
-  setToggleComponent(toggleComponent:boolean){
-    this.toggleComponent =!toggleComponent;
+  setToggleComponent(toggleComponent: boolean) {
+    this.toggleComponent = !toggleComponent;
     this.toggleComponentSource.next(this.toggleComponent);
   }
 
@@ -69,5 +66,20 @@ export class UserDataService {
     this.allUsers = this.displayedUsers.filter((user) => user.id !== id);
     this.displayedUsersChanged.next(this.allUsers.slice());
     this.postsService.removePosts(id);
+  }
+
+  searchUsers(searchTerm: string): Array<Users> {
+    if (!searchTerm || searchTerm === ' ') {
+      console.log('termine non trovato');
+      return this.allUsers.slice();
+    } else {
+      searchTerm = searchTerm.toLowerCase();
+      console.log('termine ricercato');
+      return this.allUsers.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm) ||
+          user.email.toLowerCase().includes(searchTerm),
+      );
+    }
   }
 }

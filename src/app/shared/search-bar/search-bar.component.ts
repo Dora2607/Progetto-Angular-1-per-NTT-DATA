@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchBarService } from '../../services/search-bar.service';
 import { UserDataService } from '../../services/user-data.service';
 import { UsersService } from '../../services/users.service';
+import { Users } from '../../models/users.model';
 
 
 @Component({
@@ -9,9 +10,11 @@ import { UsersService } from '../../services/users.service';
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss',
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements OnInit {
   showSearchBar = false;
-  search: string | undefined;
+  search!: string;
+  usersList: Array<Users> = [];
+  userList: Array<Users> = [];
 
   constructor(
     private searchBarService: SearchBarService,
@@ -22,29 +25,41 @@ export class SearchBarComponent {
       this.showSearchBar = true;
     });
   }
-  //search bar
-  searchUsers(searchTerm: string) {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    this.userDataService.setDisplayedUsers(
-      this.userDataService.displayedUsers.filter(
-        (user) =>
-          user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-          user.email.toLowerCase().includes(lowerCaseSearchTerm),
-      ),
-    );
+  ngOnInit(): void {
+    this.usersList = this.userDataService.getDisplayedUsers();
   }
+  //search bar
+  // searchUsers(searchTerm: string) {
+  //   if(!searchTerm){
+  //     return this.userDataService.allUsers.slice()
+  //   }
+  //   searchTerm = searchTerm.toLowerCase();
+  //   return this.userDataService.getDisplayedUsers().filter(
+  //     (user) => {
+  //       user.name.toLowerCase().includes(searchTerm)||
+  //       user.email.toLowerCase().includes(searchTerm);
+  //     }
+  //   )
+    // this.userDataService.setDisplayedUsers(
+    //   this.userDataService.displayedUsers.filter(
+    //     (user) =>
+    //       user.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+    //       user.email.toLowerCase().includes(lowerCaseSearchTerm),
+    //   ),
+    // );
+  
   submit() {
+    console.log('ha cliccato invio')
     if (this.search) {
-      this.searchUsers(this.search);
+      console.log(this.search)
+      this.userList=this.userDataService.searchUsers(this.search);
     }
   }
 
   endSearch() {
     this.showSearchBar = false;
-    this.usersService.getUsers().subscribe((users) => {
-      // this.userDataService.setUsers(users);
-      this.userDataService.setDisplayedUsers([...users]);
-    });
+    this.userDataService.getDisplayedUsers();
     this.search = '';
   }
 }
+
