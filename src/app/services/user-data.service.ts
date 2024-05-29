@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Users } from '../models/users.model';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { PostsService } from './posts.service';
 
 @Injectable({
@@ -21,7 +20,6 @@ export class UserDataService {
   currentToggleComponent = this.toggleComponentSource.asObservable();
 
   constructor(
-    private store: Store,
     private postsService: PostsService,
   ) {}
 
@@ -69,17 +67,11 @@ export class UserDataService {
   }
 
   searchUsers(searchTerm: string): Array<Users> {
-    if (!searchTerm || searchTerm === ' ') {
-      console.log('termine non trovato');
-      return this.allUsers.slice();
-    } else {
-      searchTerm = searchTerm.toLowerCase();
-      console.log('termine ricercato');
-      return this.allUsers.filter(
-        (user) =>
-          user.name.toLowerCase().includes(searchTerm) ||
-          user.email.toLowerCase().includes(searchTerm),
-      );
-    }
+    searchTerm = searchTerm.toLowerCase();
+    return this.allUsers.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm) ||
+        user.email.toLowerCase().includes(searchTerm),
+    );
   }
 }

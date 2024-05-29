@@ -53,6 +53,8 @@ export class PostListComponent implements OnInit, OnDestroy {
       .subscribe((addedPost) => {
         this.addedPosts = addedPost;
       });
+
+
   }
 
   initializePosts() {
@@ -87,7 +89,11 @@ export class PostListComponent implements OnInit, OnDestroy {
         }
         this.routerFlag = false;
         this.initializeUsersProfiles(this.posted);
-      });
+      });    
+    //   this.postsService.displayedPostsChanged.subscribe((posts)=>{
+    //   this.posted = posts;
+      
+    // })
     }
   }
 

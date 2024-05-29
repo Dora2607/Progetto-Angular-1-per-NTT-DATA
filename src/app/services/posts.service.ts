@@ -17,6 +17,7 @@ export class PostsService {
   singlePostsSource = new BehaviorSubject<Array<Posts>>([]);
   allPostsChanged = new BehaviorSubject<Array<Posts>>([]);
   displayedPostsChanged = new BehaviorSubject<Array<Posts>>([]);
+  // filteredPosts = new BehaviorSubject<Array<Posts>>([]);
   private addPostBtnClicked = new BehaviorSubject<{ [id: number]: boolean }>(
     {},
   );
@@ -77,6 +78,19 @@ export class PostsService {
     this.displayedPostsChanged.next(this.displayedPosts.slice())
   }
 
+  searchPosts(searchTerm: string): Array<Posts> {
+    searchTerm = searchTerm.toLowerCase();
+    return this.allPosts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchTerm) 
+    );
+  }
+
+  updateDisplayedPosts(posts: Array<Posts>) {
+    this.displayedPosts = posts;
+    console.log('Updating displayed posts:', posts);
+    // this.displayedPostsChanged.next(this.displayedPosts.slice());
+  }
 
 
 }

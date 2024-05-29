@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { Users } from '../models/users.model';
 import { UserDataService } from './user-data.service';
 import { Todos } from '../models/todos.model';
-import { UsersService } from './users.service';
+
 
 
 @Injectable({
@@ -14,8 +14,8 @@ export class UserIdentityService {
 
 
   constructor(
-    private usersService: UsersService,
-    private userDataService: UserDataService) {}
+    private userDataService: UserDataService
+  ) {}
   
 
   private identityUserSource = new BehaviorSubject<Users>({
