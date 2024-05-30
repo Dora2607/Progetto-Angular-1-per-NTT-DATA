@@ -52,8 +52,9 @@ export class SearchBarComponent {
       if (this.search) {
         console.log(this.search);
         this.postsList = this.postsService.searchPosts(this.search);
+        this.searchBarService.submitClick();
         console.log(this.postsList)
-        this.postsService.updateDisplayedPosts(this.postsList);
+        this.postsService.setFilteredPosts(this.postsList)
       }
     }
   }

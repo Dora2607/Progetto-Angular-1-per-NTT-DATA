@@ -10,6 +10,7 @@ export class PostsService {
   firstVisit: boolean = true;
   allPosts: Array<Posts> = [];
   displayedPosts: Array<Posts> = [];
+  filteredPostsArr: Array<Posts> = [];
 
   constructor(private usersService: UsersService) {}
 
@@ -17,7 +18,8 @@ export class PostsService {
   singlePostsSource = new BehaviorSubject<Array<Posts>>([]);
   allPostsChanged = new BehaviorSubject<Array<Posts>>([]);
   displayedPostsChanged = new BehaviorSubject<Array<Posts>>([]);
-  // filteredPosts = new BehaviorSubject<Array<Posts>>([]);
+  filteredPosts = new BehaviorSubject<Array<Posts>>([]);
+
   private addPostBtnClicked = new BehaviorSubject<{ [id: number]: boolean }>(
     {},
   );
@@ -44,6 +46,12 @@ export class PostsService {
     this.displayedPosts = displayedPosts;
     this.displayedPostsChanged.next(this.displayedPosts.slice());
   }
+
+  setFilteredPosts(posts: Array<Posts>) {
+    this.filteredPostsArr = posts;
+    this.filteredPosts.next(this.filteredPostsArr.slice());
+  }  
+
 
   addPersonalPost(post: Posts) {
     this.allPosts.unshift(post);
@@ -85,12 +93,5 @@ export class PostsService {
         post.title.toLowerCase().includes(searchTerm) 
     );
   }
-
-  updateDisplayedPosts(posts: Array<Posts>) {
-    this.displayedPosts = posts;
-    console.log('Updating displayed posts:', posts);
-    // this.displayedPostsChanged.next(this.displayedPosts.slice());
-  }
-
 
 }

@@ -12,6 +12,7 @@ import { CommentsService } from '../../../../../services/comments.service';
 import { Router } from '@angular/router';
 import { PostsService } from '../../../../../services/posts.service';
 import { Subscription, first } from 'rxjs';
+import { SearchBarService } from '../../../../../services/search-bar.service';
 
 @Component({
   selector: 'app-post-list',
@@ -41,6 +42,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private postsService: PostsService,
     private commentsService: CommentsService,
+    private searchBarService: SearchBarService,
   ) {}
 
   ngOnInit(): void {
@@ -53,8 +55,6 @@ export class PostListComponent implements OnInit, OnDestroy {
       .subscribe((addedPost) => {
         this.addedPosts = addedPost;
       });
-
-
   }
 
   initializePosts() {
@@ -89,11 +89,17 @@ export class PostListComponent implements OnInit, OnDestroy {
         }
         this.routerFlag = false;
         this.initializeUsersProfiles(this.posted);
-      });    
-    //   this.postsService.displayedPostsChanged.subscribe((posts)=>{
-    //   this.posted = posts;
-      
-    // })
+      });
+          this.postsService.displayedPostsChanged.subscribe((posts) => {
+            this.posted = posts;
+          });
+      this.searchBarService.submitClick$.subscribe(() => {
+        if (this.searchBarService.sumbitClicked) {
+          this.postsService.filteredPosts.subscribe((filteredPosts) => {
+            this.posted = filteredPosts;
+          });
+        } 
+      });
     }
   }
 

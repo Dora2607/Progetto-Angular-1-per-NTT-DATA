@@ -9,6 +9,9 @@ export class SearchBarService {
   private _show = new Subject<void>();
   show$ = this._show.asObservable();
 
+  sumbitClicked:boolean=false;
+  submitClick$ = new Subject<void>();
+
   routeChanged = new Subject<string>();
 
   constructor(private router: Router) {
@@ -27,4 +30,11 @@ export class SearchBarService {
   show() {
     this._show.next();
   }
+
+  submitClick(){
+    this.sumbitClicked=true;
+    this.submitClick$.next();
+  }
+
+
 }
