@@ -61,17 +61,29 @@ export class UserDataService {
   }
 
   deleteUser(id: number) {
-    this.allUsers = this.displayedUsers.filter((user) => user.id !== id);
+    this.allUsers = this.allUsers.filter((user) => user.id !== id);
     this.displayedUsersChanged.next(this.allUsers.slice());
     this.postsService.removePosts(id);
   }
 
+
   searchUsers(searchTerm: string): Array<Users> {
     searchTerm = searchTerm.toLowerCase();
-    return this.allUsers.filter(
+
+    let initialMatchUsers = this.allUsers.filter(
       (user) =>
-        user.name.toLowerCase().includes(searchTerm) ||
-        user.email.toLowerCase().includes(searchTerm),
+        user.name.toLowerCase().startsWith(searchTerm) ||
+        user.email.toLowerCase().startsWith(searchTerm)
     );
+
+    if (initialMatchUsers.length === 0) {
+      initialMatchUsers = this.allUsers.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm) ||
+          user.email.toLowerCase().includes(searchTerm)
+      );
+    }
+  
+    return initialMatchUsers;
   }
 }

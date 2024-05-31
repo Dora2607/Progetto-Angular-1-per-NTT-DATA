@@ -29,32 +29,30 @@ export class SearchBarComponent {
       this.showSearchBar = true;
     });
 
-    this.searchBarService.routeChanged.subscribe((url:string)=>{
+    this.searchBarService.routeChanged.subscribe((url: string) => {
       this.url = url;
-    })
-
+    });
   }
 
-
   submit() {
-
     if (this.url.includes('usersList')) {
-      console.log('sono in usersList')
-      if (this.search) {
-        console.log(this.search);
+      if (this.search !== '') {
         this.usersList = this.userDataService.searchUsers(this.search);
         this.userDataService.displayedUsersChanged.next(this.usersList);
+      } else {
+        const fullList = this.userDataService.getDisplayedUsers();
+        this.userDataService.displayedUsersChanged.next(fullList);
       }
     }
 
     if (this.url.includes('postOverview')) {
-      console.log('sono in postsOver')
-      if (this.search) {
-        console.log(this.search);
+      if (this.search !== '') {
         this.postsList = this.postsService.searchPosts(this.search);
         this.searchBarService.submitClick();
-        console.log(this.postsList)
-        this.postsService.setFilteredPosts(this.postsList)
+        this.postsService.setFilteredPosts(this.postsList);
+      } else {
+        const fullList = this.postsService.getDispayedPosts();
+        this.postsService.postsSource.next(fullList);
       }
     }
   }

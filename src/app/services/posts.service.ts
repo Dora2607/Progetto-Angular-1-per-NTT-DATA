@@ -50,8 +50,7 @@ export class PostsService {
   setFilteredPosts(posts: Array<Posts>) {
     this.filteredPostsArr = posts;
     this.filteredPosts.next(this.filteredPostsArr.slice());
-  }  
-
+  }
 
   addPersonalPost(post: Posts) {
     this.allPosts.unshift(post);
@@ -79,19 +78,25 @@ export class PostsService {
     return this.displayedPosts.filter((post) => post.user_id === id);
   }
 
-  removePosts(id:number){
+  removePosts(id: number) {
     this.allPosts = this.allPosts.filter((post) => post.user_id !== id);
-    this.displayedPosts = this.displayedPosts.filter((post) => post.user_id !== id)
-    this.allPostsChanged.next(this.allPosts.slice())
-    this.displayedPostsChanged.next(this.displayedPosts.slice())
+    this.displayedPosts = this.displayedPosts.filter(
+      (post) => post.user_id !== id,
+    );
+    this.allPostsChanged.next(this.allPosts.slice());
+    this.displayedPostsChanged.next(this.displayedPosts.slice());
   }
 
   searchPosts(searchTerm: string): Array<Posts> {
     searchTerm = searchTerm.toLowerCase();
-    return this.allPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(searchTerm) 
-    );
+    if (searchTerm.length <=  2) {
+      return this.allPosts.filter((post) =>
+        post.title.toLowerCase().startsWith(searchTerm)
+      );
+    } else {
+      return this.allPosts.filter((post) =>
+        post.title.toLowerCase().includes(searchTerm)
+      );
+    }
   }
-
 }
