@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { logout } from '../../state/auth/auth.actions';
 
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,12 +17,15 @@ export class HeaderComponent {
     private logoService: LogoService,
     private searchBarService: SearchBarService,
     private store:Store,
+   
   ) {
     this.logoService.isToolbar = true;
   }
 
   logout(): void {
     this.store.dispatch(logout());
+    console.log('ho eseguito il logout')
+   
   }
 
   toggleSearchBar(){

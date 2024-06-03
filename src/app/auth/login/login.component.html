@@ -19,15 +19,8 @@
                 matInput
                 placeholder="Email"
                 formControlName="email"
-                (blur)="emailTouched = true"
               />
-              <mat-error
-                *ngIf="
-                  loginForm.get('email')?.dirty &&
-                  !loginForm.get('email')?.valid &&
-                  emailTouched
-                "
-              >
+              <mat-error *ngIf="!loginForm.get('email')?.valid">
                 <span *ngIf="loginForm.get('email')?.errors"
                   >Please enter a valid email address.</span
                 >
@@ -42,15 +35,8 @@
                 placeholder="Password"
                 autocomplete="on"
                 formControlName="password"
-                (blur)="passwordTouched = true"
               />
-              <mat-error
-                *ngIf="
-                  loginForm.get('password')?.dirty &&
-                  !loginForm.get('password')?.valid &&
-                  passwordTouched
-                "
-              >
+              <mat-error *ngIf="!loginForm.get('password')?.valid">
                 <span *ngIf="loginForm.get('password')?.errors"
                   >Please enter a valid password.</span
                 >
@@ -118,15 +104,8 @@
                 matInput
                 placeholder="Email"
                 formControlName="email"
-                (blur)="emailTouched = true"
               />
-              <mat-error
-                *ngIf="
-                  signupForm.get('email')?.dirty &&
-                  !signupForm.get('email')?.valid &&
-                  emailTouched
-                "
-              >
+              <mat-error *ngIf="!signupForm.get('email')?.valid">
                 <span *ngIf="signupForm.get('email')?.errors"
                   >Please enter a valid email address.</span
                 >
@@ -141,15 +120,8 @@
                 placeholder="Password"
                 autocomplete="on"
                 formControlName="password"
-                (blur)="passwordTouched = true"
               />
-              <mat-error
-                *ngIf="
-                  signupForm.get('password')?.dirty &&
-                  !signupForm.get('password')?.valid &&
-                  passwordTouched
-                "
-              >
+              <mat-error *ngIf="!signupForm.get('password')?.valid">
                 <span *ngIf="signupForm.get('password')?.errors"
                   >Please enter a valid password.</span
                 >

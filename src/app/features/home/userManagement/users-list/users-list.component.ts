@@ -26,7 +26,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUser = this.usersService.initializePersonalProfile();
+  this.loggedInUser = this.usersService.initializePersonalProfile();
+  
+  // this.usersService.currentUser$.subscribe((user)=>{
+  //     if(user){
+  //       console.log(user)
+  //       this.loggedInUser = user;
+  //     }
+  //   })
+    
+
+    console.log(this.loggedInUser)
 
     if (this.userDataService.firstVisit) {
       this.getAllUser();

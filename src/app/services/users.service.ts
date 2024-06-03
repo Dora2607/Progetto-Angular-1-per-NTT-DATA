@@ -18,6 +18,8 @@ const POSTS_URL_SHORT = 'https://gorest.co.in/public/v2/posts';
 })
 export class UsersService {
   private loggedInUser!: Users;
+  // private currentUserSubject = new BehaviorSubject<Users | null>(null);
+  // currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private httpClient: HttpClient,
@@ -34,9 +36,21 @@ export class UsersService {
     this.getLoggedInUser().subscribe((user) => {
       if (user) {
         this.loggedInUser = user;
+        // this.currentUserSubject.next(user);
       }
     });
     return this.loggedInUser;
+  }
+
+  resetLoggedInUser(): void {
+    this.loggedInUser = {
+      id: 0,
+      name: '',
+      email: '',
+      gender: '',
+      status: '',
+    };
+    // this.currentUserSubject.next(null);
   }
 
   getUsers(): Observable<Array<Users>> {
