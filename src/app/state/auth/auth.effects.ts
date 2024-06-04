@@ -8,12 +8,14 @@ import {
   register,
   registerSuccess,
   registerFailure,
+  logoutSuccess,
 } from './auth.actions';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TOKEN } from '../../token';
 import { UsersService } from '../../services/users.service';
 import { of } from 'rxjs';
+
 
 
 @Injectable()
@@ -89,8 +91,9 @@ export class AuthEffects {
           localStorage.removeItem('token');
           this.router.navigate(['login']);
         }),
+        map(() => logoutSuccess()),
       );
     },
-    { dispatch: false },
+    { dispatch: true },
   );
 }

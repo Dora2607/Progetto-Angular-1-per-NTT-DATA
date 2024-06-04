@@ -12,6 +12,7 @@ export const loginFailure = createAction('[Login Api] User Login Failure',
 );
 
 export const logout = createAction('[Logout] User Logout');
+export const logoutSuccess = createAction('[Auth] Logout Success');
 export const register = createAction('[Register Page] User Register',
     props<{name:string; gender:string; email:string; password:string}>()
 );

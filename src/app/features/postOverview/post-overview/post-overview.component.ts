@@ -14,6 +14,7 @@ export class PostOverviewComponent implements OnInit {
   users: Array<Users> = [];
   usersId: number[] = [];
   posts: Array<Posts> = [];
+  displayedPosts: Array<Posts> = [];
 
   constructor(
     private userData: UserDataService,
@@ -23,17 +24,25 @@ export class PostOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.users = this.userData.getDisplayedUsers();
+    console.log(this.users, 'user presenti a display');
     this.usersId = this.userIdentity.getIds(this.users);
 
-    const displayedPosts = this.postsService.getDispayedPosts();
+    if (this.postsService.getPosts) {
+      this.displayedPosts = [];
+      this.postsService.getPosts = false;
+    } else {
+      this.displayedPosts = this.postsService.getDispayedPosts();
+    }
 
-    if (displayedPosts.length === 0) {
+    if (this.displayedPosts.length === 0) {
+      console.log( this.displayedPosts.length,'post overview prima visita')
       this.postsService.getAllPosts(this.usersId).subscribe((posts) => {
         this.posts = posts;
+        console.log(this.posts)
         this.postsService.postsSource.next(this.posts);
       });
     } else {
-      this.posts = [...displayedPosts];
+      this.posts = [...this.displayedPosts];
     }
   }
 }

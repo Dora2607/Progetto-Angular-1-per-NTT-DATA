@@ -11,13 +11,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { LogoComponent } from './logo/logo.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     LogoComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    NotFoundComponent
 
   ],
   imports: [

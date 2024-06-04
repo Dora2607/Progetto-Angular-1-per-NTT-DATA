@@ -34,6 +34,10 @@ export class UserDataService {
     this.displayedUsersChanged.next(this.displayedUsers.slice());
   }
 
+  resetAllUsers(){
+    return this.firstVisit = true 
+  }
+
   updateStatus(newStatus: string) {
     this.setDisplayedUsers(
       newStatus === 'all'

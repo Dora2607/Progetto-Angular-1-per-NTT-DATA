@@ -3,11 +3,13 @@ import { BehaviorSubject, Observable, Subject, forkJoin, map } from 'rxjs';
 import { Posts } from '../models/posts.model';
 import { UsersService } from './users.service';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class PostsService {
   firstVisit: boolean = true;
+  getPosts: boolean = true;
   allPosts: Array<Posts> = [];
   displayedPosts: Array<Posts> = [];
   filteredPostsArr: Array<Posts> = [];
@@ -42,6 +44,10 @@ export class PostsService {
     return this.allPostsSet.asObservable();
   }
 
+  resetAllPosts(){
+    return this.firstVisit=true;
+  }
+
   setDisplayedPosts(displayedPosts: Array<Posts>) {
     this.displayedPosts = displayedPosts;
     this.displayedPostsChanged.next(this.displayedPosts.slice());
@@ -59,6 +65,10 @@ export class PostsService {
 
   getDispayedPosts() {
     return this.allPosts.slice();
+  }
+
+  resetDisplayedPosts() {
+    return this.getPosts=true
   }
 
   getAddedPosts() {

@@ -16,7 +16,7 @@ import { SharedModule } from './shared/shared.module';
 
 //components
 import { AppComponent } from './app.component';
-import { NotFoundComponent } from './shared/not-found/not-found.component';
+
 
 //state(ngrx)
 import { StoreModule } from '@ngrx/store';
@@ -31,7 +31,6 @@ import { authReducer } from './state/auth/auth.reducer';
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent, 
   ],
   imports: [
     BrowserModule,
@@ -43,7 +42,7 @@ import { authReducer } from './state/auth/auth.reducer';
     SharedModule,
     StoreModule.forRoot({auth:authReducer}),
     EffectsModule.forRoot([AuthEffects])
-
+    
   ],
   providers: [
     provideClientHydration(),

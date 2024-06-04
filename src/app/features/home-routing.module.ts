@@ -5,6 +5,7 @@ import { AuthGuard } from '../auth/auth.guard';
 
 import { AddUserComponent } from './home/userManagement/add-user/add-user.component';
 import { UsersListComponent } from './home/userManagement/users-list/users-list.component';
+import { NotFoundComponent } from '../shared/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,7 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  { path: '**', component: NotFoundComponent },
 
 ];
 
