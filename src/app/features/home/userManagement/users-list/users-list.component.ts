@@ -27,9 +27,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   this.loggedInUser = this.usersService.initializePersonalProfile();
-  
-    console.log(this.loggedInUser)
-
     if (this.userDataService.firstVisit) {
       this.getAllUser();
       this.userDataService.firstVisit = false;
@@ -37,7 +34,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
       this.displayedUsers = this.userDataService.getDisplayedUsers();
       
     }
-
     this.usersSubscription = this.userDataService.displayedUsersChanged.subscribe(
       (users: Array<Users>) => {
         this.displayedUsers = users;
@@ -49,7 +45,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.deleteButton = deleteButton;
       },
     );
-
     
   }
 
@@ -69,6 +64,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
   
 
   activeDeleteUser(id: number): void {
+
+    if (id === this.loggedInUser.id) {
+      alert('Non è possibile cancellare l\'utente attualmente loggato');
+      return;
+    }
     const confirmDelete = confirm('Are you sure you want to delete the user?');
     if (confirmDelete) {
       this.usersService.deleteUser(id).subscribe(() => {

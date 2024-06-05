@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable, Subject, forkJoin, map } from 'rxjs';
 import { Posts } from '../models/posts.model';
 import { UsersService } from './users.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -44,8 +43,8 @@ export class PostsService {
     return this.allPostsSet.asObservable();
   }
 
-  resetAllPosts(){
-    return this.firstVisit=true;
+  resetAllPosts() {
+    return this.firstVisit = true;
   }
 
   setDisplayedPosts(displayedPosts: Array<Posts>) {
@@ -68,7 +67,11 @@ export class PostsService {
   }
 
   resetDisplayedPosts() {
-    return this.getPosts=true
+    return (this.getPosts = true);
+  }
+
+  resetPosts() {
+    this.postsSource.next(this.allPosts);
   }
 
   getAddedPosts() {
@@ -97,15 +100,27 @@ export class PostsService {
     this.displayedPostsChanged.next(this.displayedPosts.slice());
   }
 
+  removeLoggedInUserPosts(userId: number) {
+    // Filtra i post per rimuovere quelli dell'utente loggato
+    this.allPosts = this.allPosts.filter(post => post.user_id !== userId);
+    this.displayedPosts = this.displayedPosts.filter(post => post.user_id !== userId);
+  
+    // Aggiorna i BehaviorSubjects
+    this.postsSource.next(this.allPosts);
+    this.displayedPostsChanged.next(this.displayedPosts);
+  }
+  
+
+
   searchPosts(searchTerm: string): Array<Posts> {
     searchTerm = searchTerm.toLowerCase();
-    if (searchTerm.length <=  2) {
+    if (searchTerm.length <= 2) {
       return this.allPosts.filter((post) =>
-        post.title.toLowerCase().startsWith(searchTerm)
+        post.title.toLowerCase().startsWith(searchTerm),
       );
     } else {
       return this.allPosts.filter((post) =>
-        post.title.toLowerCase().includes(searchTerm)
+        post.title.toLowerCase().includes(searchTerm),
       );
     }
   }

@@ -26,7 +26,6 @@ export const initialState = { user: null, token: null, loginSuccessful: false };
 export const authReducer = createReducer<State>(
   initialState,
   on(loginSuccess, (state: State, { user }): State => {
-    console.log(state,'prima del login')
     return {
       ...state,
       user,
@@ -42,7 +41,6 @@ export const authReducer = createReducer<State>(
     };
   }),
   on(logout, (state: State): State => {
-    console.log(state, 'in auth reducer')
     return {
       ...state,
       user: null,

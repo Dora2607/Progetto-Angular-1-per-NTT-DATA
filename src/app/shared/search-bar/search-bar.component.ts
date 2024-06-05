@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchBarService } from '../../services/search-bar.service';
 import { UserDataService } from '../../services/user-data.service';
 
 import { Users } from '../../models/users.model';
-import { Router } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 import { Posts } from '../../models/posts.model';
 
@@ -12,7 +11,7 @@ import { Posts } from '../../models/posts.model';
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss',
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements OnInit {
   showSearchBar = false;
   search!: string;
   usersList: Array<Users> = [];
@@ -23,7 +22,6 @@ export class SearchBarComponent {
     private searchBarService: SearchBarService,
     private userDataService: UserDataService,
     private postsService: PostsService,
-    private router: Router,
   ) {
     searchBarService.show$.subscribe(() => {
       this.showSearchBar = true;
@@ -32,6 +30,10 @@ export class SearchBarComponent {
     this.searchBarService.routeChanged.subscribe((url: string) => {
       this.url = url;
     });
+  }
+  ngOnInit(): void {
+    this.url = window.location.href;
+    console.log(this.url)
   }
 
   submit() {
