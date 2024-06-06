@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PostOverviewRoutingModule } from './post-overview-routing.module';
 import { PostOverviewComponent } from './post-overview/post-overview.component';
 import { AddPostComponent } from './post-overview/postManagement/add-post/add-post.component';
+import { AllPostsComponent } from './post-overview/postManagement/all-posts/all-posts.component';
 
 
 
@@ -16,6 +17,7 @@ import { AddPostComponent } from './post-overview/postManagement/add-post/add-po
   declarations: [
     PostOverviewComponent,
     AddPostComponent,
+    AllPostsComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,6 @@ import { AddPostComponent } from './post-overview/postManagement/add-post/add-po
     SharedModule,
     DetailsModule,
     ReactiveFormsModule,
-    
   ]
 })
 export class PostOverviewModule { }
